@@ -2,7 +2,6 @@
 title: How to Win Friends and Influence People by Dale Carnegie
 date: "2021-07-26"
 tags: ["Book Review"]
-draft: false
 summary: Book review of How to Win Friends and Influence People by Dale Carnegie. A book about how to become a better friend or colleague.
 ---
 

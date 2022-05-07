@@ -1,5 +1,5 @@
 <header>
-	<a href="/">Tadas Petra</a>
+	<a href="/"><img src="logo.png" alt="tadas petra logo" class="logo" /></a>
 	<nav>
 		<ul>
 			<li>
@@ -14,7 +14,7 @@
 
 <style>
 	header {
-		padding: 1rem;
+		padding: 1rem 6rem;
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
@@ -30,5 +30,8 @@
 	a {
 		text-decoration: none;
 		color: inherit;
+	}
+	.logo {
+		max-width: 12rem;
 	}
 </style>

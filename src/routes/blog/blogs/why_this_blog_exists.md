@@ -2,7 +2,6 @@
 title: Why this Blog Exists?
 date: "2021-04-23"
 tags: ["Personal"]
-draft: false
 summary: This blog is my own little space on the internet, where no algorithm can determine what I do
 ---
 

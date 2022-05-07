@@ -13,7 +13,7 @@
 	<a href="https://www.twitter.com/@tadaspetra" target="_blank">
 		<img class="twitterlogo" src="TwitterIcon.svg" alt="Twitter Logo" />
 	</a>
-	<a href="https://www.youtube.com/@tadaspetra" target="_blank">
+	<a href="https://www.youtube.com/tadaspetra" target="_blank">
 		<img class="youtubelogo" src="YouTubeIcon.svg" alt="Youtube Logo" />
 	</a>
 </footer>

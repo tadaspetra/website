@@ -2,7 +2,6 @@
 title: Contagious by Jonah Berger
 date: "2021-05-27"
 tags: ["Book Review"]
-draft: false
 summary: Book review of Contagious by Jonah Berger. A marketing book about how to have your content go viral.
 ---
 

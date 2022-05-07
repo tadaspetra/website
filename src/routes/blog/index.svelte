@@ -18,12 +18,24 @@
 <ul>
 	{#each posts as post}
 		<li>
-			<h2>
-				<a href={post.path}>
-					{post.meta.title}
-				</a>
-			</h2>
-			Published {post.meta.date}
+			<a href={post.path}>
+				<div class="article">
+					<p class="title">{post.meta.title}</p>
+					<p class="date">Published {post.meta.date}</p>
+				</div>
+			</a>
 		</li>
 	{/each}
 </ul>
+
+<style>
+	.article {
+		color: aqua;
+	}
+	.date {
+		color: #fafafa;
+	}
+	li {
+		margin-bottom: 3rem;
+	}
+</style>

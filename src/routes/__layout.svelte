@@ -21,6 +21,7 @@
 <style>
 	footer {
 		text-align: center;
+		padding: 3rem;
 	}
 	.twitterlogo {
 		width: 50px;

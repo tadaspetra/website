@@ -12,6 +12,7 @@
 </script>
 
 <script>
+	import Blogs from '$lib/components/Blogs.svelte';
 	export let posts;
 </script>
 
@@ -19,25 +20,9 @@
 	By the way, I know this website looks like 💩, but I wanted to release asap and I built it with
 	Svelte in 2 days which I am brand new to. It will get better in time :)
 </p>
-<ul>
-	{#each posts as post}
-		<li>
-			<h2>
-				<a href={post.path}>
-					{post.meta.title}
-				</a>
-			</h2>
-			Published {post.meta.date}
-		</li>
-	{/each}
-</ul>
+<Blogs {posts} />
 
 <style>
-	ul {
-		margin: 3rem 0;
-		list-style-type: none;
-		gap: 1rem;
-	}
 	.disclaimer {
 		background-color: #ffcdc9;
 		padding: 1rem;

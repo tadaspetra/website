@@ -5,7 +5,7 @@ tags: ["Personal"]
 summary: This blog is my own little space on the internet, where no algorithm can determine what I do
 ---
 
-Hey, I'm Tadas. If you don't know me, I am a Flutter Developer, YouTuber, and now Developer Evangelist at Agora. This is my blog site, and here is why it exists.
+Hey, I'm Tadas. If you don't know me, I am a Flutter Developer, YouTuber, and now Developer Advocate at Agora. This is my blog site, and here is why it exists.
 
 ## The Reason
 All these platforms on the internet are driven by algorithms. And no matter how much you want to not care about them, you still do, and need/want to keep up with them to stay relevant. And even though I have a lot of hobbies other than development I rarely share them. 

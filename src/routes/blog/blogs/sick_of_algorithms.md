@@ -2,8 +2,11 @@
 title: I'm Sick of Algorithms
 date: "2022-04-05"
 tags: ["Personal"]
+image: https://i.imgur.com/JLmfTSI.png
 summary: The main focus of every content creator is to appease the "algorithm" and I'm over it.
 ---
+
+![Woman with hands on head](https://i.imgur.com/JLmfTSI.png)
 
 Over the past couple years I have been deeply studying the algorithms and how to grow social media accounts (specifically YouTube and Twitter). By no means do I think I know it all, but I believe I understand what it takes to have your content “do well”. Yet I can’t bring myself to do it.
 

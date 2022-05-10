@@ -21,8 +21,9 @@
 
 <p class="disclaimer">
 	By the way, I know this website looks like 💩, but I wanted to release asap and I built it with
-	Svelte in 2 days which I am brand new to. It will get better in time :)
+	Svelte which I am brand new to. It will get better in time :)
 </p>
+<h1>Recent Blogs</h1>
 <Blogs {posts} />
 <button class="button" on:click={goToBlog}>All Blogs</button>
 

@@ -1,9 +1,9 @@
 <header>
-	<a href="/"><img src="logo.png" alt="tadas petra logo" class="logo" /></a>
+	<a href="/"><img src="/logo.png" alt="tadas petra logo" class="logo" /></a>
 	<nav>
 		<ul>
 			<li>
-				<a href="/">Home</a>
+				<a href="/blog">Blog</a>
 			</li>
 			<li>
 				<a href="/about">About</a>

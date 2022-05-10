@@ -1,6 +1,6 @@
 <script context="module">
 	export const load = async ({ fetch }) => {
-		const posts = await fetch('/api/posts.json');
+		const posts = await fetch('/api/threeblogs.json');
 		const allPosts = await posts.json();
 
 		return {
@@ -14,6 +14,9 @@
 <script>
 	import Blogs from '$lib/components/Blogs.svelte';
 	export let posts;
+	function goToBlog() {
+		window.location.href = '/blog';
+	}
 </script>
 
 <p class="disclaimer">
@@ -21,6 +24,7 @@
 	Svelte in 2 days which I am brand new to. It will get better in time :)
 </p>
 <Blogs {posts} />
+<button class="button" on:click={goToBlog}>All Blogs</button>
 
 <style>
 	.disclaimer {
@@ -28,5 +32,20 @@
 		padding: 1rem;
 		border-radius: 1rem;
 		font-weight: 600;
+	}
+	.button {
+		background-color: #606060;
+		border: none;
+		color: white;
+		padding: 15px 32px;
+		text-align: center;
+		text-decoration: none;
+		margin: 0px 25% 0px 25%;
+		font-size: 16px;
+		border-radius: 1rem;
+		width: 50%;
+	}
+	.button:hover {
+		background-color: #212121;
 	}
 </style>

@@ -19,6 +19,9 @@
 </ul>
 
 <style>
+	ul {
+		padding-inline-start: 0;
+	}
 	li {
 		margin-bottom: 3rem;
 		list-style-type: none;
@@ -41,7 +44,10 @@
 		max-width: 40%;
 		max-height: fit-content;
 	}
+	img {
+		border-radius: 1rem;
+	}
 	.titlesection {
-		padding: 0 1rem;
+		padding: 0 0 0 1rem;
 	}
 </style>

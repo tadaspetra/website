@@ -6,6 +6,9 @@
 				<a href="/blog">Blog</a>
 			</li>
 			<li>
+				<a href="/sponsor">Work With Me</a>
+			</li>
+			<li>
 				<a href="/about">About</a>
 			</li>
 		</ul>

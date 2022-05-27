@@ -28,7 +28,7 @@
 		width: 50px;
 		height: 50px;
 		margin: 0 10px;
-		opacity: 0.7;
+		opacity: 0.5;
 	}
 	.twitterlogo:hover {
 		opacity: 1;
@@ -37,7 +37,7 @@
 		width: 50px;
 		height: 50px;
 		margin: 0 10px;
-		opacity: 0.7;
+		opacity: 0.5;
 	}
 	.youtubelogo:hover {
 		opacity: 1;

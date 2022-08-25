@@ -1,6 +1,6 @@
 <header>
-	<a href="/"><img src="/logo.png" alt="tadas petra logo" class="logo" /></a>
-	<nav>
+	<a href="/"><img src="/logo.png" alt="tadas petra logo" class="logo  pb-4" /></a>
+	<nav class="flex md:block">
 		<ul>
 			<li>
 				<a href="/blog">Blog</a>

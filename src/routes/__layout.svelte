@@ -2,6 +2,7 @@
 	import Header from '$lib/components/Header.svelte';
 	import Social from '$lib/components/Social.svelte';
 	import '$lib/styles/style.css';
+	import '../app.css';
 </script>
 
 <Header />

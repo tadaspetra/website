@@ -3,7 +3,16 @@
 </script>
 
 <div>
-	<h1 class="main">Hi, my name is Tadas</h1>
+	<div class="relative">
+		<div class="flex flex-col items-center">
+			<img class="md:w-3/4" src="profilepic.png" alt="tadas petra" />
+		</div>
+		<div
+			class="absolute  text-white top-1/2 left-1/3 -translate-x-1/2 md:left-1/2 md:-translate-x-2/3 -translate-y-1/2"
+		>
+			<h1 class="text-white font-bold text-3xl md:text-6xl w-3/4 ">Hi, my name is Tadas</h1>
+		</div>
+	</div>
 	<div class="tadas">
 		<div>
 			<p class="textspiel">
@@ -15,7 +24,6 @@
 				<Social />
 			</div>
 		</div>
-		<img class="headshot" src="profilepic.png" alt="tadas petra" />
 	</div>
 </div>
 
@@ -43,6 +51,5 @@
 	}
 	.social {
 		display: flex;
-		font-size: 1rem;
 	}
 </style>

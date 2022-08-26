@@ -19,6 +19,8 @@
 	}
 </script>
 
-<h1>All Blogs</h1>
+<h1 class="text-2xl font-medium">All Blogs</h1>
 <Blogs {posts} />
-<!--<button class="button" on:click={loadMore}>Load more</button>-->
+<button on:click={loadMore} class="mt-5 text-lg duration-200 transition-all hover:opacity-80">
+	Load more
+</button>

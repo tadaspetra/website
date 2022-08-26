@@ -15,33 +15,28 @@
 	import Blogs from '$lib/components/Blogs.svelte';
 	import Intro from '$lib/components/Intro.svelte';
 	export let posts;
-	function goToBlog() {
-		window.location.href = '/blog';
-	}
 </script>
 
 <Intro />
-<h1>Recent Blogs</h1>
+<h2 class="mt-16 md:mt-36 text-2xl font-medium">Recent blogs</h2>
 <Blogs {posts} />
-<button class="button" on:click={goToBlog}>All Blogs</button>
 
-<style>
-	.button {
-		background-color: #606060;
-		border: none;
-		color: white;
-		padding: 15px 32px;
-		text-align: center;
-		text-decoration: none;
-		margin: 0px 25% 0px 25%;
-		font-size: 16px;
-		border-radius: 1rem;
-		width: 50%;
-	}
-	.button:hover {
-		background-color: #212121;
-	}
-	h1 {
-		margin-top: 5rem;
-	}
-</style>
+<div class="mt-5">
+	<a href="/blog" class="text-lg flex items-center hover:underline">
+		view all blogs
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			fill="none"
+			viewBox="0 0 24 24"
+			stroke-width="1.5"
+			stroke="currentColor"
+			class="w-4 h-4 ml-1"
+		>
+			<path
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
+			/>
+		</svg>
+	</a>
+</div>

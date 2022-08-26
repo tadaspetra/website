@@ -1,4 +1,4 @@
-<a href="https://www.youtube.com/tadaspetra" target="_blank">
+<!-- <a href="https://www.youtube.com/tadaspetra" target="_blank">
 	<img class="youtubelogo" src="/YouTubeIcon.svg" alt="Youtube Logo" />
 </a>
 <a href="https://www.twitter.com/@tadaspetra" target="_blank">
@@ -24,4 +24,20 @@
 	.youtubelogo:hover {
 		opacity: 1;
 	}
-</style>
+</style> -->
+<div class="flex">
+	<a href="https://www.youtube.com/tadaspetra" target="_blank">
+		<img
+			class="w-14 duration-200 transition-all hover:opacity-80"
+			src="/YouTubeIcon.svg"
+			alt="Youtube Logo"
+		/>
+	</a>
+	<a href="https://www.twitter.com/@tadaspetra" target="_blank">
+		<img
+			class="w-14 duration-200 transition-all hover:opacity-80"
+			src="/TwitterIcon.svg"
+			alt="Twitter Logo"
+		/>
+	</a>
+</div>

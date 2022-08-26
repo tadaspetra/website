@@ -1,40 +1,17 @@
-<header>
-	<a href="/"><img src="/logo.png" alt="tadas petra logo" class="logo  pb-4" /></a>
-	<nav class="flex md:block">
-		<ul>
-			<li>
-				<a href="/blog">Blog</a>
-			</li>
-			<li>
-				<a href="/sponsor">Work With Me</a>
-			</li>
-			<li>
-				<a href="/about">About</a>
-			</li>
-		</ul>
-	</nav>
+<header class="p-5 flex items-center justify-between">
+	<a href="/">
+		<div class="flex items-center cursor-pointer duration-200 transition-all hover:opacity-80">
+			<img src="/profilepic.png" alt="Tadas petra" class="w-10 h-10 rounded-full" />
+			<h2 class="ml-3 text-lg font-bold hidden sm:flex">TADAS PETRA</h2>
+		</div>
+		<!-- <img src="/logo.png" alt="" class="w-32" /> -->
+	</a>
+
+	<div class="flex items-center">
+		<a class="mr-3 md:mr-5 transition-all duration-200 hover:underline" href="/blog">Blog</a>
+		<a class="mr-3 md:mr-5 transition-all duration-200 hover:underline" href="/sponsor"
+			>Work With Me</a
+		>
+		<a class="transition-all duration-200 hover:underline" href="/about">About</a>
+	</div>
 </header>
-
-<style>
-	header {
-		padding: 1rem 6rem;
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: space-between;
-	}
-
-	ul {
-		margin: 0;
-		list-style-type: none;
-		display: flex;
-		gap: 1rem;
-	}
-
-	a {
-		text-decoration: none;
-		color: inherit;
-	}
-	.logo {
-		max-width: 12rem;
-	}
-</style>

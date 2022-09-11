@@ -1,0 +1,38 @@
+---
+import ArticleLayout from '../layouts/ArticleLayout.astro';
+
+export async function getStaticPaths() {
+    const articles = await Astro.glob('./posts/*/*.{md,mdx}')
+
+    return articles.map(article => ({
+        params: {
+            article:article.frontmatter.slug
+        },
+        props: {
+            article
+        }
+    }))
+}
+
+const {Content, frontmatter} = Astro.props.article
+---
+
+<ArticleLayout title={frontmatter.title}>
+    
+    
+    {frontmatter.hero && 
+    <img src={frontmatter.hero}/>
+    <br>
+    }
+    
+    <a href="https://twitter.com/dennisivy11" target="_blank">
+    <strong>
+        
+        By {frontmatter.author}
+       
+    </strong>
+     </a>
+    <p>📆 Posted on {frontmatter.date}</p>
+    <h1>{frontmatter.title}</h1>
+    <Content/>
+</ArticleLayout>

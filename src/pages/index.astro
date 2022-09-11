@@ -1,0 +1,49 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+import ArticlePreview from '../components/ArticlePreview.astro';
+
+import profile_pic from '../../profile_pic.png';
+
+let posts = (await Astro.glob('./posts/*/*.{md,mdx}')).sort(
+	(a, b) => new Date(b.frontmatter.date).valueOf() - new Date(a.frontmatter.date).valueOf()
+);
+posts = posts.filter((post) => !post.frontmatter.draft);
+
+---
+
+
+<Layout title="Tadas Petra">
+
+
+
+	<section id="wrapper--hero" class="section--page">
+		<img id="profile-pic" src={profile_pic}/>
+
+		<div>
+			<h1 id="user-name">Tadas Petra</h1>
+			<p id="bio">Software Engineer, Developer Advocate at <a href="https://www.agora.io/en/" target="_blank">Agora</a>, and Content Creator on <a href="https://www.youtube.com/c/tadaspetra" target="_blank">YouTube</a>.</p>
+		</div>  
+	</section>
+
+	<section class="section--page">
+		<div id="socials--list">
+			<a href="https://youtube.com/c/tadaspetra" target="_blank">Youtube</a>
+			<a href="https://twitter.com/tadaspetra" target="_blank">Twitter</a>
+			<a href="https://github.com/tadaspetra" target="_blank">Github</a>
+		</div>
+	</section>
+
+	
+	<section class="section--page">
+		<a id="blog"></a>
+		<h3>Latest Posts</h3>
+
+		{posts.map(post => (
+			<ArticlePreview frontmatter={post.frontmatter}/>
+		))}
+
+	</section>
+
+</Layout>
+

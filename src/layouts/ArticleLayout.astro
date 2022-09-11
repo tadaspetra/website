@@ -1,0 +1,40 @@
+---
+import NavBar from '../components/NavBar.astro';
+import '../styles/article.css';
+import '../styles/main.css';
+
+
+export interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon"  href="/tplogo.png" />
+		<meta name="generator" content={Astro.generator} />
+
+		<!-- If Meta tags are passed into view, render those -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-47692315-56"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() { dataLayer.push(arguments); }
+			gtag('js', new Date());
+
+			gtag('config', 'UA-47692315-56');
+		</script>
+		
+		<title>{title}</title>
+	</head>
+	<body>
+		<NavBar/>
+		<section class='container--main'>
+			<slot />
+		</section>
+	</body>
+</html>

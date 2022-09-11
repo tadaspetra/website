@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 
 import ArticlePreview from '../components/ArticlePreview.astro';
 
-import profile_pic from '../../profile_pic.png';
+import profile_pic from '../profile_pic.png';
 
 let posts = (await Astro.glob('./posts/*/*.{md,mdx}')).sort(
 	(a, b) => new Date(b.frontmatter.date).valueOf() - new Date(a.frontmatter.date).valueOf()

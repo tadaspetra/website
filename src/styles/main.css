@@ -104,6 +104,14 @@ nav a{
 #menu--container{
   padding: 14px;
 }
+
+#blogs{
+  display: flex;
+  gap: 1em;
+  align-items: center;
+  padding:0.5em 0;
+}
+
 .container--main{
     max-width: 800px;
     margin: 0 auto;

@@ -8,7 +8,9 @@ import profile_pic from '../images/profile_pic.png';
 let posts = (await Astro.glob('./posts/*/*.{md,mdx}')).sort(
 	(a, b) => new Date(b.frontmatter.date).valueOf() - new Date(a.frontmatter.date).valueOf()
 );
-posts = posts.filter((post) => !post.frontmatter.draft);
+
+// Uncomment when more than 5
+// posts = [posts[0],posts[1], posts[2]] as any
 
 ---
 
@@ -44,6 +46,14 @@ posts = posts.filter((post) => !post.frontmatter.draft);
 		))}
 
 	</section>
+	<!-- 
+		Uncomment when more than 5
+	
+		<section id="blogs">
+		<a  href="/blogs" target="_blank">Show All Blogs</a>
+		<ArrowRight  size={18}/>
+	</section>
+	 -->
 
 </Layout>
 

@@ -2,7 +2,7 @@
 title: How to Win Friends and Influence People by Dale Carnegie
 image: https://i.imgur.com/acW6kyO.png
 summary: Book review of How to Win Friends and Influence People by Dale Carnegie. A book about how to become a better friend or colleague.
-slug: why-this-blog-exists
+slug: how-to-win-friends
 date: 7-26-2021
 author: Tadas Petra
 read_time: 9

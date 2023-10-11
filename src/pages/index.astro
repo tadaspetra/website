@@ -1,52 +1,51 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import Layout from "../layouts/Layout.astro";
 
-import ArticlePreview from '../components/ArticlePreview.astro';
+import ArticlePreview from "../components/ArticlePreview.astro";
 
-import profile_pic from '../images/profile_pic.png';
-
-let posts = (await Astro.glob('./posts/*/*.{md,mdx}')).sort(
-	(a, b) => new Date(b.frontmatter.date).valueOf() - new Date(a.frontmatter.date).valueOf()
+let posts = (await Astro.glob("./posts/*/*.{md,mdx}")).sort(
+  (a, b) =>
+    new Date(b.frontmatter.date).valueOf() -
+    new Date(a.frontmatter.date).valueOf()
 );
 
 // Uncomment when more than 5
 // posts = [posts[0],posts[1], posts[2]] as any
-
 ---
 
-
 <Layout title="Tadas Petra">
+  <section id="wrapper--hero" class="section--page">
+    <img id="profile-pic" src="profile_pic.png" />
 
+    <div>
+      <h1 id="user-name">Tadas Petra</h1>
+      <p id="bio">
+        Software Engineer, Developer Advocate at <a
+          href="https://www.agora.io/en/"
+          target="_blank">Agora</a
+        >, and Content Creator on <a
+          href="https://www.youtube.com/c/tadaspetra"
+          target="_blank">YouTube</a
+        >.
+      </p>
+    </div>
+  </section>
 
+  <section class="section--page">
+    <div id="socials--list">
+      <a href="https://youtube.com/c/tadaspetra" target="_blank">Youtube</a>
+      <a href="https://twitter.com/tadaspetra" target="_blank">Twitter</a>
+      <a href="https://github.com/tadaspetra" target="_blank">Github</a>
+    </div>
+  </section>
 
-	<section id="wrapper--hero" class="section--page">
-		<img id="profile-pic" src={profile_pic}/>
+  <section class="section--page">
+    <a id="blog"></a>
+    <h3>Latest Posts</h3>
 
-		<div>
-			<h1 id="user-name">Tadas Petra</h1>
-			<p id="bio">Software Engineer, Developer Advocate at <a href="https://www.agora.io/en/" target="_blank">Agora</a>, and Content Creator on <a href="https://www.youtube.com/c/tadaspetra" target="_blank">YouTube</a>.</p>
-		</div>  
-	</section>
-
-	<section class="section--page">
-		<div id="socials--list">
-			<a href="https://youtube.com/c/tadaspetra" target="_blank">Youtube</a>
-			<a href="https://twitter.com/tadaspetra" target="_blank">Twitter</a>
-			<a href="https://github.com/tadaspetra" target="_blank">Github</a>
-		</div>
-	</section>
-
-	
-	<section class="section--page">
-		<a id="blog"></a>
-		<h3>Latest Posts</h3>
-
-		{posts.map(post => (
-			<ArticlePreview frontmatter={post.frontmatter}/>
-		))}
-
-	</section>
-	<!-- 
+    {posts.map((post) => <ArticlePreview frontmatter={post.frontmatter} />)}
+  </section>
+  <!-- 
 		Uncomment when more than 5
 	
 		<section id="blogs">
@@ -54,6 +53,4 @@ let posts = (await Astro.glob('./posts/*/*.{md,mdx}')).sort(
 		<ArrowRight  size={18}/>
 	</section>
 	 -->
-
 </Layout>
-

@@ -7,6 +7,9 @@ export default defineConfig({
   integrations: [react()],
   markdown: {
     // Example: Switch to use prism for syntax highlighting in Markdown
-    syntaxHighlight:'shiki',
+    syntaxHighlight: 'shiki',
+  },
+  vercel: {
+    analytics: true,
   }
 });

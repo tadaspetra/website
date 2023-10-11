@@ -9,7 +9,7 @@ read_time: 5
 tags: [Personal]
 ---
 
-[Passion led us here](https://i.imgur.com/J5mCCnV.jpg)
+![Passion led us here](https://i.imgur.com/J5mCCnV.jpg)
 
 AI writing is honestly pretty nuts. I already know it is becoming a norm to use AI to write blogs or articles for SEO and other purposes online. So what's the point of writing yourself anymore?
 

@@ -2,6 +2,7 @@
 author: Tadas Petra
 pubDatetime: 2021-05-27
 title: Contagious by Jonah Berger
+postSlug: contagious-book
 ogImage: https://i.imgur.com/wNLmogh.png
 tags:
   - book

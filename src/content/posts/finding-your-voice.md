@@ -1,6 +1,7 @@
 ---
 author: Tadas Petra
 pubDatetime: 2023-10-11
+postSlug: finding-your-voice
 title: Finding Your Voice
 ogImage: https://i.imgur.com/J5mCCnV.jpg
 tags:

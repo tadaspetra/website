@@ -3,6 +3,7 @@ author: Tadas Petra
 pubDatetime: 2021-04-23
 title: Why This Blog Exists
 ogImage: https://i.imgur.com/OfmP448.png
+postSlug: why-this-blog-exists
 tags:
   - personal
 description: This blog is my own little space on the internet, where no algorithm can determine what I do

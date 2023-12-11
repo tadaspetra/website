@@ -3,6 +3,7 @@ author: Tadas Petra
 pubDatetime: 2022-04-05
 title: I'm Sick of Algorithms
 ogImage: https://i.imgur.com/JLmfTSI.png
+postSlug: sick-of-algorithms
 tags:
   - personal
 description: The main focus of every content creator is to appease the "algorithm" and I'm over it.

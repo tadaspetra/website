@@ -5,7 +5,7 @@ export const SITE: Site = {
   author: "Tadas",
   desc: "Trying to build cool stuff and change the world.",
   title: "Tadas Petra",
-  ogImage: "ogImg.jpg",
+  ogImage: "ogImg.jpeg",
   lightAndDarkMode: true,
   postPerPage: 10,
 };

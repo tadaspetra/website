@@ -5,7 +5,7 @@ postSlug: how-to-win-friends-and-influence-people-book
 title: How to Win Friends and Influence People by Dale Carnegie
 ogImage: https://i.imgur.com/acW6kyO.png
 tags:
-  - book
+  - books
 description: Book review of How to Win Friends and Influence People by Dale Carnegie. A book about how to become a better friend or colleague.
 ---
 

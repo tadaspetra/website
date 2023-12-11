@@ -5,7 +5,7 @@ title: Contagious by Jonah Berger
 postSlug: contagious-book
 ogImage: https://i.imgur.com/wNLmogh.png
 tags:
-  - book
+  - books
 description: Book review of Contagious by Jonah Berger. A marketing book about how to have your content go viral.
 ---
 

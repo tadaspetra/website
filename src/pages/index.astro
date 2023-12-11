@@ -1,58 +1,124 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Card from "@components/Card";
+import Footer from "@components/Footer.astro";
+import Header from "@components/Header.astro";
+import LinkButton from "@components/LinkButton.astro";
+import Socials from "@components/Socials.astro";
+import Layout from "@layouts/Layout.astro";
+import getSortedPosts from "@utils/getSortedPosts";
+import slugify from "@utils/slugify";
+import { getCollection } from "astro:content";
 
-import ArticlePreview from "../components/ArticlePreview.astro";
+const posts = await getCollection("posts");
 
-let posts = (await Astro.glob("./posts/*/*.{md,mdx}")).sort(
-  (a, b) =>
-    new Date(b.frontmatter.date).valueOf() -
-    new Date(a.frontmatter.date).valueOf()
-);
-
-// Uncomment when more than 5
-// posts = [posts[0],posts[1], posts[2]] as any
+const sortedPosts = getSortedPosts(posts);
 ---
 
-<Layout title="Tadas Petra">
-  <section id="wrapper--hero" class="section--page">
-    <img id="profile-pic" src="profile_pic.png" />
-
-    <div>
-      <h1 id="user-name">Tadas Petra</h1>
-      <p id="bio">
-        Building <a href="https://www.hungrimind.com/" target="_blank"
-          >Hungrimind</a
-        >, Developer Advocate at <a
-          href="https://www.agora.io/en/"
-          target="_blank">Agora</a
-        >, and Content Creator on <a
-          href="https://www.youtube.com/c/tadaspetra"
-          target="_blank">YouTube</a
-        >.
+<Layout>
+  <Header />
+  <main id="main-content">
+    <section id="hero">
+      <!-- <p>
+        Life is nuts in the best way possible. I want to help people participate
+        in this nuttery of life.
+      </p> -->
+      <p>
+        I built
+        <LinkButton
+          className="underline decoration-dashed underline-offset-4 hover:text-skin-accent"
+          href="https://hungrimind.com"
+        >
+          Hungrimind.
+        </LinkButton>An interactive learning platform.
       </p>
-    </div>
-  </section>
 
-  <section class="section--page">
-    <div id="socials--list">
-      <a href="https://youtube.com/c/tadaspetra" target="_blank">Youtube</a>
-      <a href="https://twitter.com/tadaspetra" target="_blank">Twitter</a>
-      <a href="https://github.com/tadaspetra" target="_blank">Github</a>
-    </div>
-  </section>
+      <div class="social-wrapper">
+        <div class="social-links">Find me on:</div>
+        <Socials />
+      </div>
+    </section>
 
-  <section class="section--page">
-    <a id="blog"></a>
-    <h3>Latest Posts</h3>
+    <!-- {
+      featuredPosts.length > 0 && (
+        <>
+          <section id="featured">
+            <h2>Featured</h2>
+            <ul>
+              {featuredPosts.map(({ data }) => (
+                <Card
+                  href={`/posts/${slugify(data)}`}
+                  frontmatter={data}
+                  secHeading={false}
+                />
+              ))}
+            </ul>
+          </section>
+        </>
+      )
+    } -->
 
-    {posts.map((post) => <ArticlePreview frontmatter={post.frontmatter} />)}
-  </section>
-  <!-- 
-		Uncomment when more than 5
-	
-		<section id="blogs">
-		<a  href="/blogs" target="_blank">Show All Blogs</a>
-		<ArrowRight  size={18}/>
-	</section>
-	 -->
+    <section id="recent-posts">
+      <h2>Recent Posts</h2>
+      <ul>
+        {
+          sortedPosts
+            .filter(({ data }) => !data.featured)
+            .map(
+              ({ data }, index) =>
+                index < 4 && (
+                  <Card
+                    href={`/posts/${slugify(data)}`}
+                    frontmatter={data}
+                    secHeading={false}
+                  />
+                )
+            )
+        }
+      </ul>
+      <div class="all-posts-btn-wrapper">
+        <LinkButton href="/posts">
+          All Posts
+          <svg xmlns="http://www.w3.org/2000/svg"
+            ><path
+              d="m11.293 17.293 1.414 1.414L19.414 12l-6.707-6.707-1.414 1.414L15.586 11H6v2h9.586z"
+            ></path>
+          </svg>
+        </LinkButton>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
 </Layout>
+
+<style>
+  /* ===== Hero Section ===== */
+  #hero {
+    @apply pb-6 pt-8;
+  }
+  #hero h1 {
+    @apply my-4 inline-block text-3xl font-bold sm:my-8 sm:text-5xl;
+  }
+  #hero p {
+    @apply my-2;
+  }
+  .social-wrapper {
+    @apply mt-4 flex flex-col sm:flex-row sm:items-center;
+  }
+  .social-links {
+    @apply mb-1 mr-2 whitespace-nowrap sm:mb-0;
+  }
+
+  /* ===== Featured & Recent Posts Sections ===== */
+  #featured,
+  #recent-posts {
+    @apply pb-6 pt-12;
+  }
+  #featured h2,
+  #recent-posts h2 {
+    @apply text-2xl font-semibold tracking-wide;
+  }
+  .all-posts-btn-wrapper {
+    @apply my-8 text-center;
+  }
+</style>

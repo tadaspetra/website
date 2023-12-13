@@ -1,13 +1,13 @@
 ---
-import Card from "@components/Card";
-import Footer from "@components/Footer.astro";
-import Header from "@components/Header.astro";
-import LinkButton from "@components/LinkButton.astro";
-import Socials from "@components/Socials.astro";
-import Layout from "@layouts/Layout.astro";
-import getSortedPosts from "@utils/getSortedPosts";
-import slugify from "@utils/slugify";
 import { getCollection } from "astro:content";
+import Card from "components/Card";
+import Footer from "components/Footer.astro";
+import Header from "components/Header.astro";
+import LinkButton from "components/LinkButton.astro";
+import Socials from "components/Socials.astro";
+import Layout from "layouts/Layout.astro";
+import getSortedPosts from "utils/getSortedPosts";
+import slugify from "utils/slugify";
 
 const posts = await getCollection("posts");
 

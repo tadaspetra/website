@@ -1,8 +1,8 @@
-import Card from "@components/Card";
-import slugify from "@utils/slugify";
 import type { CollectionEntry } from "astro:content";
+import Card from "components/Card";
 import Fuse from "fuse.js";
 import { useEffect, useMemo, useRef, useState } from "react";
+import slugify from "utils/slugify";
 
 export type SearchItem = {
   title: string;

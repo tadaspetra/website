@@ -1,11 +1,11 @@
 ---
-import Layout from "@layouts/Layout.astro";
-import Header from "@components/Header.astro";
-import Footer from "@components/Footer.astro";
-import Tag from "@components/Tag.astro";
-import Datetime from "@components/Datetime";
+import Layout from "layouts/Layout.astro";
+import Header from "components/Header.astro";
+import Footer from "components/Footer.astro";
+import Tag from "components/Tag.astro";
+import Datetime from "components/Datetime";
 import type { CollectionEntry } from "astro:content";
-import { slugifyStr } from "@utils/slugify";
+import { slugifyStr } from "utils/slugify";
 
 export interface Props {
   post: CollectionEntry<"posts">;
@@ -53,7 +53,7 @@ const ogUrl = new URL(
     </article>
 
     <ul class="tags-container">
-      {tags.map((tag) => <Tag name={slugifyStr(tag)} />)}
+      {tags.map((tag: any) => <Tag name={slugifyStr(tag)} />)}
     </ul>
   </main>
   <Footer />

@@ -1,11 +1,11 @@
 ---
-import { SITE } from "@config";
-import PostDetails from "@layouts/PostDetails.astro";
-import Posts from "@layouts/Posts.astro";
-import getPageNumbers from "@utils/getPageNumbers";
-import getSortedPosts from "@utils/getSortedPosts";
-import slugify from "@utils/slugify";
 import { getCollection, type CollectionEntry } from "astro:content";
+import { SITE } from "config";
+import PostDetails from "layouts/PostDetails.astro";
+import Posts from "layouts/Posts.astro";
+import getPageNumbers from "utils/getPageNumbers";
+import getSortedPosts from "utils/getSortedPosts";
+import slugify from "utils/slugify";
 
 export interface Props {
   post: CollectionEntry<"posts">;

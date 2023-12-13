@@ -1,4 +1,4 @@
-import { LOCALE } from "@config";
+import { LOCALE } from "config";
 
 export interface Props {
   datetime: string | Date;

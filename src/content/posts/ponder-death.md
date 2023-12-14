@@ -1,6 +1,6 @@
 ---
 author: Tadas Petra
-pubDatetime: 2024-12-14
+pubDatetime: 2023-12-14
 title: As I Ponder Death
 postSlug: ponder-death
 tags:

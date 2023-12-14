@@ -29,7 +29,7 @@ export default function Datetime({ datetime, size = "sm", className }: Props) {
 
 const FormattedDatetime = ({ datetime }: { datetime: string | Date }) => {
   const myDatetime = new Date(datetime);
-  myDatetime.setDate(myDatetime.getDate() + 1);
+  myDatetime.setDate(myDatetime.getDate());
 
   const date = myDatetime.toLocaleDateString(LOCALE, {
     year: "numeric",

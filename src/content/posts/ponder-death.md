@@ -2,7 +2,6 @@
 author: Tadas Petra
 pubDatetime: 2024-12-14
 title: As I Ponder Death
-draft: false
 postSlug: ponder-death
 tags:
   - personal

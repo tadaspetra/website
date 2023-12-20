@@ -13,7 +13,7 @@ This year for me was all about learning about myself as cliche as that sounds. I
 
 I think I figured it out for the most part, but I'm sure my goals will keep evolving as I get older.
 
-Here's what I did in 2023 and I bet you can see where I'm heading and what I learned about myself just from this timeline.
+Here's what I did in 2023 and I bet you can see where I'm heading and what I learned about myself from this timeline.
 
 ### Zero To Mastery
 I started the year trying something brand new which is to build my very first course. Since I've never done this before I thought it would be a good approach to partner with Zero To Mastery so I could learn a ton along the way. And learn I did. 
@@ -35,7 +35,7 @@ Given the minimal uploading the channel only grew by 3000 subscribers this year.
 There was also a Hungrimind YouTube channel that was started to showcase videos which grew over 500 subscribers without telling many people about it. There I also published 6 videos about more technical topics. 
 
 ### Twitter/X
-I cut down posting on there by a lot, resulting in no real growth this year. I honestly just got sick of the platform. Not even because of the whole Elon thing, I just got sucked down the algorithm rabbit hole and tried to distance myself a bit from it. 
+I cut down posting on there by a lot, resulting in no real growth this year. I honestly just got sick of the platform. Not even because of the whole Elon thing, I just got sucked down the algorithm rabbit hole too often and tried to distance myself a bit from it. 
 
 ### Other 
 * Planned a wedding (Getting married Feb 2024)
@@ -44,7 +44,7 @@ I cut down posting on there by a lot, resulting in no real growth this year. I h
 * Remodeled the kitchen
 * Remodeled a handful of other smaller projects around the hose
 * Built a workshop
-* Bought a Toyota Sienna and converted it into a camper
+* Bought a Toyota Sienna and converted it into a camper van
 * Used the Sienna for road trips across most of the US from NY to San Francisco
 * Read like 40 books
 * Journaled consistently

@@ -1,6 +1,6 @@
 ---
 author: Tadas Petra
-pubDatetime: 2022-09-23
+pubDatetime: 2023-12-28
 title: 2023 Year Review
 postSlug: 2023-year-review
 tags:

@@ -1,11 +1,10 @@
 ---
 author: Tadas Petra
 pubDatetime: 2022-09-23
-title: 2023 year review
+title: 2023 Year Review
 postSlug: 2023-year-review
-draft: true
 tags:
-  - goal-review
+  - personal
 description: How 2023 went, and what my goals are for 2024.
 ---
 
@@ -16,16 +15,16 @@ I think I figured it out for the most part, but I'm sure my goals will keep evol
 Here's what I did in 2023 and I bet you can see where I'm heading and what I learned about myself from this timeline.
 
 ### Zero To Mastery
-I started the year trying something brand new which is to build my very first course. Since I've never done this before I thought it would be a good approach to partner with Zero To Mastery so I could learn a ton along the way. And learn I did. 
+I started the year trying something brand new which is to build my [very first course](https://academy.zerotomastery.io/a/aff_7k3xqbxc/external?affcode=441520_gnfa5e1_). Since I've never done this before I thought it would be a good approach to partner with Zero To Mastery so I could learn a ton along the way. And learn I did. 
 
-My course called Flutter Bootcamp: Zero To Mastery, came out early in the year, and I'm pretty damn proud of it.
+My course called [Flutter Bootcamp: Zero To Mastery](https://academy.zerotomastery.io/a/aff_7k3xqbxc/external?affcode=441520_gnfa5e1_), came out early in the year, and I'm pretty damn proud of it.
 
 ### Hungrimind
 This is by far the biggest and most ambitious project I've ever taken on. I don't fully like how YouTube is structured for learning. You can't organize content exactly how you want it, and it's very hard to update. These are the two things I wanted to solve with building my own platform.
 
 What started just as another blog site, grew quickly into a fully built simple course, to what is now an interactive scrolling experience, that in my super biased opinion is one of the best ways to learn. 
 
-The thing I'm most proud of with Hungrimind is that I became borderline experienced in web development. There is still lots to learn, but ask me to build any feature into a site and I'm no longer intimidated.
+The thing I'm most proud of with [Hungrimind](https://www.hungrimind.com) is that I became borderline experienced in web development. There is still lots to learn, but ask me to build any feature into a site and I'm no longer intimidated.
 
 ### YouTube
 I released 6 YouTube videos on my channel. Two of them were about Hungrimind, two of them were about cool projects I built, and two of them were about topics I wanted to talk about.

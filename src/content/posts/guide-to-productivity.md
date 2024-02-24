@@ -20,7 +20,7 @@ I’ve watched most of the videos from Ali Abdaal, Thomas Frank, Matt D’Avella
 
 Yet after all this reading and listening and trying to learn how to be productive, I still caught myself not being happy with my productivity. This could be some weird complex I have because by outside metrics I was still getting a lot of things done every day and meeting most of my goals.
 
-But I didn’t pass the vibe check on myself. I didn’t feel like I hit the bar for the expectations I set for myself. I don’t want to go through life just “getting a lot of things”. I wanted something deeper, something that meant something. 
+But I didn’t pass the vibe check on myself. I didn’t feel like I hit the bar for the expectations I set for myself. I don’t want to go through life just “getting a lot of things done”. I wanted something deeper, something that meant something. 
 
 During all this learning about productivity, I hit a turning point where the definition of productivity was redefined. It’s not about the number of things you get done, it’s about spending most of your time intentionally doing things that bring fulfillment. In the same sense, not doing things that don’t. This could be family, hobbies, startups, reading, whatever. Each person has their fulfillment. 
 

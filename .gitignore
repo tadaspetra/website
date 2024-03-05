@@ -20,5 +20,4 @@ pnpm-debug.log*
 .DS_Store
 
 src/content/.obsidian
-src/content/posts/_todo.md
-src/content/posts/_template.md
+src/content/home

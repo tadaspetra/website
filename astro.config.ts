@@ -6,11 +6,12 @@ import remarkCollapse from "remark-collapse";
 import remarkToc from "remark-toc";
 import { SITE } from "./src/config";
 
-import vercel from "@astrojs/vercel/static";
+import vercel from "@astrojs/vercel/serverless";
 
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
+  output: "server",
   integrations: [tailwind({
     applyBaseStyles: false
   }), react(), sitemap()],

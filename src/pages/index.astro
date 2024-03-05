@@ -5,6 +5,7 @@ import Footer from "components/Footer.astro";
 import Header from "components/Header.astro";
 import LinkButton from "components/LinkButton.astro";
 import Socials from "components/Socials.astro";
+import Subscribe from "components/Subscribe.tsx";
 import Layout from "layouts/Layout.astro";
 import getSortedPosts from "utils/getSortedPosts";
 import slugify from "utils/slugify";
@@ -12,16 +13,15 @@ import slugify from "utils/slugify";
 const posts = await getCollection("posts");
 
 const sortedPosts = getSortedPosts(posts);
+
+const apiKey = import.meta.env.RESEND_API_KEY;
+const audienceId = import.meta.env.RESEND_AUDIENCE_ID_TADAS;
 ---
 
 <Layout>
   <Header />
   <main id="main-content">
     <section id="hero">
-      <!-- <p>
-        Life is nuts in the best way possible. I want to help people participate
-        in this nuttery of life.
-      </p> -->
       <p>
         I built
         <LinkButton
@@ -65,6 +65,8 @@ const sortedPosts = getSortedPosts(posts);
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowfullscreen></iframe>
     </section>
+
+    <Subscribe apiKey={apiKey} audienceId={audienceId} client:load />
 
     <section class="pt-8">
       <h2 class="text-xl">Recent Posts</h2>

@@ -1,6 +1,6 @@
 ---
 author: Tadas Petra
-pubDatetime: 2022-09-23
+pubDatetime: 2024-04-04
 title: I Quit My Smartphone for 30 Days
 draft: false
 postSlug: quit-smartphone

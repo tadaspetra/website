@@ -1,7 +1,7 @@
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
-import { defineConfig } from "astro/config";
+import { defineConfig, passthroughImageService } from "astro/config";
 import remarkCollapse from "remark-collapse";
 import remarkToc from "remark-toc";
 import { SITE } from "./src/config";
@@ -23,6 +23,9 @@ export default defineConfig({
       theme: "one-dark-pro",
       wrap: true
     }
+  },
+  image: {
+    service: passthroughImageService()
   },
   vite: {
     optimizeDeps: {

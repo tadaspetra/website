@@ -1,135 +1,43 @@
 ---
-import { getCollection } from "astro:content";
-import Card from "components/Card";
-import Footer from "components/Footer.astro";
-import Header from "components/Header.astro";
-import LinkButton from "components/LinkButton.astro";
-import Socials from "components/Socials.astro";
-import Subscribe from "components/Subscribe.tsx";
-import Layout from "layouts/Layout.astro";
-import getSortedPosts from "utils/getSortedPosts";
-import slugify from "utils/slugify";
-
-const posts = await getCollection("posts");
-
-const sortedPosts = getSortedPosts(posts);
-
-const apiKey = import.meta.env.RESEND_API_KEY;
-const audienceId = import.meta.env.RESEND_AUDIENCE_ID_TADAS;
+import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout>
-  <Header />
-  <main id="main-content">
-    <section id="hero">
-      <p>
-        I built
-        <LinkButton
-          className="underline decoration-dashed underline-offset-4 hover:text-skin-accent"
-          href="https://hungrimind.com"
-        >
-          Hungrimind.
-        </LinkButton>An interactive learning platform.
-      </p>
+  <main class="max-w-2xl mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-24">
+    <h1>hi, i'm tadas petra</h1>
 
-      <div class="social-wrapper">
-        <div class="social-links">Find me on:</div>
-        <Socials />
-      </div>
-    </section>
+    <div class="space-y-5 sm:space-y-6 text-base sm:text-lg leading-relaxed">
+      <p>I find joy in building quality products and sharing how I do it.</p>
 
-    <!-- {
-      featuredPosts.length > 0 && (
-        <>
-          <section id="featured">
-            <h2>Featured</h2>
-            <ul>
-              {featuredPosts.map(({ data }) => (
-                <Card
-                  href={`/posts/${slugify(data)}`}
-                  frontmatter={data}
-                  secHeading={false}
-                />
-              ))}
-            </ul>
-          </section>
-        </>
-      )
-    } -->
-    <section class="pt-2">
-      <iframe
-        class="mt-2 w-full h-96 rounded-xl"
-        src="https://www.youtube.com/embed/mjsyD4t-YSc?si=I925nQukTio1f6tS"
-        title="YouTube video player"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen></iframe>
-    </section>
-
-    <Subscribe apiKey={apiKey} audienceId={audienceId} client:load />
-
-    <section class="pt-8">
-      <h2 class="text-xl">Recent Posts</h2>
-      <ul>
-        {
-          sortedPosts
-            .filter(({ data }) => !data.featured)
-            .map(
-              ({ data }, index) =>
-                index < 4 && (
-                  <Card
-                    href={`/posts/${slugify(data)}`}
-                    frontmatter={data}
-                    secHeading={false}
-                  />
-                )
-            )
-        }
+      <h2 class="mt-16">projects i'm working on</h2>
+      <ul class="list-square list-inside space-y-1.5 sm:space-y-2 ml-3 sm:ml-4">
+        <li>
+          <a href="#">Hungrimind</a> - Founder & CEO
+        </li>
+        <li>
+          <a href="#">Awe in Everything</a> - Founder & CEO
+        </li>
+        <li>
+          <a href="#">Youtube</a> - Senior Software Engineer
+        </li>
       </ul>
-      <div class="all-posts-btn-wrapper">
-        <LinkButton href="/posts">
-          All Posts
-          <svg xmlns="http://www.w3.org/2000/svg"
-            ><path
-              d="m11.293 17.293 1.414 1.414L19.414 12l-6.707-6.707-1.414 1.414L15.586 11H6v2h9.586z"
-            ></path>
-          </svg>
-        </LinkButton>
-      </div>
-    </section>
+
+      <h2 class="mt-16">places i've worked</h2>
+      <ul class="list-square list-inside space-y-1.5 sm:space-y-2 ml-3 sm:ml-4">
+        <li>
+          <a href="#">Agora</a> - Senior Software Engineer
+        </li>
+        <li>
+          <a href="#">Zero To Mastery</a> - Senior Software Engineer
+        </li>
+        <li>
+          <a href="#">Navistar</a> - Senior Software Engineer
+        </li>
+      </ul>
+
+      <p class="mt-16">
+        You can read my <a href="#">writing</a>, or <a href="#">follow me</a>.
+      </p>
+    </div>
   </main>
 </Layout>
-
-<Footer />
-
-<style>
-  /* ===== Hero Section ===== */
-  #hero {
-    @apply pb-6 pt-8;
-  }
-  #hero h1 {
-    @apply my-4 inline-block text-3xl font-bold sm:my-8 sm:text-5xl;
-  }
-  #hero p {
-    @apply my-2;
-  }
-  .social-wrapper {
-    @apply mt-4 flex flex-col sm:flex-row sm:items-center;
-  }
-  .social-links {
-    @apply mb-1 mr-2 whitespace-nowrap sm:mb-0;
-  }
-
-  /* ===== Featured & Recent Posts Sections ===== */
-  #featured,
-  #recent-posts {
-    @apply pb-6 pt-12;
-  }
-  #featured h2,
-  #recent-posts h2 {
-    @apply text-2xl font-semibold tracking-wide;
-  }
-  .all-posts-btn-wrapper {
-    @apply my-8 text-center;
-  }
-</style>

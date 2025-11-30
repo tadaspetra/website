@@ -1,0 +1,102 @@
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("/fonts/Inter-Variable-Italic.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "La Belle Aurore";
+  src: url("/fonts/LaBelleAurore-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@import "tailwindcss";
+
+@theme {
+  --font-inter: "Inter", sans-serif;
+  --font-la-belle-aurore: "La Belle Aurore", cursive;
+}
+
+@layer base {
+  h1 {
+    font-family: var(--font-la-belle-aurore);
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    h1 {
+      font-size: 2.25rem;
+      line-height: 2.5rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  h2 {
+    font-family: var(--font-la-belle-aurore);
+    font-size: 1.5rem;
+    line-height: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    h2 {
+      font-size: 1.875rem;
+      line-height: 2.25rem;
+      margin-bottom: 1.5rem;
+    }
+  }
+
+  a {
+    @apply text-neutral-500 dark:text-neutral-300 relative no-underline;
+  }
+
+  a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 4px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 4' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'%3E%3Cpath d='M0,2 C5,0.8 8,3.2 12,1.5 C18,3.2 22,0.8 28,2.5 C32,1.2 38,2.8 42,2 C48,1.2 52,3.2 58,1.8 C62,3.5 68,0.8 72,2.5 C78,1.8 82,3.5 88,2 C92,1.2 96,2.8 100,2' stroke='%23737373' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    opacity: 0.6;
+    transition: all 0.2s ease;
+  }
+
+  .dark a::after {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 4' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'%3E%3Cpath d='M0,2 C5,0.8 8,3.2 12,1.5 C18,3.2 22,0.8 28,2.5 C32,1.2 38,2.8 42,2 C48,1.2 52,3.2 58,1.8 C62,3.5 68,0.8 72,2.5 C78,1.8 82,3.5 88,2 C92,1.2 96,2.8 100,2' stroke='%23d4d4d8' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+
+  a:hover {
+    color: #d6d0c6;
+    transition: color 0.2s ease;
+  }
+
+  .dark a:hover {
+    color: #d4c4b0;
+  }
+
+  a:hover::after {
+    opacity: 1;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 4' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'%3E%3Cpath d='M0,2 C5,0.8 8,3.2 12,1.5 C18,3.2 22,0.8 28,2.5 C32,1.2 38,2.8 42,2 C48,1.2 52,3.2 58,1.8 C62,3.5 68,0.8 72,2.5 C78,1.8 82,3.5 88,2 C92,1.2 96,2.8 100,2' stroke='%23d6d0c6' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+
+  .dark a:hover::after {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 4' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'%3E%3Cpath d='M0,2 C5,0.8 8,3.2 12,1.5 C18,3.2 22,0.8 28,2.5 C32,1.2 38,2.8 42,2 C48,1.2 52,3.2 58,1.8 C62,3.5 68,0.8 72,2.5 C78,1.8 82,3.5 88,2 C92,1.2 96,2.8 100,2' stroke='%23d4c4b0' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+}

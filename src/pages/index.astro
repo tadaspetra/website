@@ -4,10 +4,19 @@ import Layout from "../layouts/Layout.astro";
 
 <Layout>
   <main class="max-w-2xl mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-24">
-    <div class="flex items-center justify-between">
-      <h1>tadas petra</h1>
+    <div
+      class="flex flex-wrap items-center justify-between gap-3 mb-10 sm:mb-14 sm:flex-nowrap"
+    >
+      <div class="flex items-center gap-4 sm:gap-5">
+        <img
+          src="/bw-pic.png"
+          alt="Tadas Petra"
+          class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg object-cover grayscale"
+        />
+        <h1 class="mb-0 leading-none pt-2">tadas petra</h1>
+      </div>
 
-      <p class="mb-5 sm:mb-6 text-base sm:text-lg">
+      <p class="text-base sm:text-lg w-full sm:w-auto">
         <a href="/resume.pdf" download>resume</a>
       </p>
     </div>
@@ -40,16 +49,16 @@ import Layout from "../layouts/Layout.astro";
       <h2 class="mt-16">places i have worked</h2>
       <ul class="list-square list-inside space-y-1.5 sm:space-y-2 ml-3 sm:ml-4">
         <li>
-          <a href="https://agora.io">Agora</a> - Senior Developer Advocate
+          <a href="https://agora.io">Agora</a> - 3+ years - Senior Developer Advocate
         </li>
         <li>
           <a href="https://zerotomastery.io/courses/flutter-bootcamp/"
             >Zero To Mastery</a
-          > - Instructor
+          > - 3+ years - Instructor
         </li>
         <li>
-          <a href="https://international.com">International</a> - Senior Software
-          Engineer
+          <a href="https://international.com">International</a> - 3+ years - Senior
+          Software Engineer
         </li>
       </ul>
 

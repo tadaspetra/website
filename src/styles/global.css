@@ -99,4 +99,16 @@
   .dark a:hover::after {
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 4' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'%3E%3Cpath d='M0,2 C5,0.8 8,3.2 12,1.5 C18,3.2 22,0.8 28,2.5 C32,1.2 38,2.8 42,2 C48,1.2 52,3.2 58,1.8 C62,3.5 68,0.8 72,2.5 C78,1.8 82,3.5 88,2 C92,1.2 96,2.8 100,2' stroke='%23d4c4b0' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   }
+
+  a.plain-link {
+    @apply text-inherit;
+  }
+
+  a.plain-link::after {
+    display: none;
+  }
+
+  a.plain-link:hover {
+    color: inherit;
+  }
 }

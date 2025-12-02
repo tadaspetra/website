@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import EntryCard from "../components/EntryCard.astro";
 ---
 
 <Layout>
@@ -27,50 +28,53 @@ import Layout from "../layouts/Layout.astro";
         is to lower barriers to entry for developers to build cool things.
       </p> -->
 
-      <p>
+      <p class="text-neutral-500 dark:text-neutral-400">
         I get energy from building useful products and teaching what I learn
         along the way. My purpose is to open doors for anyone who wants to
         build.
       </p>
 
       <h2 class="mt-16">projects i am working on</h2>
-      <ul class="list-square list-inside space-y-1.5 sm:space-y-2 ml-3 sm:ml-4">
-        <li>
-          <a href="https://hungrimind.com">Hungrimind</a> - Founder & CEO
-        </li>
-        <!-- <li>
-          <a href="#">Awe in Everything</a> - Founder & CEO
-        </li> -->
-        <li>
-          <a href="https://youtube.com/@tadaspetra">Youtube</a> - Educator
-        </li>
-      </ul>
+      <div class="space-y-0">
+        <EntryCard
+          href="https://hungrimind.com"
+          title="Hungrimind"
+          description="Interactive learning platform for Flutter and Dart."
+        />
+        <EntryCard
+          href="https://youtube.com/@tadaspetra"
+          title="Youtube"
+          description="Sharing what I learn."
+        />
+      </div>
 
       <h2 class="mt-16">places i have worked</h2>
-      <ul class="list-square list-inside space-y-1.5 sm:space-y-2 ml-3 sm:ml-4">
-        <li>
-          <a href="https://agora.io">Agora</a> - 3+ years - Senior Developer Advocate
-        </li>
-        <li>
-          <a href="https://zerotomastery.io/courses/flutter-bootcamp/"
-            >Zero To Mastery</a
-          > - 3+ years - Instructor
-        </li>
-        <li>
-          <a href="https://international.com">International</a> - 3+ years - Senior
-          Software Engineer
-        </li>
-      </ul>
+      <div class="space-y-0">
+        <EntryCard
+          href="https://agora.io"
+          title="Agora"
+          description="Senior Developer Advocate leading content and product."
+        />
+        <EntryCard
+          href="https://zerotomastery.io/courses/flutter-bootcamp/"
+          title="Zero To Mastery"
+          description="Instructor for Flutter Bootcamp."
+        />
+        <EntryCard
+          href="https://international.com"
+          title="International"
+          description="Senior Software Low Level Engineer."
+        />
+      </div>
 
       <h2 class="mt-16">things i am proud of</h2>
-      <ul class="list-square list-inside space-y-1.5 sm:space-y-2 ml-3 sm:ml-4">
-        <li>
-          <a
-            href="https://developers.google.com/profile/u/107281012378384773706"
-            >GDE for Flutter & Dart</a
-          > - Google Developer Expert
-        </li>
-      </ul>
+      <div class="space-y-0">
+        <EntryCard
+          href="https://developers.google.com/profile/u/107281012378384773706"
+          title="GDE"
+          description="Google Developer Expert for Flutter and Dart since 2021."
+        />
+      </div>
 
       <!-- <p class="mt-16">
         You can read my <a href="#">writing</a>, or <a href="#">follow me</a>.

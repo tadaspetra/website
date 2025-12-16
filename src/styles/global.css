@@ -111,4 +111,431 @@
   a.plain-link:hover {
     color: inherit;
   }
+
+  article {
+    @apply mb-48;
+  }
+
+  article p {
+    @apply pb-4 text-base;
+  }
+
+  article > h1 {
+    @apply text-6xl;
+  }
+
+  article > h2 {
+    @apply text-3xl;
+  }
+
+  article > h3 {
+    @apply text-2xl;
+  }
+
+  article h1,
+  article h2,
+  article h3 {
+    @apply font-la-belle-aurore mt-8 pb-4 pt-4;
+  }
+
+  article img {
+    @apply max-h-[500px] object-contain py-4;
+  }
+
+  article span {
+    @apply leading-7;
+  }
+
+  article blockquote:not(.twitter-tweet) {
+    @apply transition-all duration-200 my-6 rounded-lg;
+    padding: 1rem;
+    background-color: rgba(245, 241, 235, 0.3);
+    border: 1px dashed #6b5a45;
+    border-radius: 12px;
+    display: grid;
+    grid-template-columns: 1.25rem 1fr;
+    gap: 0.75rem;
+    align-items: start;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    article blockquote:not(.twitter-tweet) {
+      background-color: rgba(245, 241, 235, 0.02);
+      border: 2px dashed rgba(107, 90, 69, 0.4);
+    }
+  }
+
+  article blockquote:not(.twitter-tweet)::before {
+    content: "";
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%236B5A45' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3ccircle cx='12' cy='12' r='10'/%3e%3cpath d='m12 16v-4'/%3e%3cpath d='m12 8h.01'/%3e%3c/svg%3e");
+    width: 1.25rem;
+    height: 1.25rem;
+    grid-column: 1;
+    margin-top: 0.125rem;
+    opacity: 0.8;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    article blockquote:not(.twitter-tweet)::before {
+      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23A69080' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3ccircle cx='12' cy='12' r='10'/%3e%3cpath d='m12 16v-4'/%3e%3cpath d='m12 8h.01'/%3e%3c/svg%3e");
+      opacity: 0.7;
+    }
+  }
+
+  article blockquote:not(.twitter-tweet) p {
+    @apply text-sm leading-relaxed mb-0 pb-0;
+    color: #6b5a45;
+    grid-column: 2;
+  }
+
+  article blockquote:not(.twitter-tweet) p:not(:last-child) {
+    @apply mb-2;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    article blockquote:not(.twitter-tweet) p {
+      color: #d4c4b0;
+    }
+  }
+
+  /* Fix code size in callouts and blockquotes */
+  article blockquote:not(.twitter-tweet) code,
+  .callout code {
+    @apply text-sm;
+  }
+
+  article a {
+    @apply text-neutral-500 dark:text-neutral-300 relative;
+    text-decoration: none;
+  }
+
+  article a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 4px;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 4' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'%3E%3Cpath d='M0,2 C5,0.8 8,3.2 12,1.5 C18,3.2 22,0.8 28,2.5 C32,1.2 38,2.8 42,2 C48,1.2 52,3.2 58,1.8 C62,3.5 68,0.8 72,2.5 C78,1.8 82,3.5 88,2 C92,1.2 96,2.8 100,2' stroke='%23737373' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    opacity: 0.6;
+    transition: all 0.2s ease;
+  }
+
+  .dark article a::after {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 4' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'%3E%3Cpath d='M0,2 C5,0.8 8,3.2 12,1.5 C18,3.2 22,0.8 28,2.5 C32,1.2 38,2.8 42,2 C48,1.2 52,3.2 58,1.8 C62,3.5 68,0.8 72,2.5 C78,1.8 82,3.5 88,2 C92,1.2 96,2.8 100,2' stroke='%23d4d4d8' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+
+  article a:hover {
+    color: #d6d0c6;
+    transition: color 0.2s ease;
+  }
+
+  .dark article a:hover {
+    color: #d4c4b0;
+  }
+
+  article a:hover::after {
+    opacity: 1;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 4' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'%3E%3Cpath d='M0,2 C5,0.8 8,3.2 12,1.5 C18,3.2 22,0.8 28,2.5 C32,1.2 38,2.8 42,2 C48,1.2 52,3.2 58,1.8 C62,3.5 68,0.8 72,2.5 C78,1.8 82,3.5 88,2 C92,1.2 96,2.8 100,2' stroke='%23d6d0c6' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+
+  .dark article a:hover::after {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 4' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'%3E%3Cpath d='M0,2 C5,0.8 8,3.2 12,1.5 C18,3.2 22,0.8 28,2.5 C32,1.2 38,2.8 42,2 C48,1.2 52,3.2 58,1.8 C62,3.5 68,0.8 72,2.5 C78,1.8 82,3.5 88,2 C92,1.2 96,2.8 100,2' stroke='%23d4c4b0' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+
+  /* Remove underlines from learn more cards */
+  article a.no-underline::after {
+    display: none;
+  }
+
+  article ul {
+    @apply list-disc list-inside pb-4 pl-4 text-base;
+  }
+
+  article ol {
+    @apply list-decimal list-inside pb-4 pl-4 text-base;
+  }
+
+  article ol li {
+    @apply pb-2 text-neutral-500 dark:text-neutral-300;
+  }
+
+  article ul li {
+    @apply pb-2 text-neutral-500 dark:text-neutral-300;
+  }
+
+  article li::marker {
+    @apply text-neutral-400 dark:text-neutral-500;
+  }
+
+  /* Fix for paragraphs in list items - make them flow inline with the marker */
+  article ol li > p:first-child,
+  article ul li > p:first-child {
+    @apply inline;
+  }
+
+  /* Add spacing between subsequent paragraphs in list items */
+  article ol li > p:not(:first-child),
+  article ul li > p:not(:first-child) {
+    @apply block mt-2;
+  }
+
+  code {
+    @apply bg-white dark:bg-neutral-950 px-2 py-0.5 rounded-md border border-neutral-200 dark:border-neutral-700 text-sm not-italic;
+  }
+
+  code span {
+    @apply text-sm not-italic;
+  }
+
+  pre {
+    @apply mb-8;
+  }
+
+  pre code {
+    @apply bg-transparent dark:bg-transparent p-0 rounded-none text-sm not-italic;
+  }
+
+  article hr {
+    @apply my-16 border-t border-solid mx-16 border-neutral-300 dark:border-neutral-700;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  article table {
+    @apply w-full border-collapse mb-8;
+  }
+
+  article thead {
+    @apply bg-neutral-100 dark:bg-neutral-800;
+  }
+
+  article th,
+  article td {
+    @apply p-3 text-left border-b border-neutral-200 dark:border-neutral-700 align-top;
+  }
+
+  article th {
+    @apply font-semibold border-b-2;
+  }
+
+  article tbody tr:hover {
+    @apply bg-neutral-50 dark:bg-neutral-900;
+  }
+
+  article table code {
+    @apply text-sm dark:bg-neutral-700 px-1 py-0.5 rounded;
+  }
+}
+
+@layer components {
+  /* Existing styles */
+
+  /* Sketch-style button with flat-on-hover effect */
+  .btn-sketch {
+    @apply inline-flex items-center justify-center gap-2 select-none
+      px-6 py-3 rounded-xl font-semibold tracking-wide
+      text-white border-0
+      transition-all duration-150 ease-out;
+    position: relative;
+    will-change: transform;
+    /* Solid face color controlled via CSS var; default black */
+    --sketch-bg: #000;
+    background: transparent;
+    z-index: 0;
+  }
+
+  /* 3D offset with hatched shading (outside the button) */
+  .btn-sketch::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 2px solid #646464;
+    transform: translate(-6px, 6px);
+    z-index: -2;
+    background: repeating-linear-gradient(
+      -45deg,
+      #c7c7c7 0 4px,
+      rgba(0, 0, 0, 0) 4px 9px
+    );
+    transition: transform 150ms ease-out;
+  }
+
+  /* Solid button face drawn above hatch so hatch is behind the color */
+  .btn-sketch::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--sketch-bg);
+    z-index: -1;
+  }
+
+  /* Keep visual size consistent for light variant by adding an inner stroke */
+  .btn-sketch-light::after {
+    box-shadow: inset 0 0 0 2px #000;
+  }
+  .dark .btn-sketch-light::after {
+    box-shadow: inset 0 0 0 2px #fff;
+  }
+
+  /* Ensure pseudo-elements never block interaction and sit behind text */
+  .btn-sketch::before,
+  .btn-sketch::after {
+    pointer-events: none;
+  }
+
+  .dark .btn-sketch {
+    @apply text-black border-0;
+    --sketch-bg: #fff;
+  }
+
+  .dark .btn-sketch::before {
+    border-color: #888888;
+    background: repeating-linear-gradient(
+      -45deg,
+      #888888 0 4px,
+      rgba(255, 255, 255, 0) 4px 9px
+    );
+  }
+
+  .dark .btn-sketch::after {
+    border-color: #fff;
+  }
+
+  /* Keyboard focus hint remains regardless of hover support */
+  .btn-sketch:focus-visible {
+    transform: translate(-3px, 3px);
+    transition: transform 150ms ease-out;
+  }
+  .btn-sketch:focus-visible::before {
+    transform: translate(-4px, 4px);
+    transition: transform 150ms ease-out;
+  }
+  .btn-sketch:focus-visible::after,
+  .btn-sketch:active::after {
+    background: var(--sketch-bg);
+  }
+
+  /* Only apply hover effects on devices that actually support hover */
+  @media (hover: hover) {
+    .btn-sketch:hover {
+      transform: translate(-3px, 3px);
+      transition: transform 150ms ease-out;
+    }
+    .btn-sketch:hover::before {
+      transform: translate(-4px, 4px);
+      transition: transform 150ms ease-out;
+    }
+    .btn-sketch:hover::after {
+      background: var(--sketch-bg);
+    }
+  }
+
+  .btn-sketch:active {
+    transform: translate(-6px, 6px);
+    transition: transform 150ms ease-out;
+  }
+
+  .btn-sketch:active::before {
+    transform: translate(0px, 0px);
+    transition: transform 150ms ease-out;
+  }
+
+  .btn-sketch:disabled {
+    @apply opacity-60 cursor-not-allowed;
+  }
+
+  /* Size variant: small header button */
+  .btn-sketch-sm {
+    @apply px-4 py-2 text-sm rounded-lg;
+  }
+  .btn-sketch-sm::before {
+    transform: translate(-4px, 4px);
+  }
+
+  /* Reduce movement on hover for small variant */
+  .btn-sketch-sm:focus-visible {
+    transform: translate(-1px, 1px);
+  }
+  .btn-sketch-sm:focus-visible::before {
+    transform: translate(-3px, 3px);
+  }
+  @media (hover: hover) {
+    .btn-sketch-sm:hover {
+      transform: translate(-1px, 1px);
+    }
+    .btn-sketch-sm:hover::before {
+      transform: translate(-3px, 3px);
+    }
+  }
+
+  .btn-sketch-sm:active {
+    transform: translate(-4px, 4px);
+  }
+  .btn-sketch-sm:active::before {
+    transform: translate(0px, 0px);
+  }
+
+  /* Color variant: light in light-mode, dark in dark-mode */
+  .btn-sketch-light {
+    @apply text-black;
+    --sketch-bg: #ffffff;
+  }
+
+  /* Ensure pseudo-element border matches light variant in both themes */
+  /* Inherit base hatch offset from .btn-sketch */
+
+  .dark .btn-sketch-light {
+    @apply text-white;
+    --sketch-bg: #000000;
+  }
+
+  /* Inherit base hatch offset in dark mode too */
+
+  /* Mobile-friendly table styles */
+  @media (max-width: 767px) {
+    article table {
+      @apply block w-full border-collapse;
+    }
+
+    article thead {
+      @apply hidden;
+    }
+
+    article tbody {
+      @apply block;
+    }
+
+    article tr {
+      @apply block mb-6 border border-neutral-200 dark:border-neutral-700 rounded-lg overflow-hidden;
+    }
+
+    article td {
+      @apply block p-3 border-b border-neutral-200 dark:border-neutral-700 last:border-b-0;
+    }
+
+    article td:first-child {
+      @apply bg-neutral-50 dark:bg-neutral-800 font-bold text-lg p-4;
+    }
+
+    article td:first-child:before {
+      content: "Step ";
+    }
+
+    article tr td:nth-child(2):before {
+      content: "Action: ";
+      @apply font-bold text-neutral-700 dark:text-neutral-100;
+    }
+
+    article tr td:nth-child(3):before {
+      content: "Why: ";
+      @apply font-bold text-neutral-700 dark:text-neutral-100;
+    }
+  }
 }

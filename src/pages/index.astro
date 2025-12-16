@@ -1,6 +1,17 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import EntryCard from "../components/EntryCard.astro";
+import { getCollection } from "astro:content";
+
+const posts = await getCollection("posts", ({ data }) => !data.draft);
+
+// Sort by date (newest first) and extract slug from id
+const sortedPosts = posts
+  .sort((a, b) => b.data.pubDatetime.valueOf() - a.data.pubDatetime.valueOf())
+  .map((post) => ({
+    title: post.data.title,
+    slug: post.id.split("/").pop()?.replace(/\.md$/, "") ?? post.id,
+  }));
 ---
 
 <Layout>
@@ -76,15 +87,19 @@ import EntryCard from "../components/EntryCard.astro";
         />
       </div>
 
-      <!-- <p class="mt-16">
-        You can read my <a href="#">writing</a>, or <a href="#">follow me</a>.
-      </p>
-
-      <p class="mt-16">
-        I want to have a separate page or something with things I have done or
-        achieved or something like that, and be like a checklist that I can look
-        back at
-      </p> -->
+      <h2 class="mt-16">writing</h2>
+      <div class="space-y-0">
+        {
+          sortedPosts.map((post) => (
+            <a
+              href={`/${post.slug}`}
+              class="plain-link block px-4 py-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-sm sm:text-base"
+            >
+              {post.title}
+            </a>
+          ))
+        }
+      </div>
     </div>
   </main>
 </Layout>

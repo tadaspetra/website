@@ -1,0 +1,32 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("posts", ({ data }) => !data.draft);
+
+  return posts.map((post) => {
+    // Extract just the filename without the year folder
+    const slug = post.id.split("/").pop()?.replace(/\.md$/, "") ?? post.id;
+    return {
+      params: { slug },
+      props: { post },
+    };
+  });
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<Layout>
+  <main class="max-w-2xl mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-24">
+    <article class="prose dark:prose-invert prose-neutral max-w-none">
+      <h2 class="mb-0">{post.data.title}</h2>
+      <p class="text-neutral-500 dark:text-neutral-400 -mt-2 pt-0 mb-8">
+        By Tadas Petra
+      </p>
+      <Content />
+    </article>
+  </main>
+</Layout>

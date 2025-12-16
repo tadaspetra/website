@@ -8,7 +8,7 @@ description: Getting married was one of the most stressful periods of my life.
 
 ## Part 1: Before Flying To Mexico
 
-The perfect [wedding that I envisioned](https://leerob.com/dx) is a destination wedding, somewhere warm. All the people closest to me would come together for a whole week of celebration.
+The perfect wedding that I envisioned is a destination wedding, somewhere warm. All the people closest to me would come together for a whole week of celebration.
 
 This is what I set out to do for February 1st, 2024.
 

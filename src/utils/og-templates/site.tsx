@@ -1,95 +1,37 @@
 import React from "react";
 
-export default () => {
+export default (profileImage: string) => {
   return (
     <div
       style={{
-        background: "#fefbfb",
+        background: "#ffffff",
         width: "100%",
         height: "100%",
         display: "flex",
-        alignItems: "center",
         justifyContent: "center",
+        alignItems: "center",
+        gap: 32,
       }}
     >
-      <div
+      <img
+        src={profileImage}
+        width={100}
+        height={100}
         style={{
-          position: "absolute",
-          top: "-1px",
-          right: "-1px",
-          border: "4px solid #000",
-          background: "#ecebeb",
-          opacity: "0.9",
-          borderRadius: "4px",
-          display: "flex",
-          justifyContent: "center",
-          margin: "2.5rem",
-          width: "88%",
-          height: "80%",
+          borderRadius: 16,
+          marginBottom: 20,
+          marginRight: 5,
         }}
       />
-
-      <div
+      <span
         style={{
-          border: "4px solid #000",
-          background: "#fefbfb",
-          borderRadius: "4px",
-          display: "flex",
-          justifyContent: "center",
-          margin: "2rem",
-          width: "88%",
-          height: "80%",
+          fontSize: 96,
+          fontFamily: "La Belle Aurore",
+          color: "#171717",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "space-between",
-            margin: "20px",
-            width: "90%",
-            height: "90%",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "90%",
-              maxHeight: "90%",
-              overflow: "hidden",
-              textAlign: "center",
-            }}
-          >
-            <p
-              style={{
-                fontSize: 72,
-                fontFamily: "La Belle Aurore",
-              }}
-            >
-              Tadas Petra
-            </p>
-            <p style={{ fontSize: 28, fontFamily: "La Belle Aurore" }}>
-              Building useful products and teaching what I learn.
-            </p>
-          </div>
-
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-end",
-              width: "100%",
-              marginBottom: "8px",
-              fontSize: 28,
-              fontFamily: "La Belle Aurore",
-            }}
-          >
-            <span>tadaspetra.com</span>
-          </div>
-        </div>
-      </div>
+        tadas petra
+      </span>
     </div>
   );
 };

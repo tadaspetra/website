@@ -17,6 +17,11 @@ const fontData = fontBuffer.buffer.slice(
   fontBuffer.byteOffset + fontBuffer.byteLength
 );
 
+// Read profile image and convert to base64
+const imagePath = join(process.cwd(), "public", "bw-pic.png");
+const imageBuffer = readFileSync(imagePath);
+const imageBase64 = `data:image/png;base64,${imageBuffer.toString("base64")}`;
+
 const options: SatoriOptions = {
   width: 1200,
   height: 630,
@@ -39,11 +44,11 @@ async function svgBufferToPngBuffer(svg: string) {
 }
 
 export async function generateOgImageForPost(post: CollectionEntry<"posts">) {
-  const svg = await satori(postOgImage(post), options);
+  const svg = await satori(postOgImage(post, imageBase64), options);
   return svgBufferToPngBuffer(svg);
 }
 
 export async function generateOgImageForSite() {
-  const svg = await satori(siteOgImage(), options);
+  const svg = await satori(siteOgImage(imageBase64), options);
   return svgBufferToPngBuffer(svg);
 }

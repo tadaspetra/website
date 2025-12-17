@@ -22,7 +22,7 @@ export default (post: CollectionEntry<"posts">, profileImage: string) => {
           color: "#171717",
           lineHeight: 1.2,
           marginTop: 50,
-          maxWidth: "85%",
+          maxWidth: "95%",
         }}
       >
         {post.data.title}
@@ -46,9 +46,10 @@ export default (post: CollectionEntry<"posts">, profileImage: string) => {
         />
         <span
           style={{
-            fontSize: 32,
+            fontSize: 48,
             fontFamily: "La Belle Aurore",
             color: "#525252",
+            marginTop: 16,
           }}
         >
           tadas petra

@@ -19,7 +19,7 @@ export default (profileImage: string) => {
         height={100}
         style={{
           borderRadius: 16,
-          marginBottom: 20,
+          marginBottom: 36,
           marginRight: 5,
         }}
       />

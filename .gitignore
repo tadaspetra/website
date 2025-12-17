@@ -1,8 +1,9 @@
 # build output
 dist/
 .output/
-
+.vercel/
 .astro/
+.cursor/
 # dependencies
 node_modules/
 

@@ -10,16 +10,23 @@ export async function getStaticPaths() {
     const slug = post.id.split("/").pop()?.replace(/\.md$/, "") ?? post.id;
     return {
       params: { slug },
-      props: { post },
+      props: { post, slug },
     };
   });
 }
 
-const { post } = Astro.props;
+const { post, slug } = Astro.props;
 const { Content } = await post.render();
+
+// OG image URL for this post
+const ogImage = `/${slug}/index.png`;
 ---
 
-<Layout>
+<Layout
+  title={post.data.title}
+  description={post.data.description}
+  ogImage={ogImage}
+>
   <main class="max-w-2xl mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-24">
     <article class="prose dark:prose-invert prose-neutral max-w-none">
       <h2 class="mb-0">{post.data.title}</h2>

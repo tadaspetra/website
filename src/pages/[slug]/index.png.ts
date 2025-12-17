@@ -4,7 +4,7 @@ import { generateOgImageForPost } from "../../utils/generateOgImages";
 
 export async function getStaticPaths() {
   const posts = await getCollection("posts").then(p =>
-    p.filter(({ data }) => !data.draft && !data.ogImage)
+    p.filter(({ data }) => !data.draft)
   );
 
   return posts.map(post => {

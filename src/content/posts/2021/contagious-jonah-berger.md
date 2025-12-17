@@ -6,9 +6,6 @@ tags:
 description: Book review of Contagious by Jonah Berger. A marketing book about how to have your content go viral.
 ---
 
-
-![Heading image with book](https://i.imgur.com/wNLmogh.png)
-
 This is the first book review that I have written. I think most books can be summarized drastically and still have most of the main ideas. The goal is to do just that with the book review section of this blog. For the first iterations they will cover three main parts:
 
 1. Quick Summary
@@ -17,9 +14,9 @@ This is the first book review that I have written. I think most books can be sum
 
 This structure might change in the future, but for now let's start with this.
 
-# Chapter Breakdown
+## Summary
 
-## Introduction: Why Things Catch On
+### Introduction: Why Things Catch On
 
 Word of Mouth is so much more effective than general advertising because of two main things.
 
@@ -41,7 +38,7 @@ So word of mouth is extremely powerful, but how do you get people to start talki
 
 But in order for content to go viral, it doesn't need every single one of them. But the more of these that it has the better the chances!
 
-## Chapter 1 - Social Currency
+### Chapter 1 - Social Currency
 
 Just like people use money to buy things, people use social currency to create good impressions with other people. Social Currency is the way you present your self and making yourself look "good" in front of other people, either through what you own, or **what you talk about.**
 
@@ -59,7 +56,7 @@ Game mechanics encourage people to spend more to on specific products. Ex. Frequ
 
 The last technique is to make people feel like insiders. If things are limited access, they blow up. One of the biggest examples of this is yeezy's shoes, and clubhouse. There were limited shoes, and literally everybody was talking about it. It even changed the industry to have more and more companies limit the amount of shoes they sell. Similar thing happened with Clubhouse the audio live chat app. It was an exclusive invite only, and only on iOS. Even though it was hard to get into the app, and less people can use it, everybody was talking about it.
 
-## Chapter 2 - Triggers
+### Chapter 2 - Triggers
 
 We understand that people are the best marketers through word of mouth. But there are two types of word of mouth: Immediate and Ongoing. Immediate word of mouth happens when something big happens, and people talk about it for a couple days and they forget about it. The more effective and one that brings the most results is ongoing. And the best way to achieve this ongoing word of mouth is through triggers.
 
@@ -67,7 +64,7 @@ There are tons of examples of triggers. Sunny beach might trigger a Corona, sayi
 
 If you can tie your product to something that people see often, they will be reminded about it every time they run into that thing. But to get something connected like that is the holy grail of marketing.
 
-## Chapter 3 - Emotion
+### Chapter 3 - Emotion
 
 How do emotions factor into marketing? According to Jonah Berger there are certain emotions that are more likely to make people share. But it doesn't matter whether it is positive or negative emotion, as long as that emotion is a high arousal emotion.
 
@@ -89,7 +86,7 @@ A method to dig deep and figure out how to get to those emotions, there is a met
 >
 > JS: _"Well, it's that new guy, Tom. He's so negative. He has a comment for everything. He's frustrating to be around and really hurts our team's dynamic."_
 
-## Chapter 4 - Public
+### Chapter 4 - Public
 
 This next half of the book, got into the parts of marketing that most people know of, but it dives deeper on the impact that each part has. Starting by making your product more public.
 
@@ -99,17 +96,17 @@ Making a way for your products to be seen, or having people inherently talk abou
 
 Making things more public makes people talk about it more. If you can manage to make your private product public, it will advertise itself.
 
-## Chapter 5 - Practical Value
+### Chapter 5 - Practical Value
 
 This point goes very hand in hand with the first part of the book that talked about Social Currency. People share information that is helpful to other people. One way of giving practical value is by discounts. And for discounts you can follow the Rule of 100. If you are offering a discount for a product over $100, advertise it as a dollar amount, if the item is under $100, advertise it as a percentage.
 
-## Chapter 6 - Stories
+### Chapter 6 - Stories
 
 The last way is probably the most common marketing method out there. Using stories helps people remember the message better. In fact most of the stories that you know have some underlying message. For example the story about the wolf blowing down the house of the three little pigs has a message of putting in work before hand, will give great rewards for the future.
 
 Finding a way to tell a story is one thing, but one thing to make sure is that your product is interwoven into the story and the story can't be told without it. On the other hand offer something that allows people to tell the stories themselves. One of the good examples was excellent customer service.
 
-# My Thoughts
+## My Thoughts
 
 This was the first marketing book that I have read, and it really opened up the whole world of marketing for me. Reading this book made me realize that literally everything is controlled by marketing in our world. Each company is fighting for our attention and for the ability to _alter_ how we think and influence us to share their products.
 
@@ -119,7 +116,7 @@ Marketing is such an important part of this world, I think it is key to understa
 
 For me, although this book was very eye opening, I believe it could have been summarized into 30-40 pages, and it would have been just as effective. It was filled with lots of stories, that were definitely helpful, but they seemed to just drag on.
 
-# Key Take Away
+## Key Take Away
 
 Marketing is crucial in every part of our lives, and to _almost_ guarantee success in marketing you need to use the 6 STEPPS
 

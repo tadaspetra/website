@@ -6,16 +6,9 @@ tags:
 description: Book review of How to Win Friends and Influence People by Dale Carnegie. A book about how to become a better friend or colleague.
 ---
 
-
-
-
-![Heading image with book](https://i.imgur.com/acW6kyO.png)
-
-# How to Win Friends & Influence People by Dale Carnegie
-
 The book notes for "How to Win Friends and Influence People" is a little different than for most books. The book was split up into short 3-4 pages of _Principles_ and those pages gave some short examples of those principles. Here is a list of all the principles:
 
-# Summary
+## Summary
 
 ### Section 1: Fundamental Techniques in Handling People
 
@@ -146,7 +139,7 @@ The book notes for "How to Win Friends and Influence People" is a little differe
 
 - Men are ruled by toys - Napoleon. This technique of giving titles and authority worked for him.
 
-# My Thoughts
+## My Thoughts
 
 The title of this book seems to be very controlling, but the points covered are mostly points about just being a good person and a good friend, colleague, boss, etc. Although this book had a lot of great points, it never really went much deeper than just giving some examples from other people experience.
 
@@ -154,7 +147,7 @@ In my opinion, just reading the titles, and really thinking about the meaning an
 
 Overall the points are really great points. But the overarching idea was that this isn't something you should use to manipulate and make people do these things. The goal is to change your approach and see things from a different stand point, so that you can be more genuine and sincere whenever you are implementing one of these principles.
 
-# Key Take Away
+## Key Take Away
 
 Lot's of value, but not really a fun read.
 

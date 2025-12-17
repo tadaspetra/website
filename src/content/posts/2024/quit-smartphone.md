@@ -3,7 +3,7 @@ pubDatetime: 2024-04-04
 title: I Quit My Smartphone for 30 Days
 draft: false
 tags: [personal, productivity]
-description: I quit using my smartphone for 30 days and after this trial run I am done using it for life.
+description: I quit using my smartphone for 30 days, and after this trial run, I am done using it for life.
 ---
 
 As the smartphone has become a physical extension of most of us (including me), I decided to quit my phone for 30 days. And spoiler alert, I decided to quit it for life.
@@ -30,9 +30,9 @@ The Apple Watch cellular stopped this loop.
 
 Before I tell you about the logistics and my experience, I want to explain why I have been so obsessed with not scrolling and what the big deal is.
 
-To be honest, I’m not entirely sure. But something inside me absolutely hates myself whenever I get caught in one of those loops. My wife, for example, has all those apps (that I have grown to despise) and uses them normally., Sometimes, she gets caught in one of those loops, but here’s the crazy thing: she doesn’t beat herself up about it; she keeps living and doesn’t worry about it. She never falls into the trap of it happening consistently, where it’s affecting her life.
+To be honest, I’m not entirely sure. But something inside me absolutely hates myself whenever I get caught in one of those loops. My wife, for example, has all those apps (that I have grown to despise) and uses them normally. Sometimes, she gets caught in one of those loops, but here’s the crazy thing: she doesn’t beat herself up about it; she keeps living and doesn’t worry about it. She never falls into the trap of it happening consistently, where it’s affecting her life.
 
-I guess she’s just built different.
+I guess she’s just built differently.
 
 I see it completely differently. Every time I get caught in the loop, I waste a precious amount of my short time on this earth doing something that I will not remember five minutes from now. It’s worse than any drugs or hangover for me because, at least for those, I can remember (hopefully) a crazy or fun time.
 
@@ -48,13 +48,13 @@ Then, I  connected and kept the iPhone charging in the back of the closet. I di
 
 This was one of the least distracted periods of my life. For those first two weeks, I still had that itch to check my phone between sets at the gym while waiting around for something or just sitting on the couch.
 
-Then, around the two-week mark, that started slowly going away. That itch is gone. I can focus on a task longer and get into the flow more easily. I unlocked focus superpowers.
+Then, around the two-week mark, it started slowly going away. That itch is gone. I can focus on a task longer and get into the flow more easily. I unlocked focus superpowers.
 
-In terms of productivity, it’s been a blast, but I did have those two problems. Not having a camera or a place to take notes. I’m just going to ignore the notes part. You can bring a notebook or make voice recordings. There’s a good amount of solutions. But buying a separate camera when I have one of the most powerful cameras in the world on my smartphone seems stupid. I found a great solution that works for me.
+In terms of productivity, it’s been a blast, but I did have those two problems. Not having a camera or a place to take notes. I’m just going to ignore the notes part. You can bring a notebook or make voice recordings. There are a good number of solutions. But buying a separate camera when I have one of the most powerful cameras in the world on my smartphone seems stupid. I found a great solution that works for me.
 
 I never had a problem being on the phone with friends or my wife or doing something new. The main issues are at home, work (at home or the library), and the gym. So, I banned myself from using my phone at home, the library (where I work), and the gym. Whenever I go somewhere else, my phone is not an issue. I don’t need to take pictures of anything at the library or the gym; I can grab the phone if I need to at home. That’s what I’ve been doing, and all the effects from completely cutting out the phone are still there, without the negatives.
 
-The last part I must cover is whether I’ve been more distracted on my laptop. This was something I never really worried about. I don’t know the whole reason for it, but it has something to do with the intention and the intuitiveness of the apps on a laptop that doesn’t do it for me like it does with my phone. I treat my laptop as a device for work and productive tasks, and I still sometimes get caught in the social media loops (mostly with YouTube). They are much fewer and far between. When it comes to Twitter, and I scroll for about 3 minutes, I get bored and go back to work. With YouTube, I can get more looped in. Still, YouTube doesn’t bring me the same negative feeling I get as most of the other social media, most likely because my feed is mostly learning materials like Veritasium, Fireship, some home improvement channels, and Scott Yu Jan (one of the most inspiring artists of this decade).
+The last part I must cover is whether I’ve been more distracted on my laptop. This was something I never really worried about. I don’t know the whole reason for it, but it has something to do with the intention and the intuitiveness of the apps on a laptop that doesn’t do it for me as it does with my phone. I treat my laptop as a device for work and productive tasks, and I still sometimes get caught in the social media loops (mostly with YouTube). They are much fewer and far between. When it comes to Twitter, and I scroll for about 3 minutes, I get bored and go back to work. With YouTube, I can get more looped in. Still, YouTube doesn’t bring me the same negative feeling I get from most of the other social media, most likely because my feed is mostly learning materials like Veritasium, Fireship, some home improvement channels, and Scott Yu Jan (one of the most inspiring artists of this decade).
 
 I still use a Safari extension to block Twitter and YouTube's algorithms, which minimizes the likelihood of getting looped in.
 

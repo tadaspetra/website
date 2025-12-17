@@ -3,11 +3,9 @@ pubDatetime: 2023-10-11
 title: Finding Your Voice
 tags:
   - personal
-description: In a world of AI, how do you separate yourself from the crowd.
+description: In a world of AI, how do you separate yourself from the crowd?
 ---
 
-
-![Passion led us here](https://i.imgur.com/J5mCCnV.jpg)
 
 AI writing is honestly pretty nuts. I already know it is becoming a norm to use AI to write blogs or articles for SEO and other purposes online. So what's the point of writing yourself anymore?
 
@@ -25,7 +23,7 @@ The key difference here is the brand that they have built and their voice.
 
 ## How to find your voice?
 
-Not gonna lie, I typed out this question for myself and the real answer is I don't know. But I thinkI have the initial steps to get there eventually.
+Not gonna lie, I typed out this question for myself, and the real answer is I don't know. But I think I have the initial steps to get there eventually.
 
 Fact (i think): You are not going to find your voice by thinking it through.
 

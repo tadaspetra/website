@@ -34,5 +34,21 @@ import "../styles/global.css";
     class="bg-white dark:bg-neutral-900 text-gray-900 dark:text-white min-h-screen transition-colors duration-200"
   >
     <slot />
+    <script>
+      // Make all links within article tags open in a new tab
+      document.addEventListener("DOMContentLoaded", () => {
+        const articles = document.querySelectorAll("article");
+        articles.forEach((article) => {
+          const links = article.querySelectorAll("a[href]");
+          links.forEach((link) => {
+            // Only add target="_blank" if it's an external link or doesn't already have a target
+            if (!link.hasAttribute("target")) {
+              link.setAttribute("target", "_blank");
+              link.setAttribute("rel", "noopener noreferrer");
+            }
+          });
+        });
+      });
+    </script>
   </body>
 </html>

@@ -17,7 +17,7 @@ export default (post: CollectionEntry<"posts">, profileImage: string) => {
       {/* Title */}
       <p
         style={{
-          fontSize: 64,
+          fontSize: 96,
           fontFamily: "La Belle Aurore",
           color: "#171717",
           lineHeight: 1.2,

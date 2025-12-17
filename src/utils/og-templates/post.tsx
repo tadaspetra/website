@@ -21,7 +21,7 @@ export default (post: CollectionEntry<"posts">, profileImage: string) => {
           fontFamily: "La Belle Aurore",
           color: "#171717",
           lineHeight: 1.2,
-          margin: 0,
+          marginTop: 50,
           maxWidth: "85%",
         }}
       >

@@ -11,7 +11,6 @@ A collections of lists for inspiration.
 
 - [Lee Robinson](https://leerob.io/)
 - [kepano](https://stephango.com)
-- [Daniel Ek](https://x.com/eldsjal)
 - [Paul Graham](https://www.paulgraham.com/)
 
 ## Software

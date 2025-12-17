@@ -46,7 +46,7 @@ export default (post: CollectionEntry<"posts">, profileImage: string) => {
         />
         <span
           style={{
-            fontSize: 28,
+            fontSize: 32,
             fontFamily: "La Belle Aurore",
             color: "#525252",
           }}

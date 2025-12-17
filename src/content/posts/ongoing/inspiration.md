@@ -1,11 +1,11 @@
 ---
 pubDatetime: 2025-12-17
-title: Inspiration List
+title: A Collections of Lists for Inspiration
 draft: false
 description: What inspires me to keep going.
 ---
 
-A collections of lists of inspiration.
+A collections of lists for inspiration.
 
 ## People
 

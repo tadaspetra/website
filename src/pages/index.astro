@@ -29,7 +29,33 @@ const sortedPosts = posts
           alt="Tadas Petra"
           class="w-10 h-10 sm:w-12 sm:h-12 rounded-lg object-cover grayscale"
         />
-        <h1 class="mb-0 leading-none pt-2">tadas petra</h1>
+        <h1 class="mb-0 leading-none pt-2">
+          tadas petra
+          <button
+            id="play-pronunciation"
+            class="inline-flex items-center justify-center w-6 h-6 ml-1 align-middle text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-200 transition-colors"
+            aria-label="Play name pronunciation"
+            title="Play pronunciation"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+            </svg>
+          </button>
+          <audio id="name-audio" src="/name-pronunciation.mp3" preload="none"
+          ></audio>
+        </h1>
       </div>
 
       <p class="text-base sm:text-lg w-full sm:w-auto">
@@ -51,6 +77,11 @@ const sortedPosts = posts
 
       <h2 class="mt-16">projects i am working on</h2>
       <div class="space-y-0">
+        <EntryCard
+          href="https://elevenlabs.io"
+          title="ElevenLabs"
+          description="Developer Relations Engineer"
+        />
         <EntryCard
           href="https://hungrimind.com"
           title="Hungrimind"
@@ -106,4 +137,14 @@ const sortedPosts = posts
       </div>
     </div>
   </main>
+
+  <script>
+    const playBtn = document.getElementById("play-pronunciation");
+    const audio = document.getElementById("name-audio") as HTMLAudioElement;
+
+    playBtn?.addEventListener("click", () => {
+      audio.currentTime = 0;
+      audio.play();
+    });
+  </script>
 </Layout>

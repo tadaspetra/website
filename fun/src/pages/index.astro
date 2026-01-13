@@ -1,0 +1,19 @@
+---
+import "../styles/global.css";
+import Eleven from "../components/Eleven";
+import AgentConversation from "../components/AgentConversation";
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro</title>
+  </head>
+  <body>
+    <Eleven client:only="react" />
+    <AgentConversation client:only="react" />
+  </body>
+</html>

@@ -8,10 +8,19 @@ const posts = await getCollection("posts", ({ data }) => !data.draft);
 // Sort by date (newest first) and extract slug from id
 const sortedPosts = posts
   .sort((a, b) => b.data.pubDatetime.valueOf() - a.data.pubDatetime.valueOf())
-  .map((post) => ({
-    title: post.data.title,
-    slug: post.id.split("/").pop()?.replace(/\.md$/, "") ?? post.id,
-  }));
+  .map((post) => {
+    // Handle both flat files (2024/post-name.md) and folder-based (essays/how-computers-work/index.mdx)
+    const parts = post.id.split("/");
+    const filename = parts.pop() ?? "";
+    // Remove .md or .mdx extension
+    const basename = filename.replace(/\.mdx?$/, "");
+    // If basename is "index", use the parent folder name as slug
+    const slug = basename === "index" ? parts.pop() ?? post.id : basename;
+    return {
+      title: post.data.title,
+      slug,
+    };
+  });
 ---
 
 <Layout

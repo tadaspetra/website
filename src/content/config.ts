@@ -9,6 +9,14 @@ const posts = defineCollection({
       draft: z.boolean().optional(),
       tags: z.array(z.string()).default(["others"]),
       description: z.string(),
+      sources: z
+        .array(
+          z.object({
+            title: z.string(),
+            url: z.string(),
+          })
+        )
+        .optional(),
     }),
 });
 

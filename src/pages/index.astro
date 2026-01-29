@@ -15,7 +15,7 @@ const sortedPosts = posts
     // Remove .md or .mdx extension
     const basename = filename.replace(/\.mdx?$/, "");
     // If basename is "index", use the parent folder name as slug
-    const slug = basename === "index" ? parts.pop() ?? post.id : basename;
+    const slug = basename === "index" ? (parts.pop() ?? post.id) : basename;
     return {
       title: post.data.title,
       slug,
@@ -94,18 +94,21 @@ const sortedPosts = posts
           title="ElevenLabs"
           description="Developer Relations Engineer"
           logo="/logos/elevenlabs.svg"
+          class="h-4 -ml-0.5 pb-1"
         />
         <EntryCard
           href="https://hungrimind.com"
           title="Hungrimind"
           description="Interactive learning platform for Flutter and Dart."
           logo="/logos/hungrimind.png"
+          class="h-5"
         />
         <EntryCard
           href="https://youtube.com/@tadaspetra"
           title="Youtube"
           description="Sharing what I learn."
           logo="/logos/youtube.svg"
+          class="h-5 pb-1"
         />
       </div>
 
@@ -116,18 +119,22 @@ const sortedPosts = posts
           title="Agora"
           description="Senior Developer Advocate leading content and product."
           logo="/logos/agora.svg"
+          class="h-4"
         />
         <EntryCard
           href="https://zerotomastery.io/courses/flutter-bootcamp/"
           title="Zero To Mastery"
           description="Instructor for Flutter Bootcamp."
           logo="/logos/ztm.svg"
+          logoText="Zero To Mastery"
+          class="h-3"
         />
         <EntryCard
           href="https://international.com"
           title="International"
           description="Senior Software Low Level Engineer."
           logo="/logos/international.png"
+          class="h-4 pb-1"
         />
       </div>
 
@@ -138,6 +145,7 @@ const sortedPosts = posts
           title="GDE"
           description="Google Developer Expert for Flutter and Dart since 2021."
           logo="/logos/google.svg"
+          class="h-5"
         />
       </div>
 

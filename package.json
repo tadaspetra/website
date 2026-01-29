@@ -11,20 +11,20 @@
   "dependencies": {
     "@astrojs/mdx": "^4.3.13",
     "@astrojs/react": "^4.4.2",
-    "@astrojs/vercel": "^9.0.2",
+    "@astrojs/vercel": "^9.0.4",
     "@expressive-code/plugin-line-numbers": "^0.41.6",
     "@resvg/resvg-js": "^2.6.2",
-    "@tailwindcss/vite": "^4.1.17",
-    "astro": "^5.16.2",
+    "@tailwindcss/vite": "^4.1.18",
+    "astro": "^5.17.1",
     "astro-expressive-code": "^0.41.6",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
-    "satori": "^0.18.3",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "satori": "^0.18.4",
     "sharp": "^0.34.5",
-    "tailwindcss": "^4.1.17"
+    "tailwindcss": "^4.1.18"
   },
   "devDependencies": {
-    "@types/react": "^19.2.7",
+    "@types/react": "^19.2.10",
     "@types/react-dom": "^19.2.3"
   }
 }

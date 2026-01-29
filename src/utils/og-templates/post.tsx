@@ -1,7 +1,7 @@
 import type { CollectionEntry } from "astro:content";
 import React from "react";
 
-export default (post: CollectionEntry<"posts">, profileImage: string) => {
+export default (post: CollectionEntry<"essays">, profileImage: string) => {
   return (
     <div
       style={{

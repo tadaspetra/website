@@ -9,12 +9,12 @@ const fontPath = join(
   process.cwd(),
   "public",
   "fonts",
-  "LaBelleAurore-Regular.ttf"
+  "LaBelleAurore-Regular.ttf",
 );
 const fontBuffer = readFileSync(fontPath);
 const fontData = fontBuffer.buffer.slice(
   fontBuffer.byteOffset,
-  fontBuffer.byteOffset + fontBuffer.byteLength
+  fontBuffer.byteOffset + fontBuffer.byteLength,
 );
 
 // Read profile image and convert to base64
@@ -43,7 +43,7 @@ async function svgBufferToPngBuffer(svg: string) {
   return pngData.asPng();
 }
 
-export async function generateOgImageForPost(post: CollectionEntry<"posts">) {
+export async function generateOgImageForPost(post: CollectionEntry<"essays">) {
   const svg = await satori(postOgImage(post, imageBase64), options);
   return svgBufferToPngBuffer(svg);
 }

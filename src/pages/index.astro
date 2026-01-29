@@ -3,17 +3,14 @@ import Layout from "../layouts/Layout.astro";
 import EntryCard from "../components/EntryCard.astro";
 import { getCollection } from "astro:content";
 
-const essays = await getCollection(
-  "posts",
-  ({ id, data }) => id.startsWith("essays/") && !data.draft,
-);
+const essays = await getCollection("essays", ({ data }) => !data.draft);
 
 const sortedEssays = essays
   .sort((a, b) => b.data.pubDatetime.valueOf() - a.data.pubDatetime.valueOf())
   .map((post) => ({
     title: post.data.title,
-    // essays/how-computers-work/index.mdx -> how-computers-work
-    slug: post.id.split("/")[1],
+    // how-computers-work/index.mdx -> how-computers-work
+    slug: post.id.split("/")[0],
   }));
 ---
 

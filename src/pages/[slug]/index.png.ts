@@ -3,13 +3,11 @@ import { getCollection, type CollectionEntry } from "astro:content";
 import { generateOgImageForPost } from "../../utils/generateOgImages";
 
 export async function getStaticPaths() {
-  const essays = await getCollection("posts", ({ id, data }) =>
-    id.startsWith("essays/") && !data.draft
-  );
+  const essays = await getCollection("essays", ({ data }) => !data.draft);
 
   return essays.map(post => {
-    // essays/how-computers-work/index.mdx -> how-computers-work
-    const slug = post.id.split("/")[1];
+    // how-computers-work/index.mdx -> how-computers-work
+    const slug = post.id.split("/")[0];
     return {
       params: { slug },
       props: post,
@@ -18,6 +16,6 @@ export async function getStaticPaths() {
 }
 
 export const GET: APIRoute = async ({ props }) =>
-  new Response(await generateOgImageForPost(props as CollectionEntry<"posts">), {
+  new Response(await generateOgImageForPost(props as CollectionEntry<"essays">), {
     headers: { "Content-Type": "image/png" },
   });

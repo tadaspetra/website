@@ -13,21 +13,20 @@ const { href, title, description, logo } = Astro.props;
   href={href}
   class="plain-link block px-4 py-3 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors group"
 >
-  <div class="flex items-center gap-3">
-    {logo && (
+  <div>
+    {logo ? (
       <img
         src={logo}
-        alt=""
-        class="w-5 h-5 flex-shrink-0 opacity-70 grayscale dark:invert"
+        alt={title}
+        class="h-5 w-auto opacity-80 dark:invert mb-1"
       />
-    )}
-    <div>
+    ) : (
       <div class="text-sm sm:text-base">{title}</div>
-      <div
-        class="text-sm sm:text-base text-neutral-500 dark:text-neutral-400 mt-0.5"
-      >
-        {description}
-      </div>
+    )}
+    <div
+      class="text-sm sm:text-base text-neutral-500 dark:text-neutral-400 mt-0.5"
+    >
+      {description}
     </div>
   </div>
 </a>

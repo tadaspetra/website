@@ -3,24 +3,18 @@ import Layout from "../layouts/Layout.astro";
 import EntryCard from "../components/EntryCard.astro";
 import { getCollection } from "astro:content";
 
-const posts = await getCollection("posts", ({ data }) => !data.draft);
+const essays = await getCollection(
+  "posts",
+  ({ id, data }) => id.startsWith("essays/") && !data.draft,
+);
 
-// Sort by date (newest first) and extract slug from id
-const sortedPosts = posts
+const sortedEssays = essays
   .sort((a, b) => b.data.pubDatetime.valueOf() - a.data.pubDatetime.valueOf())
-  .map((post) => {
-    // Handle both flat files (2024/post-name.md) and folder-based (essays/how-computers-work/index.mdx)
-    const parts = post.id.split("/");
-    const filename = parts.pop() ?? "";
-    // Remove .md or .mdx extension
-    const basename = filename.replace(/\.mdx?$/, "");
-    // If basename is "index", use the parent folder name as slug
-    const slug = basename === "index" ? (parts.pop() ?? post.id) : basename;
-    return {
-      title: post.data.title,
-      slug,
-    };
-  });
+  .map((post) => ({
+    title: post.data.title,
+    // essays/how-computers-work/index.mdx -> how-computers-work
+    slug: post.id.split("/")[1],
+  }));
 ---
 
 <Layout
@@ -152,7 +146,7 @@ const sortedPosts = posts
       <h2 class="mt-16">my writing</h2>
       <div class="space-y-0">
         {
-          sortedPosts.map((post) => (
+          sortedEssays.map((post) => (
             <a
               href={`/${post.slug}`}
               class="plain-link block px-4 py-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-sm sm:text-base"

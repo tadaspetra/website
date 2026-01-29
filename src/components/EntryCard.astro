@@ -4,30 +4,65 @@ interface Props {
   title: string;
   description: string;
   logo?: string;
+  logoText?: string;
+  class?: string;
 }
 
-const { href, title, description, logo } = Astro.props;
+const {
+  href,
+  title,
+  description,
+  logo,
+  logoText,
+  class: className = "h-6",
+} = Astro.props;
+
+// Map Tailwind height classes to rem values for text sizing
+const heightToSize: Record<string, string> = {
+  "h-3": "0.875rem",
+  "h-4": "1rem",
+  "h-5": "1.125rem",
+  "h-6": "1.25rem",
+};
+
+// Extract the height class (e.g., "h-5" from "h-5 -ml-1")
+const heightClass =
+  className.split(" ").find((c) => c.match(/^h-\d+$/)) || "h-6";
+const fontSize = heightToSize[heightClass] || "1.5rem";
 ---
 
 <a
   href={href}
   class="plain-link block px-4 py-3 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors group"
 >
-  <div class="flex items-center gap-3">
-    {logo && (
-      <img
-        src={logo}
-        alt=""
-        class="w-5 h-5 flex-shrink-0 opacity-70 grayscale dark:invert"
-      />
-    )}
-    <div>
-      <div class="text-sm sm:text-base">{title}</div>
-      <div
-        class="text-sm sm:text-base text-neutral-500 dark:text-neutral-400 mt-0.5"
-      >
-        {description}
-      </div>
+  <div>
+    {
+      logo ? (
+        <div class="flex items-center gap-2 mb-1">
+          <img
+            src={logo}
+            alt={title}
+            class={`${className} w-auto max-w-56 object-contain dark:invert`}
+          />
+          {logoText && (
+            <span
+              class="-ml-0.5 leading-none font-medium tracking-tighter"
+              style={`font-size: ${fontSize};`}
+            >
+              {logoText}
+            </span>
+          )}
+        </div>
+      ) : (
+        <div class={`${className} flex items-center font-medium mb-1`}>
+          {title}
+        </div>
+      )
+    }
+    <div
+      class="text-sm sm:text-base text-neutral-500 dark:text-neutral-400 mt-0.5"
+    >
+      {description}
     </div>
   </div>
 </a>

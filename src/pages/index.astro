@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import EntryCard from "../components/EntryCard.astro";
+import { PreviousThings } from "../components/PreviousThings";
 import { getCollection } from "astro:content";
 
 const essays = await getCollection("essays", ({ data }) => !data.draft);
@@ -12,6 +13,45 @@ const sortedEssays = essays
     // how-computers-work/index.mdx -> how-computers-work
     slug: post.id.split("/")[0],
   }));
+
+const previousItems = [
+  {
+    href: "https://youtube.com/@tadaspetra",
+    title: "Youtube",
+    description: "Sharing what I learn.",
+    logo: "/logos/youtube.svg",
+    logoClass: "h-5 pb-1",
+  },
+  {
+    href: "https://agora.io",
+    title: "Agora",
+    description: "Senior Developer Advocate leading content and product.",
+    logo: "/logos/agora.svg",
+    logoClass: "h-4",
+  },
+  {
+    href: "https://zerotomastery.io/courses/flutter-bootcamp/",
+    title: "Zero To Mastery",
+    description: "Instructor for Flutter Bootcamp.",
+    logo: "/logos/ztm.svg",
+    logoClass: "h-3",
+    logoText: "Zero To Mastery",
+  },
+  {
+    href: "https://international.com",
+    title: "International",
+    description: "Senior Software Low Level Engineer.",
+    logo: "/logos/international.png",
+    logoClass: "h-4 pb-1",
+  },
+  {
+    href: "https://developers.google.com/profile/u/107281012378384773706",
+    title: "GDE",
+    description: "Google Developer Expert for Flutter and Dart since 2021.",
+    logo: "/logos/google.svg",
+    logoClass: "h-5",
+  },
+];
 ---
 
 <Layout
@@ -78,8 +118,7 @@ const sortedEssays = essays
         build.
       </p>
 
-      <h2 class="mt-16">what i am working on</h2>
-      <div class="space-y-0">
+      <div class="space-y-0 mt-10 pb-0 mb-0">
         <EntryCard
           href="https://elevenlabs.io"
           title="ElevenLabs"
@@ -90,57 +129,15 @@ const sortedEssays = essays
         <EntryCard
           href="https://hungrimind.com"
           title="Hungrimind"
-          description="Interactive learning platform for Flutter and Dart."
+          description="Founder"
           logo="/logos/hungrimind.png"
           class="h-5"
         />
-        <EntryCard
-          href="https://youtube.com/@tadaspetra"
-          title="Youtube"
-          description="Sharing what I learn."
-          logo="/logos/youtube.svg"
-          class="h-5 pb-1"
-        />
       </div>
 
-      <h2 class="mt-16">places i have worked</h2>
-      <div class="space-y-0">
-        <EntryCard
-          href="https://agora.io"
-          title="Agora"
-          description="Senior Developer Advocate leading content and product."
-          logo="/logos/agora.svg"
-          class="h-4"
-        />
-        <EntryCard
-          href="https://zerotomastery.io/courses/flutter-bootcamp/"
-          title="Zero To Mastery"
-          description="Instructor for Flutter Bootcamp."
-          logo="/logos/ztm.svg"
-          logoText="Zero To Mastery"
-          class="h-3"
-        />
-        <EntryCard
-          href="https://international.com"
-          title="International"
-          description="Senior Software Low Level Engineer."
-          logo="/logos/international.png"
-          class="h-4 pb-1"
-        />
-      </div>
+      <PreviousThings items={previousItems} client:load />
 
-      <h2 class="mt-16">things i am proud of</h2>
-      <div class="space-y-0">
-        <EntryCard
-          href="https://developers.google.com/profile/u/107281012378384773706"
-          title="GDE"
-          description="Google Developer Expert for Flutter and Dart since 2021."
-          logo="/logos/google.svg"
-          class="h-5"
-        />
-      </div>
-
-      <h2 class="mt-16">my writing</h2>
+      <h2 class="mt-16">essays</h2>
       <div class="space-y-0">
         {
           sortedEssays.map((post) => (

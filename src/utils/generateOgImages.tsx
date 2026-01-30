@@ -9,16 +9,16 @@ const fontPath = join(
   process.cwd(),
   "public",
   "fonts",
-  "LaBelleAurore-Regular.ttf",
+  "LaBelleAurore-Regular.ttf"
 );
 const fontBuffer = readFileSync(fontPath);
 const fontData = fontBuffer.buffer.slice(
   fontBuffer.byteOffset,
-  fontBuffer.byteOffset + fontBuffer.byteLength,
+  fontBuffer.byteOffset + fontBuffer.byteLength
 );
 
 // Read profile image and convert to base64
-const imagePath = join(process.cwd(), "public", "bw-pic.png");
+const imagePath = join(process.cwd(), "public", "profile-white.png");
 const imageBuffer = readFileSync(imagePath);
 const imageBase64 = `data:image/png;base64,${imageBuffer.toString("base64")}`;
 

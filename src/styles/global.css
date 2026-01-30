@@ -285,6 +285,8 @@
   /* Inline code styling (not inside pre blocks) */
   :not(pre) > code {
     @apply bg-white dark:bg-neutral-950 px-2 py-0.5 rounded-md border border-neutral-200 dark:border-neutral-700 text-sm not-italic;
+    overflow-wrap: break-word;
+    word-break: break-all;
   }
 
   :not(pre) > code span {

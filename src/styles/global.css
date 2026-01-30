@@ -305,6 +305,11 @@
     background-color: #1e1e2e;
   }
 
+  /* Expressive Code wrapper spacing */
+  .expressive-code {
+    margin-bottom: 0.5em !important;
+  }
+
   :root:not(.dark) pre {
     background-color: #eff1f5;
   }

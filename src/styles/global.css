@@ -282,13 +282,40 @@
     @apply block mt-2;
   }
 
-  /* Inline code styling (not inside pre blocks) */
-  :not(pre) > code {
+  /* Inline code styling */
+  code {
     @apply bg-white dark:bg-neutral-950 px-2 py-0.5 rounded-md border border-neutral-200 dark:border-neutral-700 text-sm not-italic;
+    display: inline;
+    overflow-wrap: break-word;
+    word-break: break-all;
   }
 
-  :not(pre) > code span {
+  code span {
     @apply text-sm not-italic;
+  }
+
+  /* Code block (pre) styling */
+  pre {
+    padding: 1.5em;
+    border-radius: 8px;
+    margin: 2.5em 0;
+    overflow: auto;
+    word-wrap: normal;
+    white-space: pre;
+    background-color: #1e1e2e;
+  }
+
+  /* Expressive Code wrapper spacing */
+  .expressive-code {
+    margin-bottom: 0.5em !important;
+  }
+
+  :root:not(.dark) pre {
+    background-color: #eff1f5;
+  }
+
+  pre code {
+    @apply bg-transparent dark:bg-transparent p-0 rounded-none border-0 text-sm not-italic;
   }
 
   article hr {

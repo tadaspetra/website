@@ -34,26 +34,20 @@ export function PreviousThings({ items }: PreviousThingsProps) {
     <div className="mt-0 pt-0">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors cursor-pointer bg-transparent border-none p-0 text-base ml-4 flex items-center gap-1.5 ${
-          isOpen
-            ? "text-neutral-600 dark:text-neutral-300"
-            : "text-neutral-400 dark:text-neutral-500"
-        }`}
+        className="flex items-center gap-3 w-full cursor-pointer bg-transparent border-none p-0 group"
       >
-        <svg
-          className={`w-4 h-4 transition-transform duration-200 ${
-            isOpen ? "rotate-90" : ""
+        <span
+          className={`text-xs tracking-widest uppercase transition-colors whitespace-nowrap my-1 ${
+            isOpen
+              ? "text-neutral-500 dark:text-neutral-400"
+              : "text-neutral-400 dark:text-neutral-500 group-hover:text-neutral-500 dark:group-hover:text-neutral-400 mx-4"
           }`}
-          fill="currentColor"
-          viewBox="0 0 20 20"
         >
-          <path
-            fillRule="evenodd"
-            d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
-            clipRule="evenodd"
-          />
-        </svg>
-        previous work
+          {isOpen ? "Close previous work" : <>Show previous work <span className="leading-none relative -top-px">+</span></>}
+        </span>
+        {isOpen && (
+          <span className="flex-1 h-px bg-neutral-200 dark:bg-neutral-700" />
+        )}
       </button>
 
       <div

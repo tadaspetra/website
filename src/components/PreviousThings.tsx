@@ -61,7 +61,7 @@ export function PreviousThings({ items }: PreviousThingsProps) {
           isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
         }`}
       >
-        <div className="overflow-hidden pt-2">
+        <div className="overflow-hidden pt-2 grid grid-cols-1 sm:grid-cols-2">
           {items.map((item, index) => {
             const heightClass = getHeightClass(item.logoClass || "h-6");
             const fontSize = heightToSize[heightClass] || "1.5rem";

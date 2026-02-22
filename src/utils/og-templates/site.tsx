@@ -15,22 +15,20 @@ export default (profileImage: string) => {
     >
       <img
         src={profileImage}
-        width={100}
-        height={100}
+        width={200}
+        height={200}
         style={{
           borderRadius: 16,
-          marginBottom: 36,
-          marginRight: 5,
         }}
       />
       <span
         style={{
           fontSize: 96,
-          fontFamily: "La Belle Aurore",
+          fontFamily: "Fraunces",
           color: "#171717",
         }}
       >
-        tadas petra
+        Tadas Petra
       </span>
     </div>
   );

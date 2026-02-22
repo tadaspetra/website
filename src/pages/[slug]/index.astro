@@ -31,9 +31,12 @@ const ogImage = `/${slug}/index.png`;
   <main class="max-w-2xl mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-24">
     <article class="prose dark:prose-invert prose-neutral max-w-none">
       <h2 class="mb-0">{post.data.title}</h2>
-      <p class="text-neutral-500 dark:text-neutral-400 -mt-2 pt-0 mb-8">
+      <a
+        href="/"
+        class="no-underline text-neutral-500 dark:text-neutral-400 pt-0hover:text-neutral-700 dark:hover:text-neutral-300"
+      >
         By Tadas Petra
-      </p>
+      </a>
       {post.data.sources && <Sources sources={post.data.sources} client:load />}
       <Content />
     </article>

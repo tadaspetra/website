@@ -15,7 +15,7 @@ export function Sources({ sources }: SourcesProps) {
   if (!sources || sources.length === 0) return null;
 
   return (
-    <div className="mb-12">
+    <div className="mb-12 mt-4">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="text-neutral-400 dark:text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors cursor-pointer bg-transparent border-none p-0 text-sm flex items-center gap-1.5"

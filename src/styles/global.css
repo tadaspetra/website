@@ -14,24 +14,16 @@
   font-display: swap;
 }
 
-@font-face {
-  font-family: "La Belle Aurore";
-  src: url("/fonts/LaBelleAurore-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: block;
-}
-
 @import "tailwindcss";
 
 @theme {
   --font-inter: "Inter", sans-serif;
-  --font-la-belle-aurore: "La Belle Aurore", cursive;
+  --font-fraunces: "Fraunces", Georgia, "Times New Roman", serif;
 }
 
 @layer base {
   h1 {
-    font-family: var(--font-la-belle-aurore);
+    font-family: var(--font-fraunces);
     font-size: 1.875rem;
     line-height: 2.25rem;
     margin-bottom: 1.5rem;
@@ -46,7 +38,7 @@
   }
 
   h2 {
-    font-family: var(--font-la-belle-aurore);
+    font-family: var(--font-fraunces);
     font-size: 1.5rem;
     line-height: 2rem;
     margin-bottom: 1rem;
@@ -135,7 +127,7 @@
   article h1,
   article h2,
   article h3 {
-    @apply font-la-belle-aurore mt-8 pb-4 pt-4;
+    @apply font-fraunces mt-16 mb-8 pt-8;
   }
 
   article img {

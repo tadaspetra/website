@@ -10,51 +10,34 @@ export default (post: CollectionEntry<"essays">, profileImage: string) => {
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
+        justifyContent: "center",
         padding: "60px 80px",
+        position: "relative",
       }}
     >
-      {/* Title */}
       <p
         style={{
           fontSize: 96,
-          fontFamily: "La Belle Aurore",
+          fontFamily: "Fraunces",
           color: "#171717",
           lineHeight: 1.2,
-          marginTop: 50,
           maxWidth: "95%",
         }}
       >
         {post.data.title}
       </p>
 
-      {/* Footer with image and name */}
-      <div
+      <img
+        src={profileImage}
+        width={100}
+        height={100}
         style={{
-          display: "flex",
-          alignItems: "center",
-          gap: 20,
+          borderRadius: 12,
+          position: "absolute",
+          bottom: 50,
+          right: 80,
         }}
-      >
-        <img
-          src={profileImage}
-          width={56}
-          height={56}
-          style={{
-            borderRadius: 8,
-          }}
-        />
-        <span
-          style={{
-            fontSize: 48,
-            fontFamily: "La Belle Aurore",
-            color: "#525252",
-            marginTop: 16,
-          }}
-        >
-          tadas petra
-        </span>
-      </div>
+      />
     </div>
   );
 };

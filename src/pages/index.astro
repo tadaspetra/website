@@ -70,9 +70,9 @@ const previousItems = [
           class="w-32 h-32 sm:w-40 sm:h-40 rounded-lg object-cover"
         />
         <div>
-          <h1 class="mb-0 leading-none pt-2">tadas petra</h1>
+          <h1 class="mb-0 leading-none pt-2">Tadas Petra</h1>
           <p
-            class="text-sm text-neutral-400 dark:text-neutral-500 -mt-1 flex items-center gap-1"
+            class="text-sm text-neutral-400 dark:text-neutral-500 ml-1.5 flex items-center gap-1"
           >
             tah-dahs pet-rah
           </p>
@@ -103,14 +103,16 @@ const previousItems = [
           href="https://hungrimind.com"
           title="Hungrimind"
           description="Founder"
-          logo="/logos/hungrimind.png"
-          class="h-5"
+          logo="/logos/hungrimind-icon.png"
+          logoText="hungrimind"
+          logoTextClass="font-fraunces"
+          class="h-4"
         />
       </div>
 
       <PreviousThings items={previousItems} client:load />
 
-      <h2 class="mt-16">essays</h2>
+      <h2 class="mt-16">Essays</h2>
       <div class="space-y-0">
         {
           sortedEssays.map((post) => (

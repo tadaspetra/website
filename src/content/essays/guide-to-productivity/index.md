@@ -12,7 +12,7 @@ Get hooked on **the thing** so hard that you would rather work on that thing tha
 
 I’ve read so many books on productivity, habits, and every topic related.
 
-![Productivity Books](images/books.png)
+![Productivity Books](./_assets/books.png)
 
 I’ve watched most of the videos from Ali Abdaal, Thomas Frank, Matt D’Avella, Better Ideas, and Better Than Yesterday. (All great YouTube channels and highly recommend.)
 

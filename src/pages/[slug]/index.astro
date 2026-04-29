@@ -18,6 +18,12 @@ export async function getStaticPaths() {
 
 const { post, slug } = Astro.props;
 const { Content } = await post.render();
+const formattedDate = new Intl.DateTimeFormat("en", {
+  month: "short",
+  day: "numeric",
+  year: "numeric",
+  timeZone: "UTC",
+}).format(post.data.pubDatetime);
 
 // OG image URL for this post
 const ogImage = `/${slug}/index.png`;
@@ -30,14 +36,26 @@ const ogImage = `/${slug}/index.png`;
 >
   <main class="max-w-2xl mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-24">
     <article class="prose dark:prose-invert prose-neutral max-w-none">
-      <h2 class="mb-0">{post.data.title}</h2>
-      <a
-        href="/"
-        class="no-underline text-neutral-500 dark:text-neutral-400 pt-0hover:text-neutral-700 dark:hover:text-neutral-300"
-      >
-        By Tadas Petra
-      </a>
-      {post.data.sources && <Sources sources={post.data.sources} client:load />}
+      <header class="mb-12">
+        <h2 class="mb-0">{post.data.title}</h2>
+        <div class="text-sm text-neutral-500 dark:text-neutral-400">
+          <a
+            href="/"
+            class="no-underline text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300"
+          >
+            By Tadas Petra
+          </a>
+          <span class="mx-1.5 text-neutral-300 dark:text-neutral-600">·</span>
+          <time datetime={post.data.pubDatetime.toISOString()}>{formattedDate}</time>
+        </div>
+        {
+          post.data.sources && (
+            <div class="mt-4">
+              <Sources sources={post.data.sources} client:load />
+            </div>
+          )
+        }
+      </header>
       <Content />
     </article>
   </main>

@@ -38,7 +38,7 @@ I know exactly the type of videos and tweets that I need to make to generate a l
 - Lists
 - Just general stuff that doesn’t really help anyone (here’s an example below from me)
 
-![Tweet with Impressions](images/top-tweet.png)
+![Tweet with Impressions](./_assets/top-tweet.png)
 ￼
 
 ### Viral Flutter YouTube Video Ideas

@@ -6,6 +6,10 @@ tags:
 description: What would I do if I got diagnosed with a terminal illness?
 ---
 
+> Notes
+> 
+> April 28, 2026 - I don't remember what caused me to write this dramatically titled article, but the idea still feels powerful.
+
 As I ponder my death, I ask myself what I would do if I was diagnosed terminally ill today? What would I change about my life?
 
 Two things came to mind extremely fast. I’d spend time with family and friends, and I’d set them up to have success after I have passed.

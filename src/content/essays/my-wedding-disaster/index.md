@@ -1,6 +1,6 @@
 ---
 pubDatetime: 2024-02-06
-title: My Disaster Wedding
+title: My Wedding Disaster
 tags:
   - personal
 description: Getting married was one of the most stressful periods of my life.

@@ -1,0 +1,105 @@
+---
+interface Props {
+  variant?: "home" | "compact";
+}
+
+const { variant = "compact" } = Astro.props;
+const isHome = variant === "home";
+---
+
+<section
+  class:list={[
+    "newsletter-signup",
+    isHome ? "newsletter-signup-home" : "newsletter-signup-compact",
+  ]}
+  data-newsletter-signup
+>
+  <div class="newsletter-signup-copy">
+    <h2>Newsletter</h2>
+    <p>
+      Sign up for founder insights, AI observations, and clear explanations of
+      things I'm learning along the way.
+    </p>
+  </div>
+
+  <form class="newsletter-signup-form" data-newsletter-form>
+    <label class="sr-only" for={`newsletter-email-${variant}`}>Email address</label>
+    <input
+      id={`newsletter-email-${variant}`}
+      name="email"
+      type="email"
+      autocomplete="email"
+      placeholder="Enter your email"
+      required
+      data-newsletter-email
+    />
+    <button type="submit" data-newsletter-submit>
+      Subscribe
+    </button>
+  </form>
+
+  <p class="newsletter-signup-message" data-newsletter-message aria-live="polite">
+  </p>
+</section>
+
+<script>
+  const subscribedStorageKey = "newsletter-signed-up";
+
+  document.querySelectorAll<HTMLElement>("[data-newsletter-signup]").forEach((signup) => {
+    const form = signup.querySelector<HTMLFormElement>("[data-newsletter-form]");
+    const emailInput = signup.querySelector<HTMLInputElement>("[data-newsletter-email]");
+    const submitButton = signup.querySelector<HTMLButtonElement>("[data-newsletter-submit]");
+    const message = signup.querySelector<HTMLElement>("[data-newsletter-message]");
+
+    if (!form || !emailInput || !submitButton || !message) {
+      return;
+    }
+
+    if (localStorage.getItem(subscribedStorageKey) === "true") {
+      signup.hidden = true;
+      return;
+    }
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const email = emailInput.value.trim();
+      if (!email) {
+        return;
+      }
+
+      submitButton.disabled = true;
+      message.textContent = "Signing you up...";
+
+      try {
+        const response = await fetch("/api/newsletter", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result?.message || "Something went wrong.");
+        }
+
+        localStorage.setItem(subscribedStorageKey, "true");
+        form.reset();
+        message.textContent = "You're on the list. Thank you.";
+        window.setTimeout(() => {
+          signup.hidden = true;
+        }, 1200);
+      } catch (error) {
+        message.textContent =
+          error instanceof Error
+            ? error.message
+            : "Something went wrong. Please try again.";
+      } finally {
+        submitButton.disabled = false;
+      }
+    });
+  });
+</script>

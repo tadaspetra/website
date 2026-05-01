@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import EntryCard from "../components/EntryCard.astro";
+import NewsletterSignup from "../components/NewsletterSignup.astro";
 import { PreviousThings } from "../components/PreviousThings";
 import { getCollection } from "astro:content";
 
@@ -80,7 +81,7 @@ const previousItems = [
       </div>
     </div>
 
-    <div class="space-y-5 sm:space-y-6 text-base sm:text-lg leading-relaxed">
+    <div class="text-base sm:text-lg leading-relaxed">
       <!-- <p>
         I find joy in building quality products and sharing how I do it. My goal
         is to lower barriers to entry for developers to build cool things.
@@ -88,7 +89,7 @@ const previousItems = [
         In constant conflict with an inner artist and engineer. 
       </p> -->
 
-      <p class="text-neutral-500 dark:text-neutral-400">
+      <p class="px-4 text-sm sm:text-base text-neutral-500 dark:text-neutral-400">
         I find joy in understanding how things work and explaining them in a way
         that creates clarity and awe. Here's where I'm currently doing that.
       </p>
@@ -114,7 +115,9 @@ const previousItems = [
 
       <PreviousThings items={previousItems} client:load />
 
-      <h2 class="mt-16">Essays</h2>
+      <NewsletterSignup variant="home" />
+
+      <h2 class="mt-16 px-4">Essays</h2>
       <div class="space-y-0">
         {
           sortedEssays.map((post) => (

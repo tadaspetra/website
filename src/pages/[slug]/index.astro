@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
+import NewsletterSignup from "../../components/NewsletterSignup.astro";
 import { Sources } from "../../components/Sources.tsx";
 
 export async function getStaticPaths() {
@@ -58,5 +59,6 @@ const ogImage = `/${slug}/index.png`;
       </header>
       <Content />
     </article>
+    <NewsletterSignup />
   </main>
 </Layout>

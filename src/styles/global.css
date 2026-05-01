@@ -463,6 +463,70 @@
     @apply opacity-60 cursor-not-allowed;
   }
 
+  .newsletter-signup {
+    @apply px-4 py-3 rounded-lg;
+  }
+
+  .newsletter-signup[hidden] {
+    display: none;
+  }
+
+  .newsletter-signup-home {
+    @apply mt-16;
+  }
+
+  .newsletter-signup-compact {
+    @apply -mt-32 mb-24 px-0 pt-8;
+  }
+
+  .newsletter-signup-copy h2 {
+    @apply mb-2 font-fraunces text-2xl sm:text-3xl leading-tight text-neutral-900 dark:text-white;
+  }
+
+  .newsletter-signup-copy p {
+    @apply text-sm sm:text-base text-neutral-500 dark:text-neutral-400 mb-3 leading-relaxed;
+  }
+
+  .newsletter-signup-form {
+    @apply flex items-center gap-2 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 p-1.5 transition-colors;
+  }
+
+  .newsletter-signup-form:focus-within {
+    @apply border-neutral-400 dark:border-neutral-500;
+  }
+
+  .newsletter-signup-form input {
+    @apply min-w-0 flex-1 rounded-lg border-0 bg-transparent px-2 sm:px-3 py-1.5 text-base text-neutral-900 dark:text-white outline-none;
+  }
+
+  .newsletter-signup-form input:focus {
+    @apply outline-none;
+  }
+
+  .newsletter-signup-form input::placeholder {
+    @apply text-neutral-400 dark:text-neutral-500;
+  }
+
+  .newsletter-signup-message {
+    @apply mt-2 text-sm text-neutral-500 dark:text-neutral-400;
+  }
+
+  .newsletter-signup-message:empty {
+    display: none;
+  }
+
+  .newsletter-signup-form button {
+    @apply shrink-0 rounded-lg bg-neutral-900 dark:bg-white px-3.5 py-1.5 text-sm font-medium text-white dark:text-neutral-900 transition-colors;
+  }
+
+  .newsletter-signup-form button:hover:not(:disabled) {
+    @apply bg-neutral-700 dark:bg-neutral-200;
+  }
+
+  .newsletter-signup-form button:disabled {
+    @apply opacity-60 cursor-not-allowed;
+  }
+
   /* Size variant: small header button */
   .btn-sketch-sm {
     @apply px-4 py-2 text-sm rounded-lg;

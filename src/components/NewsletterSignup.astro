@@ -9,12 +9,12 @@ const isHome = variant === "home";
 
 <section
   class:list={[
-    "newsletter-signup",
-    isHome ? "newsletter-signup-home" : "newsletter-signup-compact",
+    "letter-box",
+    isHome ? "letter-box-home" : "letter-box-compact",
   ]}
-  data-newsletter-signup
+  data-letter-box
 >
-  <div class="newsletter-signup-copy">
+  <div class="letter-box-copy">
     <h2>Newsletter</h2>
     <p>
       Sign up for founder insights, AI observations, and clear explanations of
@@ -22,43 +22,45 @@ const isHome = variant === "home";
     </p>
   </div>
 
-  <form class="newsletter-signup-form" data-newsletter-form>
-    <label class="sr-only" for={`newsletter-email-${variant}`}>Email address</label>
+  <form class="letter-box-form" data-letter-form>
+    <label class="sr-only" for={`letter-email-${variant}`}>Email address</label>
     <input
-      id={`newsletter-email-${variant}`}
+      id={`letter-email-${variant}`}
       name="email"
       type="email"
       autocomplete="email"
       placeholder="Enter your email"
       required
-      data-newsletter-email
+      data-letter-email
     />
-    <button type="submit" data-newsletter-submit>
+    <button type="submit" data-letter-submit>
       Subscribe
     </button>
   </form>
 
-  <p class="newsletter-signup-message" data-newsletter-message aria-live="polite">
+  <p class="letter-box-message" data-letter-message aria-live="polite">
   </p>
 </section>
 
 <script>
-  const subscribedStorageKey = "newsletter-signed-up";
+  const subscribedStorageKeys = ["letter-box-joined", "newsletter-signed-up"];
 
-  document.querySelectorAll<HTMLElement>("[data-newsletter-signup]").forEach((signup) => {
-    const form = signup.querySelector<HTMLFormElement>("[data-newsletter-form]");
-    const emailInput = signup.querySelector<HTMLInputElement>("[data-newsletter-email]");
-    const submitButton = signup.querySelector<HTMLButtonElement>("[data-newsletter-submit]");
-    const message = signup.querySelector<HTMLElement>("[data-newsletter-message]");
+  document.querySelectorAll<HTMLElement>("[data-letter-box]").forEach((box) => {
+    const form = box.querySelector<HTMLFormElement>("[data-letter-form]");
+    const emailInput = box.querySelector<HTMLInputElement>("[data-letter-email]");
+    const submitButton = box.querySelector<HTMLButtonElement>("[data-letter-submit]");
+    const message = box.querySelector<HTMLElement>("[data-letter-message]");
 
     if (!form || !emailInput || !submitButton || !message) {
       return;
     }
 
-    if (localStorage.getItem(subscribedStorageKey) === "true") {
-      signup.hidden = true;
+    if (subscribedStorageKeys.some((key) => localStorage.getItem(key) === "true")) {
+      box.hidden = true;
       return;
     }
+
+    document.documentElement.classList.add("show-letter-box");
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -86,11 +88,11 @@ const isHome = variant === "home";
           throw new Error(result?.message || "Something went wrong.");
         }
 
-        localStorage.setItem(subscribedStorageKey, "true");
+        localStorage.setItem(subscribedStorageKeys[0], "true");
         form.reset();
         message.textContent = "You're on the list. Thank you.";
         window.setTimeout(() => {
-          signup.hidden = true;
+          box.hidden = true;
         }, 1200);
       } catch (error) {
         message.textContent =

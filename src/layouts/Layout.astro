@@ -61,6 +61,16 @@ const ogImageURL = new URL(ogImage, Astro.site).toString();
         if (theme === "dark") {
           document.documentElement.classList.add("dark");
         }
+
+        const hasJoinedLetterBox =
+          localStorage.getItem("letter-box-joined") === "true" ||
+          localStorage.getItem("newsletter-signed-up") === "true";
+
+        if (hasJoinedLetterBox) {
+          document.documentElement.classList.add("has-joined-letter-box");
+        } else {
+          document.documentElement.classList.add("show-letter-box");
+        }
       })();
     </script>
   </head>
@@ -68,7 +78,7 @@ const ogImageURL = new URL(ogImage, Astro.site).toString();
     class="bg-white dark:bg-neutral-900 text-gray-900 dark:text-white min-h-screen transition-colors duration-200"
   >
     <slot />
-    <footer class="max-w-2xl mx-auto px-8 sm:px-10 pb-12 sm:pb-16">
+    <footer class="max-w-2xl mx-auto px-4 sm:px-6 pb-12 sm:pb-16">
       <nav
         class="flex flex-wrap gap-x-5 gap-y-2 text-sm text-neutral-500 dark:text-neutral-400"
         aria-label="Footer links"
@@ -77,7 +87,7 @@ const ogImageURL = new URL(ogImage, Astro.site).toString();
           href="https://hungrimind.com"
           target="_blank"
           rel="noopener noreferrer"
-          class="plain-link"
+          class="plain-link text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300"
         >
           Hungrimind
         </a>
@@ -85,7 +95,7 @@ const ogImageURL = new URL(ogImage, Astro.site).toString();
           href="https://youtube.com/@tadaspetra"
           target="_blank"
           rel="noopener noreferrer"
-          class="plain-link"
+          class="plain-link text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300"
         >
           YouTube
         </a>
@@ -93,7 +103,7 @@ const ogImageURL = new URL(ogImage, Astro.site).toString();
           href="https://x.com/tadaspetra"
           target="_blank"
           rel="noopener noreferrer"
-          class="plain-link"
+          class="plain-link text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300"
         >
           X
         </a>

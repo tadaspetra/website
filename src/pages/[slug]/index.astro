@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import NewsletterSignup from "../../components/NewsletterSignup.astro";
-import { Sources } from "../../components/Sources.tsx";
+import Sources from "../../components/Sources.astro";
 
 export async function getStaticPaths() {
   const essays = await getCollection("essays", ({ data }) => !data.draft);
@@ -35,7 +35,7 @@ const ogImage = `/${slug}/index.png`;
   description={post.data.description}
   ogImage={ogImage}
 >
-  <main class="max-w-2xl mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-24">
+  <main class="max-w-2xl mx-auto px-4 sm:px-6 pt-12 sm:pt-16 md:pt-24 pb-0">
     <article class="prose dark:prose-invert prose-neutral max-w-none">
       <header class="mb-12">
         <h2 class="mb-0">{post.data.title}</h2>
@@ -52,7 +52,7 @@ const ogImage = `/${slug}/index.png`;
         {
           post.data.sources && (
             <div class="mt-4">
-              <Sources sources={post.data.sources} client:load />
+              <Sources sources={post.data.sources} />
             </div>
           )
         }

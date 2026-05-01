@@ -2,7 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import EntryCard from "../components/EntryCard.astro";
 import NewsletterSignup from "../components/NewsletterSignup.astro";
-import { PreviousThings } from "../components/PreviousThings";
+import PreviousThings from "../components/PreviousThings.astro";
 import { getCollection } from "astro:content";
 
 const essays = await getCollection("essays", ({ data }) => !data.draft);
@@ -113,7 +113,7 @@ const previousItems = [
         />
       </div>
 
-      <PreviousThings items={previousItems} client:load />
+      <PreviousThings items={previousItems} />
 
       <NewsletterSignup variant="home" />
 

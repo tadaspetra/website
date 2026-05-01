@@ -105,7 +105,7 @@
   }
 
   article {
-    @apply mb-48;
+    @apply mb-12;
   }
 
   article p {
@@ -130,8 +130,16 @@
     @apply font-fraunces mt-16 mb-8 pt-8;
   }
 
+  article p:has(> img:only-child) {
+    @apply pt-0 pb-4;
+  }
+
+  article p:has(> img:only-child) img {
+    @apply rounded-lg;
+  }
+
   article img {
-    @apply max-h-[500px] object-contain py-4;
+    @apply max-h-[500px] object-contain;
   }
 
   article span {
@@ -463,67 +471,76 @@
     @apply opacity-60 cursor-not-allowed;
   }
 
-  .newsletter-signup {
+  .letter-box {
     @apply px-4 py-3 rounded-lg;
-  }
-
-  .newsletter-signup[hidden] {
     display: none;
   }
 
-  .newsletter-signup-home {
+  .show-letter-box .letter-box {
+    display: block;
+  }
+
+  .letter-box[hidden] {
+    display: none;
+  }
+
+  .has-joined-letter-box .letter-box {
+    display: none;
+  }
+
+  .letter-box-home {
     @apply mt-16;
   }
 
-  .newsletter-signup-compact {
-    @apply -mt-32 mb-24 px-0 pt-8;
+  .letter-box-compact {
+    @apply mt-0 mb-12 px-0 pt-8;
   }
 
-  .newsletter-signup-copy h2 {
+  .letter-box-copy h2 {
     @apply mb-2 font-fraunces text-2xl sm:text-3xl leading-tight text-neutral-900 dark:text-white;
   }
 
-  .newsletter-signup-copy p {
+  .letter-box-copy p {
     @apply text-sm sm:text-base text-neutral-500 dark:text-neutral-400 mb-3 leading-relaxed;
   }
 
-  .newsletter-signup-form {
+  .letter-box-form {
     @apply flex items-center gap-2 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 p-1.5 transition-colors;
   }
 
-  .newsletter-signup-form:focus-within {
+  .letter-box-form:focus-within {
     @apply border-neutral-400 dark:border-neutral-500;
   }
 
-  .newsletter-signup-form input {
+  .letter-box-form input {
     @apply min-w-0 flex-1 rounded-lg border-0 bg-transparent px-2 sm:px-3 py-1.5 text-base text-neutral-900 dark:text-white outline-none;
   }
 
-  .newsletter-signup-form input:focus {
+  .letter-box-form input:focus {
     @apply outline-none;
   }
 
-  .newsletter-signup-form input::placeholder {
+  .letter-box-form input::placeholder {
     @apply text-neutral-400 dark:text-neutral-500;
   }
 
-  .newsletter-signup-message {
+  .letter-box-message {
     @apply mt-2 text-sm text-neutral-500 dark:text-neutral-400;
   }
 
-  .newsletter-signup-message:empty {
+  .letter-box-message:empty {
     display: none;
   }
 
-  .newsletter-signup-form button {
+  .letter-box-form button {
     @apply shrink-0 rounded-lg bg-neutral-900 dark:bg-white px-3.5 py-1.5 text-sm font-medium text-white dark:text-neutral-900 transition-colors;
   }
 
-  .newsletter-signup-form button:hover:not(:disabled) {
+  .letter-box-form button:hover:not(:disabled) {
     @apply bg-neutral-700 dark:bg-neutral-200;
   }
 
-  .newsletter-signup-form button:disabled {
+  .letter-box-form button:disabled {
     @apply opacity-60 cursor-not-allowed;
   }
 

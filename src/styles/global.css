@@ -505,7 +505,13 @@
   }
 
   .letter-box-form {
-    @apply flex items-center gap-2 rounded-lg border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 p-1.5 transition-colors;
+    --letter-box-form-padding: 0.375rem;
+    --letter-box-form-radius: 0.875rem;
+
+    @apply flex items-center border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 transition-colors;
+    gap: var(--letter-box-form-padding);
+    padding: var(--letter-box-form-padding);
+    border-radius: var(--letter-box-form-radius);
   }
 
   .letter-box-form:focus-within {
@@ -533,7 +539,11 @@
   }
 
   .letter-box-form button {
-    @apply shrink-0 rounded-lg bg-neutral-900 dark:bg-white px-3.5 py-1.5 text-sm font-medium text-white dark:text-neutral-900 transition-colors;
+    @apply inline-flex shrink-0 items-center bg-neutral-900 dark:bg-white px-3.5 py-1.5 text-sm font-medium text-white dark:text-neutral-900 transition-colors;
+    align-self: stretch;
+    border-radius: calc(
+      var(--letter-box-form-radius) - var(--letter-box-form-padding)
+    );
   }
 
   .letter-box-form button:hover:not(:disabled) {

@@ -68,6 +68,37 @@ const ogImageURL = new URL(ogImage, Astro.site).toString();
     class="bg-white dark:bg-neutral-900 text-gray-900 dark:text-white min-h-screen transition-colors duration-200"
   >
     <slot />
+    <footer class="max-w-2xl mx-auto px-8 sm:px-10 pb-12 sm:pb-16">
+      <nav
+        class="flex flex-wrap gap-x-5 gap-y-2 text-sm text-neutral-500 dark:text-neutral-400"
+        aria-label="Footer links"
+      >
+        <a
+          href="https://hungrimind.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="plain-link"
+        >
+          Hungrimind
+        </a>
+        <a
+          href="https://youtube.com/@tadaspetra"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="plain-link"
+        >
+          YouTube
+        </a>
+        <a
+          href="https://x.com/tadaspetra"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="plain-link"
+        >
+          X
+        </a>
+      </nav>
+    </footer>
     <script>
       // Make all links within article tags open in a new tab
       document.addEventListener("DOMContentLoaded", () => {

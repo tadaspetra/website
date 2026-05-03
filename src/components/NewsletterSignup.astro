@@ -1,9 +1,10 @@
 ---
 interface Props {
   variant?: "home" | "compact";
+  alwaysVisible?: boolean;
 }
 
-const { variant = "compact" } = Astro.props;
+const { variant = "compact", alwaysVisible = false } = Astro.props;
 const isHome = variant === "home";
 ---
 
@@ -11,8 +12,10 @@ const isHome = variant === "home";
   class:list={[
     "letter-box",
     isHome ? "letter-box-home" : "letter-box-compact",
+    alwaysVisible ? "letter-box-always-visible" : "",
   ]}
   data-letter-box
+  data-letter-box-always-visible={alwaysVisible ? "true" : undefined}
 >
   <div class="letter-box-copy">
     <h2>Newsletter</h2>
@@ -50,12 +53,13 @@ const isHome = variant === "home";
     const emailInput = box.querySelector<HTMLInputElement>("[data-letter-email]");
     const submitButton = box.querySelector<HTMLButtonElement>("[data-letter-submit]");
     const message = box.querySelector<HTMLElement>("[data-letter-message]");
+    const alwaysVisible = box.dataset.letterBoxAlwaysVisible === "true";
 
     if (!form || !emailInput || !submitButton || !message) {
       return;
     }
 
-    if (localStorage.getItem(subscribedStorageKey) === "true") {
+    if (!alwaysVisible && localStorage.getItem(subscribedStorageKey) === "true") {
       box.hidden = true;
       return;
     }
@@ -91,9 +95,11 @@ const isHome = variant === "home";
         localStorage.setItem(subscribedStorageKey, "true");
         form.reset();
         message.textContent = "You're on the list. Thank you.";
-        window.setTimeout(() => {
-          box.hidden = true;
-        }, 1200);
+        if (!alwaysVisible) {
+          window.setTimeout(() => {
+            box.hidden = true;
+          }, 1200);
+        }
       } catch (error) {
         message.textContent =
           error instanceof Error

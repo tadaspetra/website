@@ -480,12 +480,20 @@
     display: block;
   }
 
+  .letter-box-always-visible {
+    display: block;
+  }
+
   .letter-box[hidden] {
     display: none;
   }
 
   .has-joined-letter-box .letter-box {
     display: none;
+  }
+
+  .has-joined-letter-box .letter-box-always-visible {
+    display: block;
   }
 
   .letter-box-home {

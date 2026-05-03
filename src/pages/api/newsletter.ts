@@ -2,13 +2,17 @@ import type { APIRoute } from "astro";
 
 const resendAudienceId = "74cfa5dc-561e-42dc-8c9b-8732a9a6876e";
 const resendApiUrl = `https://api.resend.com/audiences/${resendAudienceId}/contacts`;
+const resendEventsApiUrl = "https://api.resend.com/events/send";
+const defaultNewsletterSignupEvent = "newsletter.signup";
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export const prerender = false;
 
-export const POST: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request, url }) => {
   const apiKey = import.meta.env.RESEND_API_KEY;
+  const newsletterSignupEvent =
+    import.meta.env.RESEND_NEWSLETTER_EVENT_NAME || defaultNewsletterSignupEvent;
 
   if (!apiKey) {
     return jsonResponse(
@@ -26,10 +30,7 @@ export const POST: APIRoute = async ({ request }) => {
 
   const resendResponse = await fetch(resendApiUrl, {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
+    headers: createResendHeaders(apiKey),
     body: JSON.stringify({
       email,
       unsubscribed: false,
@@ -43,8 +44,38 @@ export const POST: APIRoute = async ({ request }) => {
       .toLowerCase()
       .includes("already");
 
-  if (resendResponse.ok || alreadySubscribed) {
+  if (alreadySubscribed) {
     return jsonResponse({ ok: true });
+  }
+
+  if (resendResponse.ok) {
+    const eventResponse = await fetch(resendEventsApiUrl, {
+      method: "POST",
+      headers: createResendHeaders(apiKey),
+      body: JSON.stringify({
+        event: newsletterSignupEvent,
+        email,
+        payload: {
+          source: "website",
+          path: url.pathname,
+        },
+      }),
+    });
+
+    if (eventResponse.ok) {
+      return jsonResponse({ ok: true });
+    }
+
+    const eventError = await eventResponse.json().catch(() => null);
+
+    return jsonResponse(
+      {
+        message:
+          eventError?.message ||
+          "Newsletter signup was saved, but the welcome email could not start. Please try again.",
+      },
+      eventResponse.status,
+    );
   }
 
   return jsonResponse(
@@ -56,6 +87,14 @@ export const POST: APIRoute = async ({ request }) => {
     resendResponse.status,
   );
 };
+
+function createResendHeaders(apiKey: string) {
+  return {
+    Authorization: `Bearer ${apiKey}`,
+    "Content-Type": "application/json",
+    "User-Agent": "tadaspetra-website",
+  };
+}
 
 async function readRequestBody(request: Request): Promise<{ email?: string }> {
   const contentType = request.headers.get("content-type") || "";

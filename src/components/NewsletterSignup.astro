@@ -43,7 +43,7 @@ const isHome = variant === "home";
 </section>
 
 <script>
-  const subscribedStorageKeys = ["letter-box-joined", "newsletter-signed-up"];
+  const subscribedStorageKey = "newsletter-signed-up";
 
   document.querySelectorAll<HTMLElement>("[data-letter-box]").forEach((box) => {
     const form = box.querySelector<HTMLFormElement>("[data-letter-form]");
@@ -55,7 +55,7 @@ const isHome = variant === "home";
       return;
     }
 
-    if (subscribedStorageKeys.some((key) => localStorage.getItem(key) === "true")) {
+    if (localStorage.getItem(subscribedStorageKey) === "true") {
       box.hidden = true;
       return;
     }
@@ -88,7 +88,7 @@ const isHome = variant === "home";
           throw new Error(result?.message || "Something went wrong.");
         }
 
-        localStorage.setItem(subscribedStorageKeys[0], "true");
+        localStorage.setItem(subscribedStorageKey, "true");
         form.reset();
         message.textContent = "You're on the list. Thank you.";
         window.setTimeout(() => {

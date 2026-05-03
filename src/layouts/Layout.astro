@@ -63,7 +63,6 @@ const ogImageURL = new URL(ogImage, Astro.site).toString();
         }
 
         const hasJoinedLetterBox =
-          localStorage.getItem("letter-box-joined") === "true" ||
           localStorage.getItem("newsletter-signed-up") === "true";
 
         if (hasJoinedLetterBox) {

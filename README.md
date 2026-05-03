@@ -38,6 +38,19 @@ All commands are run from the root of the project, from a terminal:
 | `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
 | `pnpm astro -- --help` | Get help using the Astro CLI                     |
 
+## Newsletter migration links
+
+Use this URL as the button link in Loops, replacing the email value with the
+Loops personalization variable for the contact's email:
+
+```text
+https://tadaspetra.com/newsletter?email={{email}}
+```
+
+When someone clicks it, `/newsletter` reads the `email` query parameter,
+adds the contact to Resend, fires the regular `newsletter.signup` event, and
+shows a confirmation page.
+
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).

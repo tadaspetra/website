@@ -1,0 +1,81 @@
+---
+import Layout from "../layouts/Layout.astro";
+import {
+  addNewsletterContact,
+  emailPattern,
+  sendNewsletterEvent,
+} from "../lib/resendNewsletter";
+
+export const prerender = false;
+
+const apiKey = import.meta.env.RESEND_API_KEY;
+const newsletterSignupEvent =
+  import.meta.env.RESEND_NEWSLETTER_EVENT_NAME || "newsletter.signup";
+const email = Astro.url.searchParams.get("email")?.trim().toLowerCase();
+
+let state: "success" | "already" | "invalid" | "unavailable" = "invalid";
+let message =
+  "This migration link is invalid. Please use the button from the email I sent you.";
+
+if (!apiKey) {
+  state = "unavailable";
+  message = "Newsletter migration is not configured yet. Please try again later.";
+} else if (email && emailPattern.test(email)) {
+  const result = await addNewsletterContact(apiKey, email);
+
+  if (result.ok) {
+    state = result.alreadySubscribed ? "already" : "success";
+    message =
+      state === "already"
+        ? "You're already on the new list."
+        : "You're on the new list. Thank you.";
+
+    await sendNewsletterEvent(apiKey, newsletterSignupEvent, email, {
+      source: "loops-migration",
+      path: Astro.url.pathname,
+    }).catch(() => null);
+  } else {
+    state = "unavailable";
+    message =
+      result.body?.message ||
+      "Newsletter migration is temporarily unavailable. Please try again.";
+  }
+}
+
+const title =
+  state === "success" || state === "already"
+    ? "You're on the list"
+    : "Newsletter migration";
+---
+
+<Layout title={`${title} | Tadas Petra`}>
+  <main class="min-h-[70vh] px-4 py-24 sm:px-6 sm:py-32">
+    <section class="mx-auto max-w-xl text-center">
+      <p
+        class="mb-4 text-sm font-medium uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400"
+      >
+        Newsletter
+      </p>
+      <h1>{title}</h1>
+      <p
+        class="mx-auto max-w-md text-base leading-7 text-neutral-600 dark:text-neutral-300"
+      >
+        {message}
+      </p>
+      {
+        state === "success" || state === "already" ? (
+          <script is:inline>
+            localStorage.setItem("letter-box-joined", "true");
+            localStorage.setItem("newsletter-signed-up", "true");
+          </script>
+        ) : null
+      }
+      <a
+        class="plain-link mt-8 inline-flex items-center justify-center rounded-md border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-800 transition-colors hover:border-neutral-400 hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-100 dark:hover:border-neutral-600 dark:hover:bg-neutral-800"
+        href="/"
+      >
+        Back home
+      </a>
+    </section>
+  </main>
+</Layout>

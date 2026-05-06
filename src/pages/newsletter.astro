@@ -35,10 +35,12 @@ if (!hasEmailParam) {
         ? "You're already on the new list."
         : "You're on the new list. Thank you.";
 
-    await sendNewsletterEvent(apiKey, newsletterSignupEvent, email, {
-      source: "loops-migration",
-      path: Astro.url.pathname,
-    }).catch(() => null);
+    if (!result.alreadySubscribed) {
+      await sendNewsletterEvent(apiKey, newsletterSignupEvent, email, {
+        source: "loops-migration",
+        path: Astro.url.pathname,
+      }).catch(() => null);
+    }
   } else {
     state = "unavailable";
     message =

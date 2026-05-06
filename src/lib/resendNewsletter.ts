@@ -1,7 +1,9 @@
+import { createHash } from "node:crypto";
 import { Resend } from "resend";
-import type { ErrorResponse } from "resend";
+import type { ErrorResponse, SendEventResponseSuccess } from "resend";
 
 const resendAudienceId = "74cfa5dc-561e-42dc-8c9b-8732a9a6876e";
+const idempotencyHeaderName = "Idempotency-Key";
 
 export const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -11,11 +13,22 @@ type ResendResponseBody = {
 
 export async function addNewsletterContact(apiKey: string, email: string) {
   const resend = new Resend(apiKey);
-  const resendResponse = await resend.contacts.create({
-    audienceId: resendAudienceId,
-    email,
-    unsubscribed: false,
-  });
+  const resendResponse = await resend.contacts.create(
+    {
+      audienceId: resendAudienceId,
+      email,
+      unsubscribed: false,
+    },
+    {
+      headers: {
+        [idempotencyHeaderName]: getNewsletterIdempotencyKey(
+          "contact",
+          resendAudienceId,
+          email,
+        ),
+      },
+    },
+  );
 
   const body = getResponseBody(resendResponse.error);
   const status = getResponseStatus(resendResponse.error);
@@ -36,11 +49,17 @@ export async function sendNewsletterEvent(
   payload: Record<string, unknown>,
 ) {
   const resend = new Resend(apiKey);
-  const eventResponse = await resend.events.send({
-    event,
-    email,
-    payload,
-  });
+  const eventResponse = await resend.post<SendEventResponseSuccess>(
+    "/events/send",
+    {
+      event,
+      email,
+      payload,
+    },
+    {
+      idempotencyKey: getNewsletterIdempotencyKey("event", event, email),
+    },
+  );
 
   const body = getResponseBody(eventResponse.error);
 
@@ -63,4 +82,10 @@ function isAlreadySubscribed(status: number, body: ResendResponseBody | null) {
   return (
     status === 409 || String(body?.message || "").toLowerCase().includes("already")
   );
+}
+
+function getNewsletterIdempotencyKey(kind: "contact" | "event", ...parts: string[]) {
+  const digest = createHash("sha256").update(parts.join("\0")).digest("hex");
+
+  return `newsletter-${kind}-v1-${digest}`;
 }

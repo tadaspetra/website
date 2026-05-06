@@ -59,6 +59,12 @@ const isHome = variant === "home";
       return;
     }
 
+    if (box.dataset.letterBoxInitialized === "true") {
+      return;
+    }
+
+    box.dataset.letterBoxInitialized = "true";
+
     if (!alwaysVisible && localStorage.getItem(subscribedStorageKey) === "true") {
       box.hidden = true;
       return;
@@ -69,11 +75,16 @@ const isHome = variant === "home";
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
 
+      if (form.dataset.letterSubmitting === "true") {
+        return;
+      }
+
       const email = emailInput.value.trim();
       if (!email) {
         return;
       }
 
+      form.dataset.letterSubmitting = "true";
       submitButton.disabled = true;
       message.textContent = "Signing you up...";
 
@@ -107,6 +118,7 @@ const isHome = variant === "home";
             : "Something went wrong. Please try again.";
       } finally {
         submitButton.disabled = false;
+        delete form.dataset.letterSubmitting;
       }
     });
   });

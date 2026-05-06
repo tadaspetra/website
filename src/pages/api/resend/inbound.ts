@@ -6,7 +6,7 @@ import type { Attachment, AttachmentData } from "resend";
 export const prerender = false;
 
 const forwardTo = "tadas@tadaspetra.com";
-const defaultForwardFrom = "Tadas Petra <tadas@tadaspetra.com>";
+const defaultForwardFrom = "Tadas Petra <forward@letter.tadaspetra.com>";
 
 export const POST: APIRoute = async ({ request }) => {
   const apiKey = import.meta.env.RESEND_API_KEY;
@@ -108,7 +108,7 @@ export const POST: APIRoute = async ({ request }) => {
       },
     },
     {
-      idempotencyKey: `inbound-forward-${emailId}`,
+      idempotencyKey: `inbound-forward-v2-${emailId}`,
     },
   );
 

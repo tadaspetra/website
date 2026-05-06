@@ -3,7 +3,6 @@ import { Resend } from "resend";
 import type { ErrorResponse, SendEventResponseSuccess } from "resend";
 
 const resendAudienceId = "74cfa5dc-561e-42dc-8c9b-8732a9a6876e";
-const idempotencyHeaderName = "Idempotency-Key";
 
 export const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -13,22 +12,33 @@ type ResendResponseBody = {
 
 export async function addNewsletterContact(apiKey: string, email: string) {
   const resend = new Resend(apiKey);
-  const resendResponse = await resend.contacts.create(
-    {
-      audienceId: resendAudienceId,
-      email,
-      unsubscribed: false,
-    },
-    {
-      headers: {
-        [idempotencyHeaderName]: getNewsletterIdempotencyKey(
-          "contact",
-          resendAudienceId,
-          email,
-        ),
-      },
-    },
-  );
+  const existingContact = await getNewsletterContactStatus(resend, email);
+
+  if (!existingContact.ok) {
+    return {
+      ok: false,
+      status: existingContact.status,
+      body: existingContact.body,
+      alreadySubscribed: false,
+      created: false,
+    };
+  }
+
+  if (existingContact.exists) {
+    return {
+      ok: true,
+      status: existingContact.status,
+      body: existingContact.body,
+      alreadySubscribed: true,
+      created: false,
+    };
+  }
+
+  const resendResponse = await resend.contacts.create({
+    audienceId: resendAudienceId,
+    email,
+    unsubscribed: false,
+  });
 
   const body = getResponseBody(resendResponse.error);
   const status = getResponseStatus(resendResponse.error);
@@ -39,6 +49,7 @@ export async function addNewsletterContact(apiKey: string, email: string) {
     status,
     body,
     alreadySubscribed,
+    created: !resendResponse.error,
   };
 }
 
@@ -75,7 +86,7 @@ function getResponseBody(error: ErrorResponse | null): ResendResponseBody | null
 }
 
 function getResponseStatus(error: ErrorResponse | null) {
-  return error?.statusCode || 200;
+  return error ? error.statusCode || 500 : 200;
 }
 
 function isAlreadySubscribed(status: number, body: ResendResponseBody | null) {
@@ -84,7 +95,33 @@ function isAlreadySubscribed(status: number, body: ResendResponseBody | null) {
   );
 }
 
-function getNewsletterIdempotencyKey(kind: "contact" | "event", ...parts: string[]) {
+async function getNewsletterContactStatus(resend: Resend, email: string) {
+  const contactResponse = await resend.contacts.get({
+    audienceId: resendAudienceId,
+    email,
+  });
+  const body = getResponseBody(contactResponse.error);
+  const status = getResponseStatus(contactResponse.error);
+  const notFound = isContactNotFound(status, body);
+
+  return {
+    ok: !contactResponse.error || notFound,
+    status,
+    body,
+    exists: !contactResponse.error && Boolean(contactResponse.data),
+  };
+}
+
+function isContactNotFound(status: number, body: ResendResponseBody | null) {
+  return (
+    status === 404 ||
+    String(body?.message || "")
+      .toLowerCase()
+      .includes("not found")
+  );
+}
+
+function getNewsletterIdempotencyKey(kind: "event", ...parts: string[]) {
   const digest = createHash("sha256").update(parts.join("\0")).digest("hex");
 
   return `newsletter-${kind}-v1-${digest}`;

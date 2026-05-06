@@ -34,7 +34,7 @@ export const POST: APIRoute = async ({ request, url }) => {
     return jsonResponse({ ok: true });
   }
 
-  if (resendResponse.ok) {
+  if (resendResponse.created) {
     const eventResponse = await sendNewsletterEvent(
       apiKey,
       newsletterSignupEvent,
@@ -57,6 +57,10 @@ export const POST: APIRoute = async ({ request, url }) => {
       },
       eventResponse.status,
     );
+  }
+
+  if (resendResponse.ok) {
+    return jsonResponse({ ok: true });
   }
 
   return jsonResponse(

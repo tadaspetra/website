@@ -14,6 +14,8 @@ const newsletterSignupEvent =
   import.meta.env.RESEND_NEWSLETTER_EVENT_NAME || "newsletter.signup";
 const email = Astro.url.searchParams.get("email")?.trim().toLowerCase();
 const hasEmailParam = Astro.url.searchParams.has("email");
+const alreadySubscribedMessage =
+  "You're already signed up. If you don't see the welcome email, check your spam folder.";
 
 let state: "success" | "already" | "invalid" | "unavailable" = "invalid";
 let message =
@@ -32,7 +34,7 @@ if (!hasEmailParam) {
     state = result.alreadySubscribed ? "already" : "success";
     message =
       state === "already"
-        ? "You're already on the new list."
+        ? alreadySubscribedMessage
         : "You're on the new list. Thank you.";
 
     if (result.created) {

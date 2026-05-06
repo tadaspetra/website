@@ -14,17 +14,7 @@ export async function addNewsletterContact(apiKey: string, email: string) {
   const resend = new Resend(apiKey);
   const existingContact = await getNewsletterContactStatus(resend, email);
 
-  if (!existingContact.ok) {
-    return {
-      ok: false,
-      status: existingContact.status,
-      body: existingContact.body,
-      alreadySubscribed: false,
-      created: false,
-    };
-  }
-
-  if (existingContact.exists) {
+  if (existingContact.ok && existingContact.exists) {
     return {
       ok: true,
       status: existingContact.status,
@@ -96,10 +86,9 @@ function isAlreadySubscribed(status: number, body: ResendResponseBody | null) {
 }
 
 async function getNewsletterContactStatus(resend: Resend, email: string) {
-  const contactResponse = await resend.contacts.get({
-    audienceId: resendAudienceId,
-    email,
-  });
+  const contactResponse = await resend.get<unknown>(
+    `/audiences/${encodeURIComponent(resendAudienceId)}/contacts/${encodeURIComponent(email)}`,
+  );
   const body = getResponseBody(contactResponse.error);
   const status = getResponseStatus(contactResponse.error);
   const notFound = isContactNotFound(status, body);

@@ -8,6 +8,8 @@ import {
 export const prerender = false;
 
 const defaultNewsletterSignupEvent = "newsletter.signup";
+const alreadySubscribedMessage =
+  "You're already signed up. If you don't see the welcome email, check your spam folder.";
 
 export const POST: APIRoute = async ({ request, url }) => {
   const apiKey = import.meta.env.RESEND_API_KEY;
@@ -31,7 +33,11 @@ export const POST: APIRoute = async ({ request, url }) => {
   const resendResponse = await addNewsletterContact(apiKey, email);
 
   if (resendResponse.alreadySubscribed) {
-    return jsonResponse({ ok: true });
+    return jsonResponse({
+      ok: true,
+      alreadySubscribed: true,
+      message: alreadySubscribedMessage,
+    });
   }
 
   if (resendResponse.created) {
@@ -46,7 +52,7 @@ export const POST: APIRoute = async ({ request, url }) => {
     );
 
     if (eventResponse.ok) {
-      return jsonResponse({ ok: true });
+      return jsonResponse({ ok: true, message: "You're on the list. Thank you." });
     }
 
     return jsonResponse(
@@ -60,7 +66,7 @@ export const POST: APIRoute = async ({ request, url }) => {
   }
 
   if (resendResponse.ok) {
-    return jsonResponse({ ok: true });
+    return jsonResponse({ ok: true, message: "You're on the list. Thank you." });
   }
 
   return jsonResponse(

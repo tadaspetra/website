@@ -51,6 +51,11 @@ When someone clicks it, `/newsletter` reads the `email` query parameter,
 adds the contact to Resend, fires the regular `newsletter.signup` event, and
 shows a confirmation page.
 
+## Style guide
+
+Before creating new pages or components, check `STYLEGUIDE.md` for the site's
+layout, typography, link, and component conventions.
+
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).

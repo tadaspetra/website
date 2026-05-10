@@ -8,9 +8,14 @@ import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 
 import tailwindcss from "@tailwindcss/vite";
 
-// https://astro.build/config
 export default defineConfig({
   site: "https://tadaspetra.com",
+  redirects: {
+    "/how-computers-work": {
+      status: 301,
+      destination: "/how-the-computer-works",
+    },
+  },
   integrations: [
     react(),
     expressiveCode({

@@ -6,7 +6,6 @@ export async function getStaticPaths() {
   const essays = await getCollection("essays", ({ data }) => !data.draft);
 
   return essays.map(post => {
-    // how-computers-work/index.mdx -> how-computers-work
     const slug = post.id.split("/")[0];
     return {
       params: { slug },

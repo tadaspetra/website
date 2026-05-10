@@ -11,7 +11,6 @@ const sortedEssays = essays
   .sort((a, b) => b.data.pubDatetime.valueOf() - a.data.pubDatetime.valueOf())
   .map((post) => ({
     title: post.data.title,
-    // how-computers-work/index.mdx -> how-computers-work
     slug: post.id.split("/")[0],
   }));
 

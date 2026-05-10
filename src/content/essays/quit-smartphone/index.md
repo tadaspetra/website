@@ -8,7 +8,7 @@ description: I quit using my smartphone for 30 days, and after this trial run, I
 
 > **Notes**
 >
-> May 9, 2026 - More than two years later, I have fallen in and out of using it. But whenever I get annoyed with the distraction, the watch as my only device is the most reliable solution.
+> May 9, 2026 - More than two years later, and this is still the most sure fire solution whenever I am feeling more distracted than usual.
 
 As the smartphone has become a physical extension of most of us (including me), I decided to quit my phone for 30 days. And spoiler alert, I decided to quit it for life.
 

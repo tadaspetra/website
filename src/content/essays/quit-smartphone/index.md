@@ -6,6 +6,10 @@ tags: [personal, productivity]
 description: I quit using my smartphone for 30 days, and after this trial run, I am done using it for life.
 ---
 
+> **Notes**
+>
+> May 9, 2026 - More than two years later, I have fallen in and out of using it. But whenever I get annoyed with the distraction, the watch as my only device is the most reliable solution.
+
 As the smartphone has become a physical extension of most of us (including me), I decided to quit my phone for 30 days. And spoiler alert, I decided to quit it for life.
 
 This all started many years ago when I grew too obsessed with constantly checking my phone. I went through the same patterns of unlocking the phone, checking messages, email, Twitter, Instagram, YouTube, and random notifications from apps like Clash of Clans, clearing away all those red bubbles to get back to a clean interface. I repeat that cycle whenever there’s a slight empty space in my life.

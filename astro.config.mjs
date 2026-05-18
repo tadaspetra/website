@@ -5,7 +5,6 @@ import react from "@astrojs/react";
 import expressiveCode from "astro-expressive-code";
 import mermaid from "astro-mermaid";
 import mdx from "@astrojs/mdx";
-import { pluginLineNumbers } from "@expressive-code/plugin-line-numbers";
 
 import tailwindcss from "@tailwindcss/vite";
 
@@ -19,29 +18,7 @@ export default defineConfig({
   },
   integrations: [
     react(),
-    expressiveCode({
-      themes: ["catppuccin-latte", "catppuccin-mocha"],
-      themeCssSelector: (theme) =>
-        theme.name === "catppuccin-mocha" ? ".dark" : ":not(.dark)",
-      plugins: [pluginLineNumbers()],
-      defaultProps: {
-        showLineNumbers: true,
-      },
-      styleOverrides: {
-        codeBackground: "transparent",
-        borderWidth: "0px",
-        borderColor: "transparent",
-        frames: {
-          shadowColor: "transparent",
-          editorActiveTabBackground: "transparent",
-          editorActiveTabForeground: "#737373",
-          editorTabBarBackground: "transparent",
-        },
-        lineNumbers: {
-          foreground: "#737373",
-        },
-      },
-    }),
+    expressiveCode(),
     mdx(),
     mermaid({
       theme: "base",

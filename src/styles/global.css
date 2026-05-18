@@ -146,7 +146,7 @@
     @apply leading-7;
   }
 
-  article blockquote:not(.twitter-tweet) {
+  article blockquote:not(.twitter-tweet):not(.quote-blockquote) {
     @apply transition-all duration-200 my-6 rounded-lg;
     padding: 1rem;
     background-color: rgba(245, 241, 235, 0.3);
@@ -159,13 +159,13 @@
   }
 
   @media (prefers-color-scheme: dark) {
-    article blockquote:not(.twitter-tweet) {
+    article blockquote:not(.twitter-tweet):not(.quote-blockquote) {
       background-color: rgba(245, 241, 235, 0.02);
       border: 2px dashed rgba(107, 90, 69, 0.4);
     }
   }
 
-  article blockquote:not(.twitter-tweet)::before {
+  article blockquote:not(.twitter-tweet):not(.quote-blockquote)::before {
     content: "";
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%236B5A45' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3ccircle cx='12' cy='12' r='10'/%3e%3cpath d='m12 16v-4'/%3e%3cpath d='m12 8h.01'/%3e%3c/svg%3e");
     width: 1.25rem;
@@ -176,30 +176,30 @@
   }
 
   @media (prefers-color-scheme: dark) {
-    article blockquote:not(.twitter-tweet)::before {
+    article blockquote:not(.twitter-tweet):not(.quote-blockquote)::before {
       background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23A69080' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3ccircle cx='12' cy='12' r='10'/%3e%3cpath d='m12 16v-4'/%3e%3cpath d='m12 8h.01'/%3e%3c/svg%3e");
       opacity: 0.7;
     }
   }
 
-  article blockquote:not(.twitter-tweet) p {
+  article blockquote:not(.twitter-tweet):not(.quote-blockquote) p {
     @apply text-sm leading-relaxed mb-0 pb-0;
     color: #6b5a45;
     grid-column: 2;
   }
 
-  article blockquote:not(.twitter-tweet) p:not(:last-child) {
+  article blockquote:not(.twitter-tweet):not(.quote-blockquote) p:not(:last-child) {
     @apply mb-2;
   }
 
   @media (prefers-color-scheme: dark) {
-    article blockquote:not(.twitter-tweet) p {
+    article blockquote:not(.twitter-tweet):not(.quote-blockquote) p {
       color: #d4c4b0;
     }
   }
 
   /* Fix code size in callouts and blockquotes */
-  article blockquote:not(.twitter-tweet) code,
+  article blockquote:not(.twitter-tweet):not(.quote-blockquote) code,
   .callout code {
     @apply text-sm;
   }
@@ -316,6 +316,148 @@
 
   pre code {
     @apply bg-transparent dark:bg-transparent p-0 rounded-none border-0 text-sm not-italic;
+  }
+
+  article pre.mermaid {
+    @apply border-y border-neutral-200 dark:border-neutral-700;
+    margin: 2rem 0 2.5rem;
+    padding: 1.5rem 0;
+    background: transparent !important;
+    border-radius: 0 !important;
+    color: #404040;
+    font-family: var(--font-inter);
+  }
+
+  article pre.mermaid:not([data-processed]) {
+    animation: none;
+    background: transparent !important;
+  }
+
+  article pre.mermaid[data-processed] {
+    background: transparent !important;
+    border-radius: 0 !important;
+    min-height: auto;
+  }
+
+  article pre.mermaid svg {
+    max-width: 100%;
+    height: auto;
+    font-family: var(--font-inter);
+  }
+
+  article pre.mermaid svg foreignObject {
+    overflow: visible;
+  }
+
+  article pre.mermaid svg foreignObject div {
+    vertical-align: middle;
+  }
+
+  article pre.mermaid svg foreignObject p,
+  article pre.mermaid svg foreignObject span {
+    box-sizing: border-box;
+    font-size: inherit;
+    font-weight: inherit;
+    margin: 0;
+    padding: 0;
+    line-height: inherit;
+    text-align: center;
+  }
+
+  article pre.mermaid svg .label,
+  article pre.mermaid svg .nodeLabel,
+  article pre.mermaid svg .edgeLabel {
+    color: #404040 !important;
+    text-align: center;
+  }
+
+  article pre.mermaid svg .node rect.basic.label-container,
+  article pre.mermaid svg .cluster rect.basic.label-container {
+    rx: 0.5rem !important;
+    ry: 0.5rem !important;
+  }
+
+  article pre.mermaid svg .node rect,
+  article pre.mermaid svg .node circle,
+  article pre.mermaid svg .node ellipse,
+  article pre.mermaid svg .node polygon,
+  article pre.mermaid svg .node path {
+    fill: #ffffff !important;
+    stroke: #d4d4d4 !important;
+    stroke-width: 1.25px !important;
+  }
+
+  article pre.mermaid svg .edgePath .path,
+  article pre.mermaid svg .flowchart-link,
+  article pre.mermaid svg marker path {
+    stroke: #a3a3a3 !important;
+  }
+
+  article pre.mermaid svg marker,
+  article pre.mermaid svg marker path {
+    fill: #a3a3a3 !important;
+  }
+
+  article pre.mermaid svg .edgeLabel,
+  article pre.mermaid svg .edgeLabel rect,
+  article pre.mermaid svg .edgeLabel .labelBkg,
+  article pre.mermaid svg .edgeLabel foreignObject div,
+  article pre.mermaid svg .edgeLabel p,
+  article pre.mermaid svg .edgeLabel span {
+    background-color: #ffffff !important;
+    fill: #ffffff !important;
+  }
+
+  article pre.mermaid svg text,
+  article pre.mermaid svg tspan {
+    color: #404040 !important;
+    fill: #404040 !important;
+  }
+
+  .dark article pre.mermaid {
+    color: #d4d4d4;
+  }
+
+  .dark article pre.mermaid svg .node rect,
+  .dark article pre.mermaid svg .node circle,
+  .dark article pre.mermaid svg .node ellipse,
+  .dark article pre.mermaid svg .node polygon,
+  .dark article pre.mermaid svg .node path {
+    fill: #171717 !important;
+    stroke: #525252 !important;
+  }
+
+  .dark article pre.mermaid svg .edgePath .path,
+  .dark article pre.mermaid svg .flowchart-link,
+  .dark article pre.mermaid svg marker path {
+    stroke: #737373 !important;
+  }
+
+  .dark article pre.mermaid svg marker,
+  .dark article pre.mermaid svg marker path {
+    fill: #737373 !important;
+  }
+
+  .dark article pre.mermaid svg .edgeLabel,
+  .dark article pre.mermaid svg .edgeLabel rect,
+  .dark article pre.mermaid svg .edgeLabel .labelBkg,
+  .dark article pre.mermaid svg .edgeLabel foreignObject div,
+  .dark article pre.mermaid svg .edgeLabel p,
+  .dark article pre.mermaid svg .edgeLabel span {
+    background-color: #171717 !important;
+    fill: #171717 !important;
+  }
+
+  .dark article pre.mermaid svg text,
+  .dark article pre.mermaid svg tspan {
+    color: #d4d4d4 !important;
+    fill: #d4d4d4 !important;
+  }
+
+  .dark article pre.mermaid svg .label,
+  .dark article pre.mermaid svg .nodeLabel,
+  .dark article pre.mermaid svg .edgeLabel {
+    color: #d4d4d4 !important;
   }
 
   article hr {

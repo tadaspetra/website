@@ -17,6 +17,8 @@
     "@tailwindcss/vite": "^4.1.18",
     "astro": "^5.17.1",
     "astro-expressive-code": "^0.41.6",
+    "astro-mermaid": "^2.0.1",
+    "mermaid": "^11.15.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "resend": "^6.12.2",

@@ -72,7 +72,7 @@ function AchievementCardItem({ card }: AchievementCardProps) {
   return (
     <div className={card.wrapperClassName}>
       <figure
-        className="mx-auto w-full max-w-[21rem] rounded-2xl border border-neutral-200 bg-white px-2 pt-2 pb-3 shadow-lg shadow-neutral-200/60 transition-[box-shadow,transform] duration-200 ease-out will-change-transform hover:shadow-xl hover:shadow-neutral-300/60 sm:max-w-none dark:border-neutral-800 dark:bg-neutral-950 dark:shadow-black/30 dark:hover:shadow-black/50"
+        className="mx-auto w-full max-w-[21rem] rounded-2xl border border-neutral-200 bg-white px-2 pt-2 pb-3 shadow-lg shadow-neutral-200/60 transition-[box-shadow,transform] duration-200 ease-out will-change-transform hover:shadow-xl hover:shadow-neutral-300/60 sm:max-w-none dark:shadow-black/40 dark:hover:shadow-black/55"
         style={{ transform }}
         onPointerMove={handlePointerMove}
         onPointerLeave={handlePointerLeave}
@@ -80,7 +80,7 @@ function AchievementCardItem({ card }: AchievementCardProps) {
         <div className="aspect-square overflow-hidden rounded-xl">
           <img src={card.imageSrc} alt={card.alt} className={card.imageClassName} />
         </div>
-        <figcaption className="px-2 pt-2 pb-1 text-center font-['Reenie_Beanie',cursive] text-xl font-normal leading-tight text-neutral-600 dark:text-neutral-300">
+        <figcaption className="px-2 pt-2 pb-1 text-center font-['Reenie_Beanie',cursive] text-xl font-normal leading-tight text-neutral-600">
           {card.caption}
         </figcaption>
       </figure>

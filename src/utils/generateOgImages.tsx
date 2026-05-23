@@ -5,36 +5,17 @@ import { join } from "node:path";
 import postOgImage from "./og-templates/post";
 import siteOgImage from "./og-templates/site";
 
-// Read profile image and convert to base64
 const imagePath = join(process.cwd(), "public", "profile-white.png");
 const imageBuffer = readFileSync(imagePath);
 const imageBase64 = `data:image/png;base64,${imageBuffer.toString("base64")}`;
 
-async function fetchGoogleFont(
-  family: string,
-  weight: number
-): Promise<ArrayBuffer> {
-  const cssUrl = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(family)}:wght@${weight}`;
-  const cssResponse = await fetch(cssUrl, {
-    headers: {
-      "User-Agent":
-        "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)",
-    },
-  });
-  const css = await cssResponse.text();
-  const match = css.match(/src:\s*url\(([^)]+)\)/);
-  if (!match) {
-    throw new Error(`Could not find font URL for ${family} weight ${weight}`);
-  }
-  const fontResponse = await fetch(match[1]);
-  return fontResponse.arrayBuffer();
-}
+const fontPath = join(process.cwd(), "public", "fonts", "Fraunces-Bold.woff");
+const fontData = readFileSync(fontPath);
 
 let _options: SatoriOptions | null = null;
 
 async function getOptions(): Promise<SatoriOptions> {
   if (_options) return _options;
-  const fontData = await fetchGoogleFont("Fraunces", 700);
   _options = {
     width: 1200,
     height: 630,

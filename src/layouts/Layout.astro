@@ -46,21 +46,39 @@ const ogImageURL = new URL(ogImage, Astro.site).toString();
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,800&family=Reenie+Beanie&display=swap"
       rel="stylesheet"
     />
     <title>{title}</title>
     <script>
       // Prevent flash of unstyled content
       (function () {
-        const theme =
-          localStorage.getItem("theme") ||
-          (window.matchMedia("(prefers-color-scheme: dark)").matches
-            ? "dark"
-            : "light");
-        if (theme === "dark") {
-          document.documentElement.classList.add("dark");
+        const colorSchemeQuery = window.matchMedia(
+          "(prefers-color-scheme: dark)",
+        );
+
+        function getPreferredTheme() {
+          return colorSchemeQuery.matches ? "dark" : "light";
         }
+
+        function applyTheme(theme) {
+          document.documentElement.setAttribute("data-theme", theme);
+          document.documentElement.classList.toggle("dark", theme === "dark");
+        }
+
+        applyTheme(localStorage.getItem("theme") || getPreferredTheme());
+
+        colorSchemeQuery.addEventListener("change", () => {
+          if (!localStorage.getItem("theme")) {
+            applyTheme(getPreferredTheme());
+          }
+        });
+
+        window.addEventListener("storage", (event) => {
+          if (event.key === "theme") {
+            applyTheme(event.newValue || getPreferredTheme());
+          }
+        });
 
         const hasJoinedLetterBox =
           localStorage.getItem("newsletter-signed-up") === "true";

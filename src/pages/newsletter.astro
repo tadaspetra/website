@@ -60,15 +60,15 @@ const title =
 ---
 
 <Layout title={`${title} | Tadas Petra`}>
-  <main class="min-h-[70vh] px-4 py-24 sm:px-6 sm:py-32">
+  <main class="min-h-[70vh] py-16 sm:py-20 md:py-28">
     {
       hasEmailParam ? (
-        <section class="mx-auto max-w-xl text-center">
-          <p class="mb-4 text-sm font-medium uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">
+        <section>
+          <p class="mb-3 text-sm text-neutral-400 dark:text-neutral-500">
             Newsletter
           </p>
-          <h1>{title}</h1>
-          <p class="mx-auto max-w-md text-base leading-7 text-neutral-600 dark:text-neutral-300">
+          <h1 class="page-title mb-4">{title}</h1>
+          <p class="max-w-xl text-base leading-7 text-neutral-600 dark:text-neutral-400">
             {message}
           </p>
           {state === "success" || state === "already" ? (
@@ -76,20 +76,14 @@ const title =
               localStorage.setItem("newsletter-signed-up", "true");
             </script>
           ) : null}
-          <a
-            class="plain-link mt-8 inline-flex items-center justify-center rounded-md border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-800 transition-colors hover:border-neutral-400 hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-100 dark:hover:border-neutral-600 dark:hover:bg-neutral-800"
-            href="/"
-          >
+          <a class="plain-link ghost-button mt-8" href="/">
             Back home
           </a>
         </section>
       ) : (
-        <section class="mx-auto max-w-xl">
+        <section>
           <NewsletterSignup alwaysVisible />
-          <a
-            class="plain-link mt-4 flex w-fit items-center justify-center rounded-md border border-neutral-300 px-4 py-2 text-sm font-medium text-neutral-800 transition-colors hover:border-neutral-400 hover:bg-neutral-100 dark:border-neutral-700 dark:text-neutral-100 dark:hover:border-neutral-600 dark:hover:bg-neutral-800"
-            href="/"
-          >
+          <a class="plain-link ghost-button mt-6" href="/">
             Back home
           </a>
         </section>

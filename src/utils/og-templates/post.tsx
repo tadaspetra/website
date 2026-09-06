@@ -1,43 +1,37 @@
 import type { CollectionEntry } from "astro:content";
 import React from "react";
+import { OG_COLORS, OG_FONT_FAMILY, smartenPunctuation } from "./theme";
 
-export default (post: CollectionEntry<"essays">, profileImage: string) => {
+export default (post: CollectionEntry<"essays">) => {
+  const title = smartenPunctuation(post.data.title);
+
   return (
     <div
       style={{
-        background: "#ffffff",
         width: "100%",
         height: "100%",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
-        padding: "60px 80px",
-        position: "relative",
+        alignItems: "center",
+        padding: "96px 104px",
+        background: OG_COLORS.background,
       }}
     >
-      <p
+      <div
         style={{
-          fontSize: 96,
-          fontFamily: "Fraunces",
-          color: "#171717",
-          lineHeight: 1.2,
-          maxWidth: "95%",
+          fontFamily: OG_FONT_FAMILY,
+          fontWeight: 600,
+          fontSize: 72,
+          lineHeight: 1.15,
+          letterSpacing: "-0.02em",
+          color: OG_COLORS.ink,
+          textAlign: "center",
+          textWrap: "balance",
         }}
       >
-        {post.data.title}
-      </p>
-
-      <img
-        src={profileImage}
-        width={100}
-        height={100}
-        style={{
-          borderRadius: 12,
-          position: "absolute",
-          bottom: 50,
-          right: 80,
-        }}
-      />
+        {title}
+      </div>
     </div>
   );
 };

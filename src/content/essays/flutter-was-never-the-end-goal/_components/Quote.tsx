@@ -10,7 +10,7 @@ interface QuoteProps {
 }
 
 const childTypography = [
-  "[&_p]:font-fraunces [&_p]:italic",
+  "[&_p]:italic",
   "[&_p]:text-base sm:[&_p]:text-lg",
   "[&_p]:leading-snug [&_p]:tracking-[-0.005em]",
   "[&_p]:text-neutral-700 dark:[&_p]:text-neutral-200",
@@ -39,7 +39,7 @@ export default function Quote({
           src={image}
           alt={imageAlt ?? author ?? ""}
           loading="lazy"
-          className="h-20 w-20 sm:h-24 sm:w-24 rounded-2xl object-cover object-top shrink-0 grayscale-[0.15] ring-1 ring-[#6b5a45]/25 dark:ring-[#d4c4b0]/25 shadow-md shadow-[#6b5a45]/10 dark:shadow-black/30"
+          className="h-20 w-20 sm:h-24 sm:w-24 rounded-2xl object-cover object-top shrink-0 grayscale-[0.15]"
         />
       )}
       <div className={`flex-1 min-w-0 ${isImageRight ? "text-right" : ""}`}>

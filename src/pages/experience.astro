@@ -1,0 +1,79 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+interface ExperienceItem {
+  name: string;
+  href: string;
+  role: string;
+}
+
+const previous: ExperienceItem[] = [
+  {
+    name: "YouTube",
+    href: "https://youtube.com/@tadaspetra",
+    role: "Sharing what I learn",
+  },
+  {
+    name: "Agora",
+    href: "https://agora.io",
+    role: "Senior Developer Advocate, content and product",
+  },
+  {
+    name: "Zero To Mastery",
+    href: "https://zerotomastery.io/courses/flutter-bootcamp/",
+    role: "Instructor, Flutter Bootcamp",
+  },
+  {
+    name: "International",
+    href: "https://international.com",
+    role: "Senior Software Low Level Engineer",
+  },
+  {
+    name: "Google Developer Expert",
+    href: "https://developers.google.com/profile/u/107281012378384773706",
+    role: "Flutter and Dart since 2021",
+  },
+];
+---
+
+<Layout
+  title="Experience"
+  description="Where I've worked and what I've built along the way."
+>
+  <main class="pt-16 sm:pt-20 md:pt-28 pb-0">
+    <article class="prose dark:prose-invert prose-neutral max-w-none">
+      <header class="mb-10">
+        <h1 class="page-title mb-0">Experience</h1>
+        <div class="mt-2 text-sm text-neutral-500 dark:text-neutral-400">
+          <a
+            href="/"
+            class="no-underline text-neutral-500 dark:text-neutral-400 transition-colors duration-150 hover:text-neutral-800 dark:hover:text-neutral-200"
+          >
+            By Tadas Petra
+          </a>
+        </div>
+      </header>
+
+      <p>
+        I currently work as a Developer Relations Engineer at <a href="https://elevenlabs.io">ElevenLabs</a>, working on the developer brand, education, community and tooling.
+      </p>
+
+      <p>
+        I also founded <a href="https://hungrimind.com">Hungrimind</a>, an interactive learning platform.
+      </p>
+
+      <h2>Previously</h2>
+
+      <ul class="experience-list not-prose">
+        {
+          previous.map((item) => (
+            <li>
+              <a href={item.href}>{item.name}</a>
+              <span class="role">{item.role}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </article>
+  </main>
+</Layout>

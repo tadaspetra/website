@@ -27,7 +27,7 @@ function getDomain(url: string): string {
     <div class="not-prose" data-sources>
       <button
         type="button"
-        class="text-neutral-400 dark:text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors cursor-pointer bg-transparent border-none p-0 text-sm flex items-center gap-1.5"
+        class="min-h-10 text-neutral-400 dark:text-neutral-500 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors duration-150 cursor-pointer bg-transparent border-none -ml-2 px-2 text-sm flex items-center gap-1.5"
         data-sources-toggle
         aria-expanded="false"
       >
@@ -47,7 +47,7 @@ function getDomain(url: string): string {
       </button>
 
       <div
-        class="grid transition-all duration-200 ease-out grid-rows-[0fr] opacity-0"
+        class="grid transition-[grid-template-rows,opacity] duration-200 ease-out grid-rows-[0fr] opacity-0"
         data-sources-panel
       >
         <ul class="overflow-hidden list-none pl-[1.125rem] m-0 pt-1 pb-1">

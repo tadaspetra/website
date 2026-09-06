@@ -1,4 +1,6 @@
 ---
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import "../styles/global.css";
 
 interface Props {
@@ -15,37 +17,39 @@ const {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = new URL(ogImage, Astro.site).toString();
+
+const fontsDir = join(process.cwd(), "src/assets/fonts");
+const woff2DataUri = (file: string) =>
+  `url("data:font/woff2;base64,${readFileSync(join(fontsDir, file)).toString("base64")}") format("woff2")`;
+
+const interFace = (file: string, weight: number, style = "normal") =>
+  `@font-face{font-family:Inter;src:${woff2DataUri(file)};font-weight:${weight};font-style:${style};font-display:optional}`;
+
+// Static instances (not variable) so Safari cannot re-apply wght/opsz after
+// first paint. optional = never swap if the face is not ready. Kerning/liga
+// stay off so WebKit cannot re-shape the line after optimizeLegibility.
+const interCss = `${interFace("Inter-400.woff2", 400)}
+${interFace("Inter-500.woff2", 500)}
+${interFace("Inter-600.woff2", 600)}
+${interFace("Inter-400-italic.woff2", 400, "italic")}
+${interFace("Inter-600-italic.woff2", 600, "italic")}
+@font-face{font-family:"Inter Fallback";src:local("Arial");font-weight:400 700;font-style:normal;size-adjust:104.9%;ascent-override:95.33%;descent-override:23.83%;line-gap-override:0%}
+@font-face{font-family:"Inter Fallback";src:local("Arial Italic"),local("Arial");font-weight:400 700;font-style:italic;size-adjust:104.9%;ascent-override:95.33%;descent-override:23.83%;line-gap-override:0%}
+*,*::before,*::after{box-sizing:border-box}
+html{font-family:Inter,"Inter Fallback",ui-sans-serif,system-ui,sans-serif;line-height:1.5;font-optical-sizing:none;font-synthesis:none;font-kerning:none;font-variant-ligatures:none;font-variant-numeric:proportional-nums;text-rendering:auto;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-text-size-adjust:100%;scrollbar-gutter:stable}
+html,body{width:100%;margin:0}
+.page{box-sizing:border-box;width:100%;max-width:42rem;margin-inline:auto;padding-inline:1.5rem}
+.page-title{font-size:1.5rem;line-height:1.2;font-weight:600;letter-spacing:-0.022em}
+h1,h2,h3{font-size:1rem;line-height:1.5rem;font-weight:600;letter-spacing:-0.012em}
+.text-sm{font-size:0.875rem;line-height:1.25rem}`;
 ---
 
-<html lang="en">
+<html lang="en" class="antialiased">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <link rel="canonical" href={canonicalURL} />
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content={title} />
-    <meta name="description" content={description} />
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalURL} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImageURL} />
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content={canonicalURL} />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImageURL} />
-
-    <title>{title}</title>
-    <script>
-      // Prevent flash of unstyled content
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>
       (function () {
         const colorSchemeQuery = window.matchMedia(
           "(prefers-color-scheme: dark)",
@@ -84,21 +88,45 @@ const ogImageURL = new URL(ogImage, Astro.site).toString();
         }
       })();
     </script>
+    <meta name="generator" content={Astro.generator} />
+    <link rel="canonical" href={canonicalURL} />
+    <style is:inline set:html={interCss}></style>
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageURL} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+
+    <title>{title}</title>
   </head>
   <body
-    class="bg-white dark:bg-neutral-900 text-gray-900 dark:text-white min-h-screen transition-colors duration-200"
+    class="bg-white dark:bg-neutral-900 text-neutral-800 dark:text-neutral-200 min-h-screen font-sans transition-[background-color,color] duration-200"
   >
+    <div class="page">
     <slot />
-    <footer class="max-w-2xl mx-auto px-4 sm:px-6 pb-12 sm:pb-16">
+    <footer class="pt-4 pb-16 sm:pb-20">
       <nav
-        class="flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-neutral-500 dark:text-neutral-400"
+        class="flex flex-wrap justify-center gap-x-1 text-sm text-neutral-500 dark:text-neutral-400"
         aria-label="Footer links"
       >
         <a
           href="https://hungrimind.com"
           target="_blank"
           rel="noopener noreferrer"
-          class="plain-link text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300"
+          class="plain-link px-3 py-2 text-neutral-500 dark:text-neutral-400 transition-colors duration-150 hover:text-neutral-800 dark:hover:text-neutral-200"
         >
           Hungrimind
         </a>
@@ -106,7 +134,7 @@ const ogImageURL = new URL(ogImage, Astro.site).toString();
           href="https://youtube.com/@tadaspetra"
           target="_blank"
           rel="noopener noreferrer"
-          class="plain-link text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300"
+          class="plain-link px-3 py-2 text-neutral-500 dark:text-neutral-400 transition-colors duration-150 hover:text-neutral-800 dark:hover:text-neutral-200"
         >
           YouTube
         </a>
@@ -114,18 +142,19 @@ const ogImageURL = new URL(ogImage, Astro.site).toString();
           href="https://x.com/tadaspetra"
           target="_blank"
           rel="noopener noreferrer"
-          class="plain-link text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300"
+          class="plain-link px-3 py-2 text-neutral-500 dark:text-neutral-400 transition-colors duration-150 hover:text-neutral-800 dark:hover:text-neutral-200"
         >
           X
         </a>
         <a
           href="/newsletter"
-          class="plain-link text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300"
+          class="plain-link px-3 py-2 text-neutral-500 dark:text-neutral-400 transition-colors duration-150 hover:text-neutral-800 dark:hover:text-neutral-200"
         >
           Newsletter
         </a>
       </nav>
     </footer>
+    </div>
     <script>
       // Make all links within article tags open in a new tab
       document.addEventListener("DOMContentLoaded", () => {

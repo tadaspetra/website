@@ -1,57 +1,17 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import EntryCard from "../components/EntryCard.astro";
 import NewsletterSignup from "../components/NewsletterSignup.astro";
-import PreviousThings from "../components/PreviousThings.astro";
 import { getCollection } from "astro:content";
+import { smartenPunctuation } from "../utils/typography";
 
 const essays = await getCollection("essays", ({ data }) => !data.draft);
 
 const sortedEssays = essays
   .sort((a, b) => b.data.pubDatetime.valueOf() - a.data.pubDatetime.valueOf())
   .map((post) => ({
-    title: post.data.title,
+    title: smartenPunctuation(post.data.title),
     slug: post.id.split("/")[0],
   }));
-
-const previousItems = [
-  {
-    href: "https://youtube.com/@tadaspetra",
-    title: "Youtube",
-    description: "Sharing what I learn.",
-    logo: "/logos/youtube.svg",
-    logoClass: "h-4 pb-1",
-  },
-  {
-    href: "https://agora.io",
-    title: "Agora",
-    description: "Senior Developer Advocate leading content and product.",
-    logo: "/logos/agora.svg",
-    logoClass: "h-4",
-  },
-  {
-    href: "https://zerotomastery.io/courses/flutter-bootcamp/",
-    title: "Zero To Mastery",
-    description: "Instructor for Flutter Bootcamp.",
-    logo: "/logos/ztm.svg",
-    logoClass: "h-3",
-    logoText: "Zero To Mastery",
-  },
-  {
-    href: "https://international.com",
-    title: "International",
-    description: "Senior Software Low Level Engineer.",
-    logo: "/logos/international.png",
-    logoClass: "h-4 pb-1",
-  },
-  {
-    href: "https://developers.google.com/profile/u/107281012378384773706",
-    title: "GDE",
-    description: "Google Developer Expert for Flutter and Dart since 2021.",
-    logo: "/logos/google.svg",
-    logoClass: "h-4",
-  },
-];
 ---
 
 <Layout
@@ -59,70 +19,28 @@ const previousItems = [
   description="I get energy from building useful products and teaching what I learn along the way."
   ogImage="/og.png"
 >
-  <main class="max-w-2xl mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-24">
-    <div
-      class="flex flex-wrap items-center justify-between gap-3 mb-10 sm:mb-14 sm:flex-nowrap"
-    >
-      <div class="flex items-center gap-4 sm:gap-5">
-        <img
-          src="/profile-transparent.png"
-          alt="Tadas Petra"
-          class="w-32 h-32 sm:w-40 sm:h-40 rounded-lg object-cover"
-        />
-        <div>
-          <h1 class="mb-0 leading-none pt-2">Tadas Petra</h1>
-          <p
-            class="text-sm text-neutral-400 dark:text-neutral-500 ml-1.5 flex items-center gap-1"
-          >
-            tah-dahs pet-rah
-          </p>
-        </div>
-      </div>
-    </div>
+  <main class="py-16 sm:py-20 md:py-28">
+    <div class="text-base leading-relaxed">
+      <h1 class="page-title mb-5">Tadas Petra</h1>
 
-    <div class="text-base sm:text-lg leading-relaxed">
-      <!-- <p>
-        I find joy in building quality products and sharing how I do it. My goal
-        is to lower barriers to entry for developers to build cool things.
-
-        In constant conflict with an inner artist and engineer. 
-      </p> -->
-
-      <p class="px-4 text-sm sm:text-base text-neutral-500 dark:text-neutral-400">
-        I find joy in understanding how things work and explaining them in a way
-        that creates clarity and awe. Here's where I'm currently doing that.
-      </p>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-0 mt-10 pb-0 mb-0">
-        <EntryCard
+      <p class="text-base leading-7 text-neutral-600 dark:text-neutral-400">
+        I currently work as a Developer Relations Engineer at <a
           href="https://elevenlabs.io"
-          title="ElevenLabs"
-          description="Developer Relations Engineer"
-          logo="/logos/elevenlabs.svg"
-          class="h-4 -ml-0.5 pb-1"
-        />
-        <EntryCard
-          href="https://hungrimind.com"
-          title="Hungrimind"
-          description="Founder"
-          logo="/logos/hungrimind-icon.png"
-          logoText="hungrimind"
-          logoTextClass="font-fraunces"
-          class="h-4"
-        />
-      </div>
-
-      <PreviousThings items={previousItems} />
+          target="_blank"
+          rel="noopener noreferrer">ElevenLabs</a
+        >, working on the developer brand, education, community and tooling.
+        Learn more about <a href="/experience">what I&rsquo;ve done</a>.
+      </p>
 
       <NewsletterSignup variant="home" />
 
-      <h2 class="mt-16 px-4">Essays</h2>
-      <div class="space-y-0">
+      <h2 class="mt-20 mb-4 text-base font-semibold leading-6">Essays</h2>
+      <div>
         {
           sortedEssays.map((post) => (
             <a
               href={`/${post.slug}`}
-              class="plain-link block px-4 py-2 rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors text-sm sm:text-base"
+              class="plain-link relative z-0 block py-2.5 text-base transition-colors duration-150 before:absolute before:-inset-x-3 before:-inset-y-0.5 before:-z-10 before:rounded-lg before:content-[''] before:transition-colors before:duration-150 hover:before:bg-neutral-100 dark:hover:before:bg-neutral-800"
             >
               {post.title}
             </a>
@@ -131,14 +49,4 @@ const previousItems = [
       </div>
     </div>
   </main>
-
-  <script>
-    const playBtn = document.getElementById("play-pronunciation");
-    const audio = document.getElementById("name-audio") as HTMLAudioElement;
-
-    playBtn?.addEventListener("click", () => {
-      audio.currentTime = 0;
-      audio.play();
-    });
-  </script>
 </Layout>

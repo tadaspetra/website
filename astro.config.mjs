@@ -43,7 +43,7 @@ export default defineConfig({
           rankSpacing: 56,
           padding: 24,
         },
-        markdownAutoWrap: true,
+        markdownAutoWrap: false,
       },
     }),
   ],

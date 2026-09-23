@@ -1,93 +1,25 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import NewsletterSignup from "../components/NewsletterSignup.astro";
-import {
-  addNewsletterContact,
-  emailPattern,
-  sendNewsletterEvent,
-} from "../lib/resendNewsletter";
+import { normalizeEmail } from "../lib/http";
 
 export const prerender = false;
-
-const apiKey = import.meta.env.RESEND_API_KEY;
-const newsletterSignupEvent =
-  import.meta.env.RESEND_NEWSLETTER_EVENT_NAME || "newsletter.signup";
-const email = Astro.url.searchParams.get("email")?.trim().toLowerCase();
-const hasEmailParam = Astro.url.searchParams.has("email");
-const alreadySubscribedMessage =
-  "You're already signed up. If you don't see the welcome email, check your spam folder.";
-
-let state: "success" | "already" | "invalid" | "unavailable" = "invalid";
-let message =
-  "This migration link is invalid. Please use the button from the email I sent you.";
-
-if (!hasEmailParam) {
-  state = "success";
-  message = "";
-} else if (!apiKey) {
-  state = "unavailable";
-  message = "Newsletter migration is not configured yet. Please try again later.";
-} else if (email && emailPattern.test(email)) {
-  const result = await addNewsletterContact(apiKey, email);
-
-  if (result.ok) {
-    state = result.alreadySubscribed ? "already" : "success";
-    message =
-      state === "already"
-        ? alreadySubscribedMessage
-        : "You're on the new list. Thank you.";
-
-    if (result.created) {
-      await sendNewsletterEvent(apiKey, newsletterSignupEvent, email, {
-        source: "loops-migration",
-        path: Astro.url.pathname,
-      }).catch(() => null);
-    }
-  } else {
-    state = "unavailable";
-    message =
-      result.body?.message ||
-      "Newsletter migration is temporarily unavailable. Please try again.";
-  }
-}
-
-const title =
-  !hasEmailParam
-    ? "Newsletter"
-    : state === "success" || state === "already"
-    ? "You're on the list"
-    : "Newsletter migration";
+Astro.response.headers.set("Cache-Control", "no-store");
+Astro.response.headers.set("Referrer-Policy", "no-referrer");
+const email = normalizeEmail(Astro.url.searchParams.get("email")) ?? "";
+const status = Astro.url.searchParams.get("status");
+const messages: Record<string, string> = {
+  success: "You're on the list. Thank you.",
+  invalid: "Please enter a valid email address.",
+  unavailable: "Newsletter signup is temporarily unavailable. Please try again.",
+};
+const message = status ? messages[status] : undefined;
 ---
 
-<Layout title={`${title} | Tadas Petra`}>
-  <main class="min-h-[70vh] py-16 sm:py-20 md:py-28">
-    {
-      hasEmailParam ? (
-        <section>
-          <p class="mb-3 text-sm text-neutral-400 dark:text-neutral-500">
-            Newsletter
-          </p>
-          <h1 class="page-title mb-4">{title}</h1>
-          <p class="max-w-xl text-base leading-7 text-neutral-600 dark:text-neutral-400">
-            {message}
-          </p>
-          {state === "success" || state === "already" ? (
-            <script is:inline>
-              localStorage.setItem("newsletter-signed-up", "true");
-            </script>
-          ) : null}
-          <a class="plain-link ghost-button mt-8" href="/">
-            Back home
-          </a>
-        </section>
-      ) : (
-        <section>
-          <NewsletterSignup alwaysVisible />
-          <a class="plain-link ghost-button mt-6" href="/">
-            Back home
-          </a>
-        </section>
-      )
-    }
+<Layout title="Newsletter | Tadas Petra">
+  <main id="main-content" tabindex="-1" class="min-h-[70vh] py-16 sm:py-20 md:py-28">
+    <NewsletterSignup alwaysVisible email={email} headingLevel="h1" />
+    {message && <p class="text-sm text-neutral-600 dark:text-neutral-400" role="status">{message}</p>}
+    <a class="plain-link ghost-button mt-6" href="/">Back home</a>
   </main>
 </Layout>

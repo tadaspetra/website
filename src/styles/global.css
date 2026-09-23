@@ -1,5 +1,47 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+@font-face {
+  font-family: Inter;
+  src: url("../assets/fonts/Inter-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: Inter;
+  src: url("../assets/fonts/Inter-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: Inter;
+  src: url("../assets/fonts/Inter-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: Inter;
+  src: url("../assets/fonts/Inter-400-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: optional;
+}
+
+@font-face {
+  font-family: Inter;
+  src: url("../assets/fonts/Inter-600-italic.woff2") format("woff2");
+  font-weight: 600;
+  font-style: italic;
+  font-display: optional;
+}
+
 @font-face {
   font-family: "Inter Fallback";
   src: local("Arial");
@@ -31,7 +73,7 @@
 }
 
 @theme {
-  /* Inter itself is inlined in Layout so first paint already has the face. */
+  /* Static font instances preserve the existing Safari text metrics. */
   --font-sans:
     "Inter", "Inter Fallback", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -80,7 +122,13 @@
     width: 100%;
     max-width: 42rem;
     margin-inline: auto;
-    padding-inline: 1.5rem;
+    padding-inline: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .page {
+      padding-inline: 1.5rem;
+    }
   }
 
   ::selection {
@@ -143,7 +191,7 @@
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 4' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none'%3E%3Cpath d='M0,2 C5,0.8 8,3.2 12,1.5 C18,3.2 22,0.8 28,2.5 C32,1.2 38,2.8 42,2 C48,1.2 52,3.2 58,1.8 C62,3.5 68,0.8 72,2.5 C78,1.8 82,3.5 88,2 C92,1.2 96,2.8 100,2' stroke='%23d4c4b0' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
   }
 
-  a:focus-visible {
+  :where(a, button, summary, [tabindex]):focus-visible {
     outline: 2px solid currentColor;
     outline-offset: 3px;
     border-radius: 2px;
@@ -153,7 +201,6 @@
   a.plain-link:hover {
     color: inherit;
     background-image: none;
-    padding-bottom: 0;
   }
 
   article {
@@ -202,10 +249,6 @@
     margin-inline: auto;
   }
 
-  article span:not(.nodeLabel):not(.edgeLabel):not(.label) {
-    @apply leading-7;
-  }
-
   article blockquote:not(.twitter-tweet):not(.quote-blockquote) {
     @apply my-6;
     padding: 1rem;
@@ -244,7 +287,9 @@
     grid-column: 2;
   }
 
-  article blockquote:not(.twitter-tweet):not(.quote-blockquote) p:not(:last-child) {
+  article
+    blockquote:not(.twitter-tweet):not(.quote-blockquote)
+    p:not(:last-child) {
     @apply mb-2;
   }
 
@@ -332,6 +377,10 @@
   }
 
   article pre.mermaid {
+    --diagram-text: #404040;
+    --diagram-surface: #ffffff;
+    --diagram-border: #d4d4d4;
+    --diagram-line: #a3a3a3;
     @apply border-y border-neutral-200 dark:border-neutral-700;
     display: block;
     text-align: center;
@@ -340,7 +389,7 @@
     padding: 1.5rem 0;
     background: transparent !important;
     border-radius: 0 !important;
-    color: #404040;
+    color: var(--diagram-text);
     font-family: var(--font-inter);
     white-space: normal;
   }
@@ -396,7 +445,7 @@
   article pre.mermaid svg .label,
   article pre.mermaid svg .nodeLabel,
   article pre.mermaid svg .edgeLabel {
-    color: #404040 !important;
+    color: var(--diagram-text) !important;
     text-align: center;
   }
 
@@ -411,20 +460,20 @@
   article pre.mermaid svg .node ellipse,
   article pre.mermaid svg .node polygon,
   article pre.mermaid svg .node path {
-    fill: #ffffff !important;
-    stroke: #d4d4d4 !important;
+    fill: var(--diagram-surface) !important;
+    stroke: var(--diagram-border) !important;
     stroke-width: 1.25px !important;
   }
 
   article pre.mermaid svg .edgePath .path,
   article pre.mermaid svg .flowchart-link,
   article pre.mermaid svg marker path {
-    stroke: #a3a3a3 !important;
+    stroke: var(--diagram-line) !important;
   }
 
   article pre.mermaid svg marker,
   article pre.mermaid svg marker path {
-    fill: #a3a3a3 !important;
+    fill: var(--diagram-line) !important;
   }
 
   article pre.mermaid svg .edgeLabel,
@@ -433,60 +482,21 @@
   article pre.mermaid svg .edgeLabel foreignObject div,
   article pre.mermaid svg .edgeLabel p,
   article pre.mermaid svg .edgeLabel span {
-    background-color: #ffffff !important;
-    fill: #ffffff !important;
+    background-color: var(--diagram-surface) !important;
+    fill: var(--diagram-surface) !important;
   }
 
   article pre.mermaid svg text,
   article pre.mermaid svg tspan {
-    color: #404040 !important;
-    fill: #404040 !important;
+    color: var(--diagram-text) !important;
+    fill: var(--diagram-text) !important;
   }
 
   .dark article pre.mermaid {
-    color: #d4d4d4;
-  }
-
-  .dark article pre.mermaid svg .node rect,
-  .dark article pre.mermaid svg .node circle,
-  .dark article pre.mermaid svg .node ellipse,
-  .dark article pre.mermaid svg .node polygon,
-  .dark article pre.mermaid svg .node path {
-    fill: #171717 !important;
-    stroke: #525252 !important;
-  }
-
-  .dark article pre.mermaid svg .edgePath .path,
-  .dark article pre.mermaid svg .flowchart-link,
-  .dark article pre.mermaid svg marker path {
-    stroke: #737373 !important;
-  }
-
-  .dark article pre.mermaid svg marker,
-  .dark article pre.mermaid svg marker path {
-    fill: #737373 !important;
-  }
-
-  .dark article pre.mermaid svg .edgeLabel,
-  .dark article pre.mermaid svg .edgeLabel rect,
-  .dark article pre.mermaid svg .edgeLabel .labelBkg,
-  .dark article pre.mermaid svg .edgeLabel foreignObject div,
-  .dark article pre.mermaid svg .edgeLabel p,
-  .dark article pre.mermaid svg .edgeLabel span {
-    background-color: #171717 !important;
-    fill: #171717 !important;
-  }
-
-  .dark article pre.mermaid svg text,
-  .dark article pre.mermaid svg tspan {
-    color: #d4d4d4 !important;
-    fill: #d4d4d4 !important;
-  }
-
-  .dark article pre.mermaid svg .label,
-  .dark article pre.mermaid svg .nodeLabel,
-  .dark article pre.mermaid svg .edgeLabel {
-    color: #d4d4d4 !important;
+    --diagram-text: #d4d4d4;
+    --diagram-surface: #171717;
+    --diagram-border: #525252;
+    --diagram-line: #737373;
   }
 
   article hr {
@@ -580,10 +590,6 @@
 
   .letter-box {
     @apply py-3 rounded-lg;
-    display: none;
-  }
-
-  .show-letter-box .letter-box {
     display: block;
   }
 
@@ -611,7 +617,7 @@
     @apply mt-0 mb-12 px-0 pt-8;
   }
 
-  .letter-box-copy h2 {
+  .letter-box-copy :is(h1, h2) {
     @apply mt-0 mb-3 text-base font-semibold leading-6;
     letter-spacing: -0.012em;
     color: var(--ink);
@@ -644,7 +650,7 @@
   }
 
   .letter-box-form input::placeholder {
-    @apply text-neutral-400 dark:text-neutral-500;
+    @apply text-neutral-500 dark:text-neutral-400;
   }
 
   .letter-box-message {
@@ -678,44 +684,66 @@
     @apply opacity-60 cursor-not-allowed;
   }
 
-  /* Mobile-friendly table styles */
-  @media (max-width: 767px) {
-    article table {
-      @apply block w-full border-collapse;
-    }
+  /* Preserve each table's real headings instead of inventing mobile labels. */
+  article table {
+    display: block;
+    overflow-x: auto;
+  }
+}
 
-    article thead {
-      @apply hidden;
-    }
+.skip-link {
+  position: absolute;
+  top: 0.5rem;
+  left: 1rem;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  background: Canvas;
+  color: CanvasText;
+  transform: translateY(-200%);
+}
+.skip-link:focus {
+  transform: translateY(0);
+}
 
-    article tbody {
-      @apply block;
-    }
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+article {
+  overflow-wrap: anywhere;
+}
 
-    article tr {
-      @apply block mb-6 border border-neutral-200 dark:border-neutral-700 rounded-lg overflow-hidden;
-    }
+@media (pointer: coarse) {
+  :where(.ghost-button, .letter-box-form button, footer a, summary, .cc-tab) {
+    min-height: 44px;
+  }
+}
 
-    article td {
-      @apply block p-3 border-b border-neutral-200 dark:border-neutral-700 last:border-b-0;
-    }
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+  .electricity-particles {
+    display: none;
+  }
+}
 
-    article td:first-child {
-      @apply bg-neutral-50 dark:bg-neutral-800 font-bold text-lg p-4;
-    }
-
-    article td:first-child:before {
-      content: "Step ";
-    }
-
-    article tr td:nth-child(2):before {
-      content: "Action: ";
-      @apply font-bold text-neutral-700 dark:text-neutral-100;
-    }
-
-    article tr td:nth-child(3):before {
-      content: "Why: ";
-      @apply font-bold text-neutral-700 dark:text-neutral-100;
-    }
+@keyframes electricity-flow {
+  0% {
+    offset-distance: 0%;
+    opacity: 0;
+  }
+  10%,
+  90% {
+    opacity: 1;
+  }
+  100% {
+    offset-distance: 100%;
+    opacity: 0;
   }
 }

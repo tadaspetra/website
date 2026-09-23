@@ -1,117 +1,79 @@
 import { createHash } from "node:crypto";
 import { Resend } from "resend";
-import type { ErrorResponse, SendEventResponseSuccess } from "resend";
 
-const resendAudienceId = "74cfa5dc-561e-42dc-8c9b-8732a9a6876e";
+const audienceId = "74cfa5dc-561e-42dc-8c9b-8732a9a6876e";
+const retryWindowMs = 24 * 60 * 60 * 1000;
 
-export const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export interface SignupResult {
+  ok: boolean;
+  message: string;
+  alreadySubscribed?: boolean;
+}
 
-type ResendResponseBody = {
-  message?: string;
-};
-
-export async function addNewsletterContact(apiKey: string, email: string) {
-  const resend = new Resend(apiKey);
-  const existingContact = await getNewsletterContactStatus(resend, email);
-
-  if (existingContact.ok && existingContact.exists) {
-    return {
-      ok: true,
-      status: existingContact.status,
-      body: existingContact.body,
-      alreadySubscribed: true,
-      created: false,
-    };
+// One service is shared by enhanced and plain HTML form submissions.
+export async function subscribeToNewsletter(
+  resend: Resend,
+  email: string,
+  event = "newsletter.signup",
+): Promise<SignupResult> {
+  const existing = await resend.contacts.get({ audienceId, email });
+  if (existing.error && existing.error.statusCode !== 404) {
+    throw new Error("Contact lookup failed");
   }
 
-  const resendResponse = await resend.contacts.create({
-    audienceId: resendAudienceId,
-    email,
-    unsubscribed: false,
-  });
-
-  const body = getResponseBody(resendResponse.error);
-  const status = getResponseStatus(resendResponse.error);
-  const alreadySubscribed = isAlreadySubscribed(status, body);
-
-  return {
-    ok: !resendResponse.error || alreadySubscribed,
-    status,
-    body,
-    alreadySubscribed,
-    created: !resendResponse.error,
-  };
-}
-
-export async function sendNewsletterEvent(
-  apiKey: string,
-  event: string,
-  email: string,
-  payload: Record<string, unknown>,
-) {
-  const resend = new Resend(apiKey);
-  const eventResponse = await resend.post<SendEventResponseSuccess>(
-    "/events/send",
-    {
-      event,
+  const alreadySubscribed = Boolean(
+    existing.data && !existing.data.unsubscribed,
+  );
+  if (existing.data?.unsubscribed) {
+    const updated = await resend.contacts.update({
+      audienceId,
       email,
-      payload,
-    },
-    {
-      idempotencyKey: getNewsletterIdempotencyKey("event", event, email),
-    },
-  );
+      unsubscribed: false,
+    });
+    if (updated.error) throw new Error("Contact update failed");
+  } else if (!existing.data) {
+    const created = await resend.contacts.create({
+      audienceId,
+      email,
+      unsubscribed: false,
+    });
+    // Do not interpret a generic conflict as proof of a subscription.
+    if (created.error) throw new Error("Contact creation failed");
+  }
 
-  const body = getResponseBody(eventResponse.error);
+  // Retry a failed welcome event for a recently created contact, using the
+  // same payload and key. Older subscribers must not restart the automation.
+  const createdAt = existing.data
+    ? Date.parse(existing.data.created_at)
+    : Date.now();
+  const age = Date.now() - createdAt;
+  if (age >= 0 && age < retryWindowMs) {
+    const digest = createHash("sha256")
+      .update([event, email].join("\0"))
+      .digest("hex");
+    const sent = await resend.post(
+      "/events/send",
+      {
+        event,
+        email,
+        payload: { source: "website", path: "/api/newsletter" },
+      },
+      { idempotencyKey: `newsletter-event-v1-${digest}` },
+    );
+    if (sent.error) {
+      return {
+        ok: false,
+        message:
+          "Your signup is saved, but the welcome email could not start. Please try again.",
+      };
+    }
+  }
 
   return {
-    ok: !eventResponse.error,
-    status: getResponseStatus(eventResponse.error),
-    body,
+    ok: true,
+    alreadySubscribed,
+    message: alreadySubscribed
+      ? "You're already signed up. If you don't see the welcome email, check your spam folder."
+      : "You're on the list. Thank you.",
   };
-}
-
-function getResponseBody(error: ErrorResponse | null): ResendResponseBody | null {
-  return error ? { message: error.message } : null;
-}
-
-function getResponseStatus(error: ErrorResponse | null) {
-  return error ? error.statusCode || 500 : 200;
-}
-
-function isAlreadySubscribed(status: number, body: ResendResponseBody | null) {
-  return (
-    status === 409 || String(body?.message || "").toLowerCase().includes("already")
-  );
-}
-
-async function getNewsletterContactStatus(resend: Resend, email: string) {
-  const contactResponse = await resend.get<unknown>(
-    `/audiences/${encodeURIComponent(resendAudienceId)}/contacts/${encodeURIComponent(email)}`,
-  );
-  const body = getResponseBody(contactResponse.error);
-  const status = getResponseStatus(contactResponse.error);
-  const notFound = isContactNotFound(status, body);
-
-  return {
-    ok: !contactResponse.error || notFound,
-    status,
-    body,
-    exists: !contactResponse.error && Boolean(contactResponse.data),
-  };
-}
-
-function isContactNotFound(status: number, body: ResendResponseBody | null) {
-  return (
-    status === 404 ||
-    String(body?.message || "")
-      .toLowerCase()
-      .includes("not found")
-  );
-}
-
-function getNewsletterIdempotencyKey(kind: "event", ...parts: string[]) {
-  const digest = createHash("sha256").update(parts.join("\0")).digest("hex");
-
-  return `newsletter-${kind}-v1-${digest}`;
 }

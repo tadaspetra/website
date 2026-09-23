@@ -2,9 +2,12 @@
 interface Props {
   variant?: "home" | "compact";
   alwaysVisible?: boolean;
+  email?: string;
+  headingLevel?: "h1" | "h2";
 }
 
-const { variant = "compact", alwaysVisible = false } = Astro.props;
+const { variant = "compact", alwaysVisible = false, email = "", headingLevel: Heading = "h2" } = Astro.props;
+const id = `letter-${crypto.randomUUID()}`;
 const isHome = variant === "home";
 ---
 
@@ -15,22 +18,24 @@ const isHome = variant === "home";
     alwaysVisible ? "letter-box-always-visible" : "",
   ]}
   data-letter-box
-  data-letter-box-always-visible={alwaysVisible ? "true" : undefined}
 >
   <div class="letter-box-copy">
-    <h2>
+    <Heading>
       Newsletter
-    </h2>
+    </Heading>
     <p>
       Sign up for founder insights, AI observations, and clear explanations of
       things I&rsquo;m learning along the way.
     </p>
   </div>
 
-  <form class="letter-box-form" data-letter-form>
-    <label class="sr-only" for={`letter-email-${variant}`}>Email address</label>
+  <form class="letter-box-form" action="/api/newsletter" method="post" data-letter-form>
+    <label class="sr-only" for={id}>Email address</label>
     <input
-      id={`letter-email-${variant}`}
+      id={id}
+      value={email}
+      maxlength="254"
+      aria-describedby={`${id}-message`}
       name="email"
       type="email"
       autocomplete="email"
@@ -43,7 +48,7 @@ const isHome = variant === "home";
     </button>
   </form>
 
-  <p class="letter-box-message" data-letter-message aria-live="polite">
+  <p id={`${id}-message`} class="letter-box-message" data-letter-message aria-live="polite">
   </p>
 </section>
 
@@ -55,24 +60,9 @@ const isHome = variant === "home";
     const emailInput = box.querySelector<HTMLInputElement>("[data-letter-email]");
     const submitButton = box.querySelector<HTMLButtonElement>("[data-letter-submit]");
     const message = box.querySelector<HTMLElement>("[data-letter-message]");
-    const alwaysVisible = box.dataset.letterBoxAlwaysVisible === "true";
-
     if (!form || !emailInput || !submitButton || !message) {
       return;
     }
-
-    if (box.dataset.letterBoxInitialized === "true") {
-      return;
-    }
-
-    box.dataset.letterBoxInitialized = "true";
-
-    if (!alwaysVisible && localStorage.getItem(subscribedStorageKey) === "true") {
-      box.hidden = true;
-      return;
-    }
-
-    document.documentElement.classList.add("show-letter-box");
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
@@ -88,6 +78,7 @@ const isHome = variant === "home";
 
       form.dataset.letterSubmitting = "true";
       submitButton.disabled = true;
+      form.setAttribute("aria-busy", "true");
       message.textContent = "Signing you up...";
 
       try {
@@ -97,30 +88,29 @@ const isHome = variant === "home";
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ email }),
+          signal: AbortSignal.timeout(15000),
         });
 
-        const result = await response.json();
+        const result = await response.json().catch(() => null);
 
-        if (!response.ok) {
-          throw new Error(result?.message || "Something went wrong.");
+        if (!response.ok || result?.ok !== true) {
+          throw new Error(result?.message || "Something went wrong. Please try again.");
         }
 
-        localStorage.setItem(subscribedStorageKey, "true");
+        try { localStorage.setItem(subscribedStorageKey, "true"); } catch {
+          // Storage is optional; a successful subscription is still successful.
+        }
         form.reset();
         message.textContent = result?.message || "You're on the list. Thank you.";
-        if (!alwaysVisible) {
-          window.setTimeout(() => {
-            box.hidden = true;
-          }, 1200);
-        }
       } catch (error) {
         message.textContent =
-          error instanceof Error
+          error instanceof Error && error.name !== "TimeoutError"
             ? error.message
             : "Something went wrong. Please try again.";
       } finally {
         submitButton.disabled = false;
         delete form.dataset.letterSubmitting;
+        form.removeAttribute("aria-busy");
       }
     });
   });

@@ -1,36 +1,21 @@
 import { useCallback, useEffect, useRef } from "react";
 
-interface ClickSoundOptions {
-  volume?: number;
-}
+export default function useClickSound() {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
-export default function useClickSound(options: ClickSoundOptions = {}) {
-  const audioPoolRef = useRef<HTMLAudioElement[]>([]);
-  const audioIndexRef = useRef(0);
-  const { volume = 0.6 } = options;
-
-  useEffect(() => {
-    if (audioPoolRef.current.length > 0) return;
-
-    const poolSize = 4;
-    const pool = Array.from({ length: poolSize }, () => {
-      const audio = new Audio("/mouse-click.mp3");
-      audio.preload = "auto";
-      audio.load();
-      return audio;
-    });
-
-    audioPoolRef.current = pool;
-  }, []);
+  useEffect(
+    () => () => {
+      audioRef.current?.pause();
+      audioRef.current = null;
+    },
+    [],
+  );
 
   return useCallback(() => {
-    if (audioPoolRef.current.length === 0) return;
-
-    const index = audioIndexRef.current % audioPoolRef.current.length;
-    audioIndexRef.current = index + 1;
-    const audio = audioPoolRef.current[index];
-    audio.volume = volume;
+    // Load only after interaction. Audio failures must not break the demo.
+    const audio = (audioRef.current ??= new Audio("/mouse-click.mp3"));
+    audio.volume = 0.6;
     audio.currentTime = 0;
-    void audio.play();
-  }, [volume]);
+    void audio.play().catch(() => {});
+  }, []);
 }

@@ -6,28 +6,38 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "check": "astro check",
+    "test": "node --import tsx --test tests/*.test.ts",
+    "verify": "pnpm check && pnpm test && pnpm build"
   },
   "dependencies": {
-    "@astrojs/mdx": "^4.3.13",
+    "@astrojs/mdx": "^4.3.14",
     "@astrojs/react": "^4.4.2",
-    "@astrojs/vercel": "^9.0.4",
-    "@expressive-code/plugin-line-numbers": "^0.41.6",
+    "@astrojs/vercel": "^9.0.5",
+    "@expressive-code/plugin-line-numbers": "^0.41.7",
     "@resvg/resvg-js": "^2.6.2",
-    "@tailwindcss/vite": "^4.1.18",
-    "astro": "^5.17.1",
-    "astro-expressive-code": "^0.41.6",
-    "astro-mermaid": "^2.0.1",
-    "mermaid": "^11.15.0",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "resend": "^6.12.2",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^5.18.2",
+    "astro-expressive-code": "^0.41.7",
+    "astro-mermaid": "^2.1.0",
+    "mermaid": "^11.17.2",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "resend": "^6.28.1",
     "satori": "^0.18.4",
     "sharp": "^0.34.5",
-    "tailwindcss": "^4.1.18"
+    "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
+    "@astrojs/check": "^0.9.10",
     "@types/react": "^19.2.10",
-    "@types/react-dom": "^19.2.3"
-  }
+    "@types/react-dom": "^19.2.3",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "packageManager": "pnpm@10.13.1"
 }

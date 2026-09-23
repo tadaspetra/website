@@ -74,6 +74,12 @@ Use this guide when creating or changing pages and components. The site should f
 - Use native `details`/`summary` for simple disclosures. Hidden content must not
   remain keyboard-focusable.
 - All interactive drawings need named keyboard controls and a visible state.
+- In explanatory diagrams, interact with the illustrated object itself: click the
+  switch, transistor input, or light. Preserve visual cause and effect; avoid
+  adding separate control panels, repeated explanations, or surrounding UI chrome.
+- Keep circuit artwork flat and two-dimensional, with consistent rounded strokes
+  and simple color changes. Avoid simulated glass, metallic shading, reflections,
+  bevels, and glow; polish the existing shapes without changing their layouts.
 - Keep animation decorative, respect reduced motion, and avoid React updates on
   every animation frame. Never use `transition: all`.
 - Use the shared focus-visible style and prefer 44px touch targets. Do not clip

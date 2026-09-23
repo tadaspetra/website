@@ -1,6 +1,7 @@
-import { useState, useId } from "react";
+import { useState } from "react";
+import { BulbArtwork, TransistorArtwork } from "./CircuitArtwork";
 import FlowParticles from "./FlowParticles";
-import { toggleKeys } from "./toggleKeys";
+import CircuitControl from "./CircuitControl";
 import useClickSound from "./useClickSound";
 
 interface TransistorState {
@@ -12,7 +13,6 @@ export default function TransistorAndGate() {
   const [inputs, setInputs] = useState<TransistorState>({ a: false, b: false });
 
   const playClickSound = useClickSound();
-  const id = useId();
 
   const isCircuitComplete = inputs.a && inputs.b;
 
@@ -25,26 +25,9 @@ export default function TransistorAndGate() {
     <div className="my-12 -mx-4 sm:mx-0">
       <svg
         viewBox="0 0 310 430"
-        className="w-full h-auto max-w-md mx-auto"
+        className="w-full h-auto max-w-[340px] mx-auto overflow-visible"
         style={{ minHeight: "300px" }}
       >
-        <defs>
-          <filter
-            id={`${id}-transistorGlow`}
-            x="-50%"
-            y="-50%"
-            width="200%"
-            height="200%"
-          >
-            <feGaussianBlur stdDeviation="4" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
-
         {/* ============ PULL-DOWN RESISTOR & GROUND (rendered FIRST, behind everything) ============ */}
         {/* Vertical wire down from junction to resistor */}
         <line
@@ -52,7 +35,7 @@ export default function TransistorAndGate() {
           y1="310"
           x2="200"
           y2="325"
-          className="stroke-neutral-300 dark:stroke-neutral-700"
+          className="stroke-neutral-400 dark:stroke-neutral-500"
           strokeWidth="2"
           strokeLinecap="round"
         />
@@ -61,7 +44,7 @@ export default function TransistorAndGate() {
         <path
           d="M200,325 L208,330 L192,340 L208,350 L192,360 L200,365"
           fill="none"
-          className="stroke-neutral-400 dark:stroke-neutral-600"
+          className="stroke-neutral-400 dark:stroke-neutral-500"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -72,7 +55,7 @@ export default function TransistorAndGate() {
           x="225"
           y="350"
           fontSize="11"
-          className="fill-neutral-400 dark:fill-neutral-600 select-none"
+          className="fill-neutral-500 dark:fill-neutral-400 select-none"
         >
           R
           <tspan fontSize="8" dy="2">
@@ -127,8 +110,8 @@ export default function TransistorAndGate() {
           y1="35"
           x2="200"
           y2="92"
-          className="stroke-amber-400 dark:stroke-yellow-400"
-          strokeWidth="3"
+          className="stroke-amber-500 dark:stroke-amber-300"
+          strokeWidth="2"
           strokeLinecap="round"
         />
 
@@ -138,12 +121,12 @@ export default function TransistorAndGate() {
           y1="148"
           x2="200"
           y2="212"
-          className={`transition-colors duration-300 ${
+          className={`transition-colors duration-200 ${
             inputs.a
-              ? "stroke-amber-400 dark:stroke-yellow-400"
-              : "stroke-neutral-300 dark:stroke-neutral-700"
+              ? "stroke-amber-500 dark:stroke-amber-300"
+              : "stroke-neutral-400 dark:stroke-neutral-500"
           }`}
-          strokeWidth={inputs.a ? 3 : 2}
+          strokeWidth="2"
           strokeLinecap="round"
           style={{
             transition: "x2 0.4s ease-out, y2 0.4s ease-out",
@@ -156,25 +139,20 @@ export default function TransistorAndGate() {
           y1="268"
           x2="200"
           y2="310"
-          className={`transition-colors duration-300 ${
+          className={`transition-colors duration-200 ${
             isCircuitComplete
-              ? "stroke-amber-400 dark:stroke-yellow-400"
-              : "stroke-neutral-300 dark:stroke-neutral-700"
+              ? "stroke-amber-500 dark:stroke-amber-300"
+              : "stroke-neutral-400 dark:stroke-neutral-500"
           }`}
-          strokeWidth={isCircuitComplete ? 3 : 2}
+          strokeWidth="2"
           strokeLinecap="round"
           style={{
             transition: "x2 0.4s ease-out, y2 0.4s ease-out",
           }}
         />
 
-        {/* ============ ELECTRICITY PARTICLES ============ */}
-        {isCircuitComplete && (
-          <FlowParticles path="M200 35 V310 H280" duration={2.8} />
-        )}
-
         {/* ============ VOLTAGE SOURCE (Battery) ============ */}
-        <g className="text-amber-400 dark:text-yellow-400">
+        <g className="text-amber-500 dark:text-amber-300">
           {/* Battery positive line (longer) */}
           <line
             x1="188"
@@ -182,7 +160,7 @@ export default function TransistorAndGate() {
             x2="212"
             y2="8"
             stroke="currentColor"
-            strokeWidth="3"
+            strokeWidth="2"
             strokeLinecap="round"
           />
           {/* Battery negative line (shorter) */}
@@ -192,7 +170,7 @@ export default function TransistorAndGate() {
             x2="208"
             y2="18"
             stroke="currentColor"
-            strokeWidth="3"
+            strokeWidth="2"
             strokeLinecap="round"
           />
           {/* Connecting wire to circuit */}
@@ -202,7 +180,7 @@ export default function TransistorAndGate() {
             x2="200"
             y2="35"
             stroke="currentColor"
-            strokeWidth="3"
+            strokeWidth="2"
             strokeLinecap="round"
           />
           {/* + symbol */}
@@ -218,156 +196,36 @@ export default function TransistorAndGate() {
         </g>
 
         {/* ============ TRANSISTOR A ============ */}
-        <g
-          onClick={() => toggleInput("a")}
-          role="button"
-          tabIndex={0}
-          aria-label="Transistor input A"
-          aria-pressed={inputs.a}
-          onKeyDown={(event) => toggleKeys(event, () => toggleInput("a"))}
-          className="cursor-pointer group"
+        <CircuitControl
+          label={"Transistor input A"}
+          pressed={inputs.a}
+          hint={inputs.a ? "Remove voltage from A" : "Apply voltage to A"}
+          onToggle={() => toggleInput("a")}
         >
-          {/* Transistor body circle - fill only (renders first, behind everything) */}
-          <circle
-            cx="200"
-            cy="120"
-            r="28"
-            className={`transition-colors duration-300 ${
-              inputs.a
-                ? "fill-amber-50 dark:fill-amber-950/30"
-                : "fill-neutral-100 dark:fill-neutral-900"
-            }`}
-          />
-
-          {/* Collector (top) */}
-          <line
-            x1="200"
-            y1="92"
-            x2="200"
-            y2="105"
-            className={`transition-colors duration-300 ${
-              inputs.a
-                ? "stroke-amber-400 dark:stroke-yellow-400"
-                : "stroke-neutral-500 dark:stroke-neutral-500"
-            }`}
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-
-          {/* Emitter (bottom) with arrow */}
-          <line
-            x1="200"
-            y1="135"
-            x2="200"
-            y2="148"
-            className={`transition-colors duration-300 ${
-              inputs.a
-                ? "stroke-amber-400 dark:stroke-yellow-400"
-                : "stroke-neutral-500 dark:stroke-neutral-500"
-            }`}
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-          {/* Arrow head on emitter */}
-          <polygon
-            points="200,148 196,140 204,140"
-            className={`transition-colors duration-300 ${
-              inputs.a
-                ? "fill-amber-400 dark:fill-yellow-400"
-                : "fill-neutral-500 dark:fill-neutral-500"
-            }`}
-          />
-
-          {/* Internal vertical bar */}
-          <line
-            x1="188"
-            y1="110"
-            x2="188"
-            y2="130"
-            className={`transition-colors duration-300 ${
-              inputs.a
-                ? "stroke-amber-400 dark:stroke-yellow-400"
-                : "stroke-neutral-500 dark:stroke-neutral-500"
-            }`}
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-
-          {/* Collector to bar */}
-          <line
-            x1="200"
-            y1="105"
-            x2="188"
-            y2="113"
-            className={`transition-colors duration-300 ${
-              inputs.a
-                ? "stroke-amber-400 dark:stroke-yellow-400"
-                : "stroke-neutral-500 dark:stroke-neutral-500"
-            }`}
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-
-          {/* Emitter from bar */}
-          <line
-            x1="188"
-            y1="127"
-            x2="200"
-            y2="135"
-            className={`transition-colors duration-300 ${
-              inputs.a
-                ? "stroke-amber-400 dark:stroke-yellow-400"
-                : "stroke-neutral-500 dark:stroke-neutral-500"
-            }`}
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-
-          {/* Base (left side) */}
-          <line
-            x1="172"
-            y1="120"
-            x2="188"
-            y2="120"
-            className={`transition-colors duration-300 ${
-              inputs.a
-                ? "stroke-amber-400 dark:stroke-yellow-400"
-                : "stroke-neutral-500 dark:stroke-neutral-500"
-            }`}
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-
-          {/* Transistor body circle - stroke only (renders last, on top of everything) */}
-          <circle
-            cx="200"
-            cy="120"
-            r="28"
-            fill="none"
-            className={`transition-colors duration-300 ${
-              inputs.a
-                ? "stroke-amber-400 dark:stroke-yellow-500"
-                : "stroke-neutral-400 dark:stroke-neutral-600"
-            }`}
-            strokeWidth="2"
-          />
+          <TransistorArtwork x={200} y={120} on={inputs.a} />
 
           {/* Invisible hit area */}
-          <rect x="60" y="85" width="180" height="70" fill="transparent" />
-        </g>
+          <rect
+            x="25"
+            y="85"
+            width="215"
+            height="70"
+            rx="10"
+            data-circuit-hit
+            className="fill-transparent stroke-transparent transition-colors duration-150 group-hover:fill-neutral-500/8 group-focus-visible:fill-neutral-500/8 group-focus-visible:stroke-neutral-500 dark:group-hover:fill-white/8 dark:group-focus-visible:fill-white/8 dark:group-focus-visible:stroke-neutral-400"
+          />
 
-        {/* ============ INPUT A (with resistor) ============ */}
-        <g onClick={() => toggleInput("a")} className="cursor-pointer group">
+          {/* ============ INPUT A (with resistor) ============ */}
           {/* Horizontal wire to resistor */}
           <line
             x1="60"
             y1="120"
             x2="90"
             y2="120"
-            className={`transition-colors duration-300 ${
+            className={`transition-colors duration-200 ${
               inputs.a
-                ? "stroke-amber-400 dark:stroke-yellow-400"
-                : "stroke-neutral-300 dark:stroke-neutral-700"
+                ? "stroke-amber-500 dark:stroke-amber-300"
+                : "stroke-neutral-400 dark:stroke-neutral-500"
             }`}
             strokeWidth="2"
             strokeLinecap="round"
@@ -377,10 +235,10 @@ export default function TransistorAndGate() {
           <path
             d="M90,120 L95,112 L105,128 L115,112 L125,128 L135,112 L145,128 L150,120 L172,120"
             fill="none"
-            className={`transition-colors duration-300 ${
+            className={`transition-colors duration-200 ${
               inputs.a
-                ? "stroke-amber-400 dark:stroke-yellow-400"
-                : "stroke-neutral-400 dark:stroke-neutral-600"
+                ? "stroke-amber-500 dark:stroke-amber-300"
+                : "stroke-neutral-400 dark:stroke-neutral-500"
             }`}
             strokeWidth="2"
             strokeLinecap="round"
@@ -394,9 +252,9 @@ export default function TransistorAndGate() {
             fontSize="14"
             fontWeight="600"
             textAnchor="middle"
-            className={`select-none transition-colors duration-300 ${
+            className={`select-none transition-colors duration-200 ${
               inputs.a
-                ? "fill-amber-400 dark:fill-yellow-400"
+                ? "fill-amber-500 dark:fill-amber-300"
                 : "fill-neutral-500 dark:fill-neutral-500"
             }`}
           >
@@ -407,10 +265,10 @@ export default function TransistorAndGate() {
           <circle
             cx="60"
             cy="120"
-            r="6"
-            className={`transition-colors duration-300 group-hover:scale-110 ${
+            r="4.5"
+            className={`transition-colors duration-200  ${
               inputs.a
-                ? "fill-amber-400 dark:fill-yellow-400"
+                ? "fill-amber-500 dark:fill-amber-300"
                 : "fill-neutral-300 dark:fill-neutral-700"
             }`}
             style={{
@@ -425,163 +283,43 @@ export default function TransistorAndGate() {
             y="108"
             fontSize="11"
             textAnchor="middle"
-            className="fill-neutral-400 dark:fill-neutral-600 select-none"
+            className="fill-neutral-500 dark:fill-neutral-400 select-none"
           >
             R
           </text>
-        </g>
+        </CircuitControl>
 
         {/* ============ TRANSISTOR B ============ */}
-        <g
-          onClick={() => toggleInput("b")}
-          role="button"
-          tabIndex={0}
-          aria-label="Transistor input B"
-          aria-pressed={inputs.b}
-          onKeyDown={(event) => toggleKeys(event, () => toggleInput("b"))}
-          className="cursor-pointer group"
+        <CircuitControl
+          label={"Transistor input B"}
+          pressed={inputs.b}
+          hint={inputs.b ? "Remove voltage from B" : "Apply voltage to B"}
+          onToggle={() => toggleInput("b")}
         >
-          {/* Transistor body circle - fill only (renders first, behind everything) */}
-          <circle
-            cx="200"
-            cy="240"
-            r="28"
-            className={`transition-colors duration-300 ${
-              inputs.b
-                ? "fill-amber-50 dark:fill-amber-950/30"
-                : "fill-neutral-100 dark:fill-neutral-900"
-            }`}
-          />
-
-          {/* Collector (top) */}
-          <line
-            x1="200"
-            y1="212"
-            x2="200"
-            y2="225"
-            className={`transition-colors duration-300 ${
-              inputs.b
-                ? "stroke-amber-400 dark:stroke-yellow-400"
-                : "stroke-neutral-500 dark:stroke-neutral-500"
-            }`}
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-
-          {/* Emitter (bottom) with arrow */}
-          <line
-            x1="200"
-            y1="255"
-            x2="200"
-            y2="268"
-            className={`transition-colors duration-300 ${
-              inputs.b
-                ? "stroke-amber-400 dark:stroke-yellow-400"
-                : "stroke-neutral-500 dark:stroke-neutral-500"
-            }`}
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-          {/* Arrow head on emitter */}
-          <polygon
-            points="200,268 196,260 204,260"
-            className={`transition-colors duration-300 ${
-              inputs.b
-                ? "fill-amber-400 dark:fill-yellow-400"
-                : "fill-neutral-500 dark:fill-neutral-500"
-            }`}
-          />
-
-          {/* Internal vertical bar */}
-          <line
-            x1="188"
-            y1="230"
-            x2="188"
-            y2="250"
-            className={`transition-colors duration-300 ${
-              inputs.b
-                ? "stroke-amber-400 dark:stroke-yellow-400"
-                : "stroke-neutral-500 dark:stroke-neutral-500"
-            }`}
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-
-          {/* Collector to bar */}
-          <line
-            x1="200"
-            y1="225"
-            x2="188"
-            y2="233"
-            className={`transition-colors duration-300 ${
-              inputs.b
-                ? "stroke-amber-400 dark:stroke-yellow-400"
-                : "stroke-neutral-500 dark:stroke-neutral-500"
-            }`}
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-
-          {/* Emitter from bar */}
-          <line
-            x1="188"
-            y1="247"
-            x2="200"
-            y2="255"
-            className={`transition-colors duration-300 ${
-              inputs.b
-                ? "stroke-amber-400 dark:stroke-yellow-400"
-                : "stroke-neutral-500 dark:stroke-neutral-500"
-            }`}
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-
-          {/* Base (left side) */}
-          <line
-            x1="172"
-            y1="240"
-            x2="188"
-            y2="240"
-            className={`transition-colors duration-300 ${
-              inputs.b
-                ? "stroke-amber-400 dark:stroke-yellow-400"
-                : "stroke-neutral-500 dark:stroke-neutral-500"
-            }`}
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-
-          {/* Transistor body circle - stroke only (renders last, on top of everything) */}
-          <circle
-            cx="200"
-            cy="240"
-            r="28"
-            fill="none"
-            className={`transition-colors duration-300 ${
-              inputs.b
-                ? "stroke-amber-400 dark:stroke-yellow-500"
-                : "stroke-neutral-400 dark:stroke-neutral-600"
-            }`}
-            strokeWidth="2"
-          />
+          <TransistorArtwork x={200} y={240} on={inputs.b} />
 
           {/* Invisible hit area */}
-          <rect x="60" y="205" width="180" height="70" fill="transparent" />
-        </g>
+          <rect
+            x="25"
+            y="205"
+            width="215"
+            height="70"
+            rx="10"
+            data-circuit-hit
+            className="fill-transparent stroke-transparent transition-colors duration-150 group-hover:fill-neutral-500/8 group-focus-visible:fill-neutral-500/8 group-focus-visible:stroke-neutral-500 dark:group-hover:fill-white/8 dark:group-focus-visible:fill-white/8 dark:group-focus-visible:stroke-neutral-400"
+          />
 
-        {/* ============ INPUT B (with resistor) ============ */}
-        <g onClick={() => toggleInput("b")} className="cursor-pointer group">
+          {/* ============ INPUT B (with resistor) ============ */}
           {/* Horizontal wire to resistor */}
           <line
             x1="60"
             y1="240"
             x2="90"
             y2="240"
-            className={`transition-colors duration-300 ${
+            className={`transition-colors duration-200 ${
               inputs.b
-                ? "stroke-amber-400 dark:stroke-yellow-400"
-                : "stroke-neutral-300 dark:stroke-neutral-700"
+                ? "stroke-amber-500 dark:stroke-amber-300"
+                : "stroke-neutral-400 dark:stroke-neutral-500"
             }`}
             strokeWidth="2"
             strokeLinecap="round"
@@ -591,10 +329,10 @@ export default function TransistorAndGate() {
           <path
             d="M90,240 L95,232 L105,248 L115,232 L125,248 L135,232 L145,248 L150,240 L172,240"
             fill="none"
-            className={`transition-colors duration-300 ${
+            className={`transition-colors duration-200 ${
               inputs.b
-                ? "stroke-amber-400 dark:stroke-yellow-400"
-                : "stroke-neutral-400 dark:stroke-neutral-600"
+                ? "stroke-amber-500 dark:stroke-amber-300"
+                : "stroke-neutral-400 dark:stroke-neutral-500"
             }`}
             strokeWidth="2"
             strokeLinecap="round"
@@ -608,9 +346,9 @@ export default function TransistorAndGate() {
             fontSize="14"
             fontWeight="600"
             textAnchor="middle"
-            className={`select-none transition-colors duration-300 ${
+            className={`select-none transition-colors duration-200 ${
               inputs.b
-                ? "fill-amber-400 dark:fill-yellow-400"
+                ? "fill-amber-500 dark:fill-amber-300"
                 : "fill-neutral-500 dark:fill-neutral-500"
             }`}
           >
@@ -621,10 +359,10 @@ export default function TransistorAndGate() {
           <circle
             cx="60"
             cy="240"
-            r="6"
-            className={`transition-colors duration-300 group-hover:scale-110 ${
+            r="4.5"
+            className={`transition-colors duration-200  ${
               inputs.b
-                ? "fill-amber-400 dark:fill-yellow-400"
+                ? "fill-amber-500 dark:fill-amber-300"
                 : "fill-neutral-300 dark:fill-neutral-700"
             }`}
             style={{
@@ -639,158 +377,27 @@ export default function TransistorAndGate() {
             y="228"
             fontSize="11"
             textAnchor="middle"
-            className="fill-neutral-400 dark:fill-neutral-600 select-none"
+            className="fill-neutral-500 dark:fill-neutral-400 select-none"
           >
             R
           </text>
-        </g>
+        </CircuitControl>
 
         {/* ============ OUTPUT SECTION ============ */}
-        {/* Horizontal wire */}
-        <line
-          x1="200"
-          y1="310"
-          x2="268"
-          y2="310"
-          className="stroke-neutral-300 dark:stroke-neutral-700"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        {/* 90-degree turn up to lightbulb */}
-        <line
-          x1="268"
-          y1="310"
-          x2="268"
-          y2="306"
-          className="stroke-neutral-300 dark:stroke-neutral-700"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        {/* Active horizontal wire */}
-        <line
-          x1="200"
-          y1="310"
-          x2="268"
-          y2="310"
-          className={`transition-colors duration-300 ${
+        <path
+          d="M200 310 H268 V302.6"
+          fill="none"
+          className={`transition-colors duration-200 ${
             isCircuitComplete
-              ? "stroke-amber-400 dark:stroke-yellow-400"
-              : "stroke-transparent"
+              ? "stroke-amber-500 dark:stroke-amber-300"
+              : "stroke-neutral-400 dark:stroke-neutral-500"
           }`}
-          strokeWidth={3}
+          strokeWidth="2"
           strokeLinecap="round"
+          strokeLinejoin="round"
         />
-        {/* Active vertical wire */}
-        {isCircuitComplete && (
-          <line
-            x1="268"
-            y1="310"
-            x2="268"
-            y2="306"
-            className="stroke-amber-400 dark:stroke-yellow-400"
-            strokeWidth="3"
-            strokeLinecap="round"
-          />
-        )}
 
-        {/* ============ OUTPUT INDICATOR (Lightbulb - wire turns up into bottom) ============ */}
-        <g>
-          {/* Glass bulb on TOP */}
-          <ellipse
-            cx="268"
-            cy="272"
-            rx="18"
-            ry="20"
-            className={`transition-[fill,stroke,opacity,filter,transform,x2,y2] duration-500 ${
-              isCircuitComplete
-                ? "fill-amber-200 dark:fill-yellow-200"
-                : "fill-neutral-100 dark:fill-neutral-800"
-            }`}
-            style={{
-              filter: isCircuitComplete ? `url(#${id}-transistorGlow)` : "none",
-            }}
-          />
-          {/* Inner glow when on */}
-          {isCircuitComplete && (
-            <ellipse
-              cx="268"
-              cy="272"
-              rx="11"
-              ry="13"
-              className="fill-amber-300 dark:fill-yellow-300"
-              style={{ opacity: 0.6 }}
-            />
-          )}
-          {/* Bulb outline */}
-          <ellipse
-            cx="268"
-            cy="272"
-            rx="18"
-            ry="20"
-            fill="none"
-            className={`transition-[fill,stroke,opacity,filter,transform,x2,y2] duration-300 ${
-              isCircuitComplete
-                ? "stroke-amber-400 dark:stroke-yellow-400"
-                : "stroke-neutral-400 dark:stroke-neutral-600"
-            }`}
-            strokeWidth="2"
-          />
-          {/* Screw base */}
-          <rect
-            x="258"
-            y="290"
-            width="20"
-            height="12"
-            className={`transition-colors duration-300 ${
-              isCircuitComplete
-                ? "fill-neutral-400 dark:fill-neutral-500"
-                : "fill-neutral-300 dark:fill-neutral-600"
-            }`}
-          />
-          {/* Screw threads */}
-          <line
-            x1="258"
-            y1="294"
-            x2="278"
-            y2="294"
-            className="stroke-neutral-500 dark:stroke-neutral-700"
-            strokeWidth="1"
-          />
-          <line
-            x1="258"
-            y1="298"
-            x2="278"
-            y2="298"
-            className="stroke-neutral-500 dark:stroke-neutral-700"
-            strokeWidth="1"
-          />
-          {/* Bottom contact (wire turns up into here) */}
-          <rect
-            x="263"
-            y="302"
-            width="10"
-            height="4"
-            rx="1"
-            className={`transition-colors duration-300 ${
-              isCircuitComplete
-                ? "fill-amber-400 dark:fill-yellow-500"
-                : "fill-neutral-400 dark:fill-neutral-600"
-            }`}
-          />
-          {/* Filament (visible when off) */}
-          <path
-            d="M262,272 L268,262 L274,272"
-            fill="none"
-            className="stroke-neutral-400 dark:stroke-neutral-500"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            style={{
-              opacity: isCircuitComplete ? 0 : 1,
-              transition: "opacity 0.3s",
-            }}
-          />
-        </g>
+        <BulbArtwork x={268} y={272} on={isCircuitComplete} scale={0.9} />
 
         {/* ============ BOOLEAN EXPRESSION ============ */}
         <text
@@ -798,36 +405,42 @@ export default function TransistorAndGate() {
           y="410"
           fontSize="13"
           textAnchor="middle"
-          className="fill-neutral-400 dark:fill-neutral-600 select-none"
+          className="fill-neutral-500 dark:fill-neutral-400 select-none"
           fontFamily="ui-monospace, monospace"
         >
           <tspan
-            className={inputs.a ? "fill-amber-400 dark:fill-yellow-400" : ""}
+            className={inputs.a ? "fill-amber-500 dark:fill-amber-300" : ""}
           >
             A
           </tspan>
           <tspan> ∧ </tspan>
           <tspan
-            className={inputs.b ? "fill-amber-400 dark:fill-yellow-400" : ""}
+            className={inputs.b ? "fill-amber-500 dark:fill-amber-300" : ""}
           >
             B
           </tspan>
           <tspan> = </tspan>
           <tspan
             className={
-              isCircuitComplete ? "fill-emerald-500 dark:fill-emerald-400" : ""
+              isCircuitComplete ? "fill-amber-600 dark:fill-amber-300" : ""
             }
             fontWeight={isCircuitComplete ? "600" : "400"}
           >
             {isCircuitComplete ? "1" : "0"}
           </tspan>
         </text>
+        {isCircuitComplete && (
+          <FlowParticles
+            path="M200 18 V105 L189 113 V127 L200 135 V225 L189 233 V247 L200 255 V310 H268 V302.6"
+            duration={2.8}
+          />
+        )}
       </svg>
 
-      {/* Subtle interaction hint */}
-      <p className="text-center text-neutral-500 dark:text-neutral-400 text-sm mt-2">
-        Toggle A or B to apply voltage
-      </p>
+      <span role="status" className="sr-only">
+        Input A {Number(inputs.a)}, input B {Number(inputs.b)}. Output{" "}
+        {Number(isCircuitComplete)}.
+      </span>
     </div>
   );
 }

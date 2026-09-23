@@ -9,19 +9,19 @@ interface Props {
 export default function FlowParticles({ path, duration }: Props) {
   return (
     <g
-      className="electricity-particles fill-amber-300 dark:fill-yellow-300"
+      className="electricity-particles pointer-events-none fill-amber-50 stroke-amber-600 dark:fill-neutral-900 dark:stroke-amber-200"
       aria-hidden="true"
     >
-      {Array.from({ length: 5 }, (_, index) => (
+      {Array.from({ length: 6 }, (_, index) => (
         <circle
           key={index}
-          r="4"
+          r="3"
+          strokeWidth="1.25"
           style={
             {
               offsetPath: `path('${path}')`,
               animation: `electricity-flow ${duration}s linear infinite`,
-              animationDelay: `${(-index * duration) / 5}s`,
-              filter: "drop-shadow(0 0 4px currentColor)",
+              animationDelay: `${(-index * duration) / 6}s`,
             } as CSSProperties
           }
         />

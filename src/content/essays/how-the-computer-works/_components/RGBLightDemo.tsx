@@ -1,5 +1,6 @@
-import { useState, useId } from "react";
-import { toggleKeys } from "./toggleKeys";
+import { useState } from "react";
+import { LEDArtwork } from "./CircuitArtwork";
+import CircuitControl from "./CircuitControl";
 import useClickSound from "./useClickSound";
 
 interface RGBState {
@@ -10,7 +11,7 @@ interface RGBState {
 
 interface LEDProps {
   x: number;
-  color: { off: string; on: string; glow: string };
+  color: string;
   isOn: boolean;
   onClick: () => void;
   label: string;
@@ -19,73 +20,34 @@ interface LEDProps {
 // LED component - classic through-hole LED shape
 function LED({ x, color, isOn, onClick, label }: LEDProps) {
   return (
-    <g
-      onClick={onClick}
-      role="button"
-      tabIndex={0}
-      aria-label={`${label} LED`}
-      aria-pressed={isOn}
-      onKeyDown={(event) => toggleKeys(event, onClick)}
-      className="cursor-pointer"
-      style={{ touchAction: "manipulation" }}
+    <CircuitControl
+      label={`${label} LED`}
+      pressed={isOn}
+      hint={`${isOn ? "Turn off" : "Turn on"} ${label.toLowerCase()}`}
+      onToggle={onClick}
     >
-      {/* Metal legs */}
-      <line
-        x1={x - 4}
-        y1={155}
-        x2={x - 4}
-        y2={190}
-        className="stroke-neutral-400"
-        strokeWidth="2"
-      />
-      <line
-        x1={x + 4}
-        y1={155}
-        x2={x + 4}
-        y2={190}
-        className="stroke-neutral-400"
-        strokeWidth="2"
-      />
-
-      {/* LED base (flat bottom) */}
-      <rect
-        x={x - 10}
-        y={150}
-        width={20}
-        height={6}
-        rx={1}
-        fill={isOn ? color.on : color.off}
-        className="transition-[fill,filter] duration-200"
-      />
-
-      {/* LED dome (rounded top) */}
-      <path
-        d={`M ${x - 10} 150
-            L ${x - 10} 130
-            Q ${x - 10} 115, ${x} 115
-            Q ${x + 10} 115, ${x + 10} 130
-            L ${x + 10} 150 Z`}
-        fill={isOn ? color.on : color.off}
-        className="transition-[fill,filter] duration-200"
-        style={{
-          filter: isOn ? `drop-shadow(0 0 8px ${color.glow})` : "none",
-        }}
-      />
-
-      {/* Highlight/reflection on dome */}
-      <ellipse
-        cx={x - 3}
-        cy={125}
-        rx={3}
-        ry={5}
-        fill="white"
-        opacity={isOn ? 0.4 : 0.2}
-        className="transition-opacity duration-200"
-      />
+      <LEDArtwork x={x} color={color} on={isOn} />
 
       {/* Hit area */}
-      <rect x={x - 20} y={110} width={40} height={90} fill="transparent" />
-    </g>
+      <rect
+        x={x - 25}
+        y={105}
+        width={50}
+        height={100}
+        rx={10}
+        data-circuit-hit
+        className="fill-transparent stroke-transparent transition-colors duration-150 group-hover:fill-neutral-500/8 group-focus-visible:fill-neutral-500/8 group-focus-visible:stroke-neutral-500 dark:group-hover:fill-white/8 dark:group-focus-visible:fill-white/8 dark:group-focus-visible:stroke-neutral-400"
+      />
+      <text
+        x={x}
+        y={205}
+        textAnchor="middle"
+        fontSize="10"
+        className="fill-neutral-500 dark:fill-neutral-400 select-none"
+      >
+        {label[0]}
+      </text>
+    </CircuitControl>
   );
 }
 
@@ -96,7 +58,6 @@ export default function RGBLightDemo() {
     b: false,
   });
   const playClickSound = useClickSound();
-  const id = useId();
 
   const toggleLight = (color: "r" | "g" | "b") => {
     playClickSound();
@@ -116,140 +77,25 @@ export default function RGBLightDemo() {
   const [colorName, pixelColor] =
     colors[Number(lights.r) * 4 + Number(lights.g) * 2 + Number(lights.b)];
 
-  const anyLightOn = lights.r || lights.g || lights.b;
-  const isWhite = lights.r && lights.g && lights.b;
-
-  // Define consistent border radius for top corners
-  const topRadius = 8;
-  const frameTopY = 16;
-  const pixelTopY = frameTopY;
-  const shadowInset = 2; // 2px inset for shadow
-  const shadowTopY = frameTopY + shadowInset;
-
-  // Calculate path strings with consistent radius
-  const pixelPath = `M 50 49 L 50 ${pixelTopY + topRadius} Q 50 ${pixelTopY}, ${
-    50 + topRadius
-  } ${pixelTopY} L ${270 - topRadius} ${pixelTopY} Q 270 ${pixelTopY}, 270 ${
-    pixelTopY + topRadius
-  } L 270 49 Z`;
-  const framePath = `M 50 160 L 50 ${
-    frameTopY + topRadius
-  } Q 50 ${frameTopY}, ${50 + topRadius} ${frameTopY} L ${
-    270 - topRadius
-  } ${frameTopY} Q 270 ${frameTopY}, 270 ${frameTopY + topRadius} L 270 160`;
-  // Shadow path: inset by shadowInset on all sides, uses same radius
-  const shadowLeft = 50 + shadowInset;
-  const shadowRight = 270 - shadowInset;
-  const shadowBottom = 49 - shadowInset;
-  const shadowPath = `M ${shadowLeft} ${shadowBottom} L ${shadowLeft} ${
-    shadowTopY + topRadius
-  } Q ${shadowLeft} ${shadowTopY}, ${shadowLeft + topRadius} ${shadowTopY} L ${
-    shadowRight - topRadius
-  } ${shadowTopY} Q ${shadowRight} ${shadowTopY}, ${shadowRight} ${
-    shadowTopY + topRadius
-  } L ${shadowRight} ${shadowBottom} L ${shadowLeft} ${shadowBottom} Z`;
+  // Keep the screen and light paths in their original positions.
+  const pixelPath = "M50 49V24Q50 16 58 16H262Q270 16 270 24V49Z";
+  const framePath = "M50 160V24Q50 16 58 16H262Q270 16 270 24V160";
 
   return (
     <div className="my-12 -mx-4 sm:mx-0">
-      <svg viewBox="0 0 320 200" className="w-full h-auto max-w-md mx-auto">
-        <defs>
-          {/* Light cone gradients - bright at bottom (LED), fading toward top (pixel) */}
-          <linearGradient
-            id={`${id}-redCone`}
-            x1="0%"
-            y1="0%"
-            x2="0%"
-            y2="100%"
-          >
-            <stop offset="0%" stopColor="#ef4444" stopOpacity="0" />
-            <stop offset="100%" stopColor="#ef4444" stopOpacity="0.6" />
-          </linearGradient>
-          <linearGradient
-            id={`${id}-greenCone`}
-            x1="0%"
-            y1="0%"
-            x2="0%"
-            y2="100%"
-          >
-            <stop offset="0%" stopColor="#22c55e" stopOpacity="0" />
-            <stop offset="100%" stopColor="#22c55e" stopOpacity="0.6" />
-          </linearGradient>
-          <linearGradient
-            id={`${id}-blueCone`}
-            x1="0%"
-            y1="0%"
-            x2="0%"
-            y2="100%"
-          >
-            <stop offset="0%" stopColor="#3b82f6" stopOpacity="0" />
-            <stop offset="100%" stopColor="#3b82f6" stopOpacity="0.6" />
-          </linearGradient>
-
-          {/* Pixel grid pattern */}
-          <pattern
-            id={`${id}-pixelGrid`}
-            width="8"
-            height="8"
-            patternUnits="userSpaceOnUse"
-          >
-            <rect width="8" height="8" fill="transparent" />
-            <rect width="7" height="7" fill="black" fillOpacity="0.1" rx="1" />
-          </pattern>
-
-          {/* Pixel glow filter */}
-          <filter
-            id={`${id}-pixelGlow`}
-            x="-50%"
-            y="-50%"
-            width="200%"
-            height="200%"
-          >
-            <feGaussianBlur stdDeviation="3" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-
-          {/* Clip path for pixel area - using defined radius */}
-          <clipPath id={`${id}-pixelClip`}>
-            <path d={pixelPath} />
-          </clipPath>
-        </defs>
-
-        {/* Pixel screen at top - rendered first so frame overlaps */}
-        <g clipPath={`url(#${id}-pixelClip)`}>
-          <g style={{ filter: anyLightOn ? `url(#${id}-pixelGlow)` : "none" }}>
-            {/* Base pixel color - using defined radius */}
-            <path
-              d={pixelPath}
-              fill={pixelColor}
-              className="transition-[fill,filter] duration-300"
-            />
-            {/* Pixel grid overlay */}
-            <path
-              d={pixelPath}
-              fill={`url(#${id}-pixelGrid)`}
-              className="transition-opacity duration-300"
-              style={{ opacity: anyLightOn ? 0.5 : 0.3 }}
-            />
-          </g>
-        </g>
-        {/* Subtle inner shadow/depth - slightly inset from pixel edges, all sides, same radius */}
+      <svg viewBox="0 0 320 220" className="w-full h-auto max-w-md mx-auto">
         <path
-          d={shadowPath}
-          fill="none"
-          stroke="black"
-          strokeWidth="3"
-          strokeOpacity={isWhite ? 0.05 : anyLightOn ? 0.1 : 0.15}
+          d={pixelPath}
+          fill={pixelColor}
+          className="transition-[fill] duration-200"
         />
 
         {/* Housing frame - open at bottom, using defined radius */}
         <path
           d={framePath}
           fill="none"
-          className="stroke-neutral-300 dark:stroke-neutral-600"
-          strokeWidth="2"
+          className="stroke-neutral-400 dark:stroke-neutral-500"
+          strokeWidth="1.8"
         />
 
         {/* Divider line below pixel - same stroke as frame */}
@@ -258,8 +104,8 @@ export default function RGBLightDemo() {
           y1="49"
           x2="270"
           y2="49"
-          className="stroke-neutral-300 dark:stroke-neutral-600"
-          strokeWidth="2"
+          className="stroke-neutral-400 dark:stroke-neutral-500"
+          strokeWidth="1.8"
         />
 
         {/* Color label in pixel */}
@@ -270,66 +116,63 @@ export default function RGBLightDemo() {
           fontWeight="500"
           textAnchor="middle"
           fill={
-            anyLightOn && colorName !== "White" && colorName !== "Yellow"
-              ? "#fff"
-              : "#525252"
+            ["Green", "Cyan", "Yellow", "White"].includes(colorName)
+              ? "#262626"
+              : "#ffffff"
           }
-          className="select-none transition-[fill,filter] duration-300"
+          className="select-none transition-[fill] duration-200"
         >
           {colorName}
         </text>
 
         {/* Light cones - starting from bottom of LED dome */}
-        {lights.r && (
-          <polygon
-            points="90,150 110,150 135,49 65,49"
-            fill={`url(#${id}-redCone)`}
-            className="transition-opacity duration-300"
-          />
-        )}
-        {lights.g && (
-          <polygon
-            points="150,150 170,150 195,49 125,49"
-            fill={`url(#${id}-greenCone)`}
-            className="transition-opacity duration-300"
-          />
-        )}
-        {lights.b && (
-          <polygon
-            points="210,150 230,150 255,49 185,49"
-            fill={`url(#${id}-blueCone)`}
-            className="transition-opacity duration-300"
-          />
-        )}
+        <polygon
+          points="90,150 110,150 135,49 65,49"
+          fill="#ef4444"
+          opacity={lights.r ? 0.16 : 0}
+          className="transition-opacity duration-200"
+        />
+        <polygon
+          points="150,150 170,150 195,49 125,49"
+          fill="#22c55e"
+          opacity={lights.g ? 0.16 : 0}
+          className="transition-opacity duration-200"
+        />
+        <polygon
+          points="210,150 230,150 255,49 185,49"
+          fill="#3b82f6"
+          opacity={lights.b ? 0.16 : 0}
+          className="transition-opacity duration-200"
+        />
 
         {/* LEDs */}
         <LED
           x={100}
-          color={{ off: "#737373", on: "#ef4444", glow: "#fca5a5" }}
+          color="#ef4444"
           isOn={lights.r}
           onClick={() => toggleLight("r")}
           label="Red"
         />
         <LED
           x={160}
-          color={{ off: "#737373", on: "#22c55e", glow: "#86efac" }}
+          color="#22c55e"
           isOn={lights.g}
           onClick={() => toggleLight("g")}
           label="Green"
         />
         <LED
           x={220}
-          color={{ off: "#737373", on: "#3b82f6", glow: "#93c5fd" }}
+          color="#3b82f6"
           isOn={lights.b}
           onClick={() => toggleLight("b")}
           label="Blue"
         />
       </svg>
 
-      {/* Hint */}
-      <p className="text-center text-neutral-500 dark:text-neutral-400 text-sm mt-2">
-        Toggle the LEDs
-      </p>
+      <span role="status" className="sr-only">
+        Red {lights.r ? "on" : "off"}, green {lights.g ? "on" : "off"}, blue{" "}
+        {lights.b ? "on" : "off"}. {colorName}.
+      </span>
     </div>
   );
 }

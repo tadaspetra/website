@@ -14,7 +14,7 @@ export default function useClickSound() {
   return useCallback(() => {
     // Load only after interaction. Audio failures must not break the demo.
     const audio = (audioRef.current ??= new Audio("/mouse-click.mp3"));
-    audio.volume = 0.6;
+    audio.volume = 0.25;
     audio.currentTime = 0;
     void audio.play().catch(() => {});
   }, []);

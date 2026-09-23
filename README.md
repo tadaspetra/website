@@ -1,61 +1,83 @@
-# Astro Starter Kit: Minimal
+# Tadas Petra's website
+
+A personal site built with Astro, Tailwind CSS, and Markdown/MDX. Most routes are
+prerendered; newsletter signup and the signed Resend inbound webhook run on Vercel.
+React is used only for the interactive computer-science essay demos.
+
+## Development
+
+Use Node 22.12+ (Node 24 recommended) and the pnpm version in `package.json`.
 
 ```sh
-pnpm create astro@latest -- --template minimal
+pnpm install --frozen-lockfile
+pnpm dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+The local site runs at `http://localhost:4321`. Copy `.env.example` to `.env` only
+when testing the mail integration with a dedicated test account. Reading pages
+and running the regression tests do not require live credentials.
 
-## 🚀 Project Structure
+## Verification
 
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+```sh
+pnpm check       # Astro and TypeScript diagnostics
+pnpm test        # Regression tests; provider requests are mocked
+pnpm build       # Static pages, social images, and Vercel server bundle
+pnpm verify      # All three checks
+pnpm audit --prod
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+The same `pnpm verify` checks run on pull requests and pushes to `main`.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Stop the development server before a production build and restart it afterward;
+the two modes share Vite's dependency cache. Before shipping UI changes, inspect
+320px and desktop layouts, keyboard focus, dark/light modes, and the essay demos.
+Never submit a real newsletter form or replay a real inbound webhook just to test
+this site: those actions can send email. Mocked tests deliberately avoid delivery.
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Content and styling
 
-## 🧞 Commands
+- Essays live in `src/content/essays/<slug>/index.md` or `index.mdx`.
+- `draft: true` excludes an essay from both public pages and social images.
+- The folder name is its public URL. Keep existing slugs stable.
+- Shared page metadata and font loading live in `src/layouts/Layout.astro`.
+- Use `STYLEGUIDE.md` and the existing Tailwind/global CSS conventions. Preserve
+  the narrow column, neutral palette, and hand-drawn inline link treatment.
 
-All commands are run from the root of the project, from a terminal:
+## Newsletter
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+`POST /api/newsletter` accepts JSON `{ "email": "..." }` or a normal URL-encoded
+HTML form. It validates and bounds input, looks up the existing contact, restores
+an explicitly requested subscription if needed, and sends `newsletter.signup`
+for new contacts. A failed welcome event can be retried within 24 hours of contact
+creation with the same idempotency key; established subscribers do not restart
+that automation. Provider errors return a retryable message without exposing
+provider details. Provider-side idempotency is time-limited, not permanent
+exactly-once delivery.
 
-## Newsletter migration links
+Configure `RESEND_API_KEY`; optionally set `RESEND_NEWSLETTER_EVENT_NAME`.
+The existing audience ID is in `src/lib/resendNewsletter.ts`.
 
-Use this URL as the button link in Loops, replacing the email value with the
-Loops personalization variable for the contact's email:
+Migration links can still use:
 
 ```text
 https://tadaspetra.com/newsletter?email={{email}}
 ```
 
-When someone clicks it, `/newsletter` reads the `email` query parameter,
-adds the contact to Resend, fires the regular `newsletter.signup` event, and
-shows a confirmation page.
+They now prefill the form and require pressing **Subscribe**. Merely opening a
+GET link never creates a subscription, including when an email scanner previews
+it. The page is not cached and does not send its query string as a referrer.
 
-## Style guide
+Browser storage is optional. Successful signup feedback remains visible; the
+newsletter section is hidden on future visits when the flag can be stored. The
+standalone newsletter page is always available.
 
-Before creating new pages or components, check `STYLEGUIDE.md` for the site's
-layout, typography, link, and component conventions.
+## Inbound mail
 
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+`POST /api/resend/inbound` requires `RESEND_API_KEY` and
+`RESEND_WEBHOOK_SECRET`. It verifies the signature before any provider request,
+forwards received mail to the existing configured recipient, preserves reply and
+thread headers, retrieves all attachment pages, and uses an email-ID idempotency
+key. Set `RESEND_FORWARD_FROM` to override the default forwarding sender.
+Unexpected failures return 503 for webhook retries. No live email delivery is
+part of automated verification.

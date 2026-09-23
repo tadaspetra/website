@@ -4,7 +4,6 @@ import { Code } from "astro-expressive-code/components";
 interface Snippet {
   id: "rn" | "flutter";
   label: string;
-  sublabel: string;
   language: "tsx" | "dart";
   code: string;
 }
@@ -13,7 +12,6 @@ const snippets: Snippet[] = [
   {
     id: "rn",
     label: "React Native",
-    sublabel: "Nativewind",
     language: "tsx",
     code: `<Pressable
   accessibilityRole="button"
@@ -38,7 +36,6 @@ const snippets: Snippet[] = [
   {
     id: "flutter",
     label: "Flutter",
-    sublabel: "Material",
     language: "dart",
     code: `@override
 Widget build(BuildContext context) {
@@ -130,11 +127,12 @@ function computeStats(code: string, indentSize = 2): Stats {
   };
 }
 
+const instanceId = `code-comparison-${crypto.randomUUID()}`;
 const enriched = snippets.map((snippet) => ({
   ...snippet,
   stats: computeStats(snippet.code),
-  tabId: `code-comparison-tab-${snippet.id}`,
-  panelId: `code-comparison-panel-${snippet.id}`,
+  tabId: `${instanceId}-tab-${snippet.id}`,
+  panelId: `${instanceId}-panel-${snippet.id}`,
 }));
 ---
 
@@ -155,7 +153,7 @@ const enriched = snippets.map((snippet) => ({
             aria-selected={idx === 0 ? "true" : "false"}
             aria-controls={snippet.panelId}
             tabindex={idx === 0 ? "0" : "-1"}
-            class="cc-tab flex min-h-9 items-center gap-2 rounded-full px-4 py-1.5 font-medium text-neutral-500 transition-colors duration-150 hover:text-neutral-800 aria-selected:bg-neutral-900 aria-selected:text-white dark:text-neutral-400 dark:hover:text-neutral-200 dark:aria-selected:bg-white dark:aria-selected:text-neutral-900"
+            class="cc-tab flex min-h-10 items-center gap-2 rounded-full px-4 py-1.5 font-medium text-neutral-500 transition-colors duration-150 hover:text-neutral-800 aria-selected:bg-neutral-900 aria-selected:text-white dark:text-neutral-400 dark:hover:text-neutral-200 dark:aria-selected:bg-white dark:aria-selected:text-neutral-900"
           >
             {snippet.id === "rn" ? (
               <svg

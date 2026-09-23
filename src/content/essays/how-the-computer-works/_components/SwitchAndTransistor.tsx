@@ -1,15 +1,11 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useId } from "react";
+import FlowParticles from "./FlowParticles";
+import { toggleKeys } from "./toggleKeys";
 import useClickSound from "./useClickSound";
 
 interface ComponentState {
   switchClosed: boolean;
   transistorOn: boolean;
-}
-
-interface Particle {
-  id: number;
-  progress: number;
-  circuit: "switch" | "transistor";
 }
 
 export default function SwitchAndTransistor() {
@@ -18,9 +14,7 @@ export default function SwitchAndTransistor() {
     transistorOn: false,
   });
   const playClickSound = useClickSound();
-  const [particles, setParticles] = useState<Particle[]>([]);
-  const particleIdRef = useRef(0);
-  const animationRef = useRef<number | null>(null);
+  const id = useId();
 
   const toggleSwitch = () => {
     playClickSound();
@@ -32,89 +26,6 @@ export default function SwitchAndTransistor() {
     setState((prev) => ({ ...prev, transistorOn: !prev.transistorOn }));
   };
 
-  // Particle animation system
-  useEffect(() => {
-    const hasActiveCircuit = state.switchClosed || state.transistorOn;
-
-    if (!hasActiveCircuit) {
-      setParticles([]);
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-      return;
-    }
-
-    let lastSwitchSpawn = 0;
-    let lastTransistorSpawn = 0;
-    const spawnInterval = 500;
-
-    const animate = (time: number) => {
-      // Collect new particles to add
-      const newParticles: Particle[] = [];
-
-      // Spawn particles for switch circuit
-      if (state.switchClosed && time - lastSwitchSpawn > spawnInterval) {
-        lastSwitchSpawn = time;
-        particleIdRef.current += 1;
-        newParticles.push({ id: particleIdRef.current, progress: 0, circuit: "switch" });
-      }
-
-      // Spawn particles for transistor circuit
-      if (state.transistorOn && time - lastTransistorSpawn > spawnInterval) {
-        lastTransistorSpawn = time;
-        particleIdRef.current += 1;
-        newParticles.push({ id: particleIdRef.current, progress: 0, circuit: "transistor" });
-      }
-
-      // Update particle positions and add new ones in a single state update
-      setParticles((prev) => [
-        ...prev
-          .map((p) => ({ ...p, progress: p.progress + 0.012 }))
-          .filter((p) => p.progress < 1.1),
-        ...newParticles,
-      ]);
-
-      animationRef.current = requestAnimationFrame(animate);
-    };
-
-    animationRef.current = requestAnimationFrame(animate);
-
-    return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-    };
-  }, [state.switchClosed, state.transistorOn]);
-
-  // Get particle position for switch circuit (horizontal flow)
-  const getSwitchParticlePosition = (progress: number) => {
-    // Flow from battery (42) through switch to output (225)
-    const startX = 42;
-    const endX = 225;
-    const x = startX + progress * (endX - startX);
-    return { x, y: 110 };
-  };
-
-  // Get particle position for transistor circuit (vertical then horizontal)
-  const getTransistorParticlePosition = (progress: number) => {
-    // Flow from battery top (480, 18) down through transistor to output (565, 175)
-    const startY = 18;
-    const junctionY = 175;
-    const outputX = 565;
-
-    // 0 to 0.7: vertical movement down
-    // 0.7 to 1: horizontal movement to output
-    if (progress < 0.7) {
-      const verticalProgress = progress / 0.7;
-      const y = startY + verticalProgress * (junctionY - startY);
-      return { x: 480, y };
-    } else {
-      const horizontalProgress = (progress - 0.7) / 0.3;
-      const x = 480 + horizontalProgress * (outputX - 480);
-      return { x, y: junctionY };
-    }
-  };
-
   return (
     <div className="my-12 -mx-4 sm:mx-0">
       <svg
@@ -123,27 +34,15 @@ export default function SwitchAndTransistor() {
         style={{ minHeight: "180px" }}
       >
         <defs>
-          {/* Glow filter for output indicators */}
-          <filter id="outputGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <filter
+            id={`${id}-outputGlow`}
+            x="-50%"
+            y="-50%"
+            width="200%"
+            height="200%"
+          >
             <feGaussianBlur stdDeviation="4" result="blur" />
             <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-
-          {/* Particle glow */}
-          <filter
-            id="particleGlow"
-            x="-100%"
-            y="-100%"
-            width="300%"
-            height="300%"
-          >
-            <feGaussianBlur stdDeviation="6" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
               <feMergeNode in="blur" />
               <feMergeNode in="blur" />
               <feMergeNode in="SourceGraphic" />
@@ -152,36 +51,23 @@ export default function SwitchAndTransistor() {
         </defs>
 
         {/* ============ ELECTRICITY PARTICLES ============ */}
-        {particles
-          .filter((p) =>
-            (p.circuit === "switch" && state.switchClosed) ||
-            (p.circuit === "transistor" && state.transistorOn)
-          )
-          .map((particle) => {
-            const pos = particle.circuit === "switch"
-              ? getSwitchParticlePosition(particle.progress)
-              : getTransistorParticlePosition(particle.progress);
-            const opacity =
-              particle.progress < 0.1
-                ? particle.progress * 10
-                : particle.progress > 0.9
-                ? (1 - particle.progress) * 10
-                : 1;
-            return (
-              <circle
-                key={particle.id}
-                cx={pos.x}
-                cy={pos.y}
-                r="4"
-                className="fill-amber-300 dark:fill-yellow-300"
-                filter="url(#particleGlow)"
-                style={{ opacity }}
-              />
-            );
-          })}
+        {state.switchClosed && (
+          <FlowParticles path="M42 110 H225" duration={1.4} />
+        )}
+        {state.transistorOn && (
+          <FlowParticles path="M480 18 V175 H565" duration={1.4} />
+        )}
 
         {/* ============ SWITCH CIRCUIT (Left Side) ============ */}
-        <g onClick={toggleSwitch} className="cursor-pointer group">
+        <g
+          onClick={toggleSwitch}
+          role="button"
+          tabIndex={0}
+          aria-label="Mechanical switch"
+          aria-pressed={state.switchClosed}
+          onKeyDown={(event) => toggleKeys(event, toggleSwitch)}
+          className="cursor-pointer group"
+        >
           {/* Power source */}
           <g className="text-amber-400 dark:text-yellow-400">
             {/* Battery positive line */}
@@ -251,7 +137,7 @@ export default function SwitchAndTransistor() {
             y1="110"
             x2={state.switchClosed ? "160" : "148"}
             y2={state.switchClosed ? "110" : "70"}
-            className={`transition-all duration-500 ease-out group-hover:stroke-amber-400 ${
+            className={`transition-[fill,stroke,opacity,filter,transform,x2,y2] duration-500 ease-out group-hover:stroke-amber-400 ${
               state.switchClosed
                 ? "stroke-amber-400 dark:stroke-yellow-400"
                 : "stroke-neutral-500 dark:stroke-neutral-500"
@@ -310,13 +196,13 @@ export default function SwitchAndTransistor() {
               cy="70"
               rx="16"
               ry="18"
-              className={`transition-all duration-500 ${
+              className={`transition-[fill,stroke,opacity,filter,transform,x2,y2] duration-500 ${
                 state.switchClosed
                   ? "fill-amber-200 dark:fill-yellow-200"
                   : "fill-neutral-100 dark:fill-neutral-800"
               }`}
               style={{
-                filter: state.switchClosed ? "url(#outputGlow)" : "none",
+                filter: state.switchClosed ? `url(#${id}-outputGlow)` : "none",
               }}
             />
             {/* Inner glow when on */}
@@ -337,7 +223,7 @@ export default function SwitchAndTransistor() {
               rx="16"
               ry="18"
               fill="none"
-              className={`transition-all duration-300 ${
+              className={`transition-[fill,stroke,opacity,filter,transform,x2,y2] duration-300 ${
                 state.switchClosed
                   ? "stroke-amber-400 dark:stroke-yellow-400"
                   : "stroke-neutral-400 dark:stroke-neutral-600"
@@ -357,8 +243,22 @@ export default function SwitchAndTransistor() {
               }`}
             />
             {/* Screw threads */}
-            <line x1="210" y1="90" x2="230" y2="90" className="stroke-neutral-500 dark:stroke-neutral-700" strokeWidth="1" />
-            <line x1="210" y1="93" x2="230" y2="93" className="stroke-neutral-500 dark:stroke-neutral-700" strokeWidth="1" />
+            <line
+              x1="210"
+              y1="90"
+              x2="230"
+              y2="90"
+              className="stroke-neutral-500 dark:stroke-neutral-700"
+              strokeWidth="1"
+            />
+            <line
+              x1="210"
+              y1="93"
+              x2="230"
+              y2="93"
+              className="stroke-neutral-500 dark:stroke-neutral-700"
+              strokeWidth="1"
+            />
             {/* Bottom contact (wire turns up into here) */}
             <rect
               x="215"
@@ -401,7 +301,15 @@ export default function SwitchAndTransistor() {
         {/* ============ TRANSISTOR CIRCUIT (Right Side) ============ */}
         {/* Transistor center: (480, 110), radius: 28 */}
         {/* Top edge: 82, Bottom edge: 138, Left edge: 452 */}
-        <g onClick={toggleTransistor} className="cursor-pointer group">
+        <g
+          onClick={toggleTransistor}
+          role="button"
+          tabIndex={0}
+          aria-label="Transistor"
+          aria-pressed={state.transistorOn}
+          onKeyDown={(event) => toggleKeys(event, toggleTransistor)}
+          className="cursor-pointer group"
+        >
           {/* Collector wire from top (voltage in) - outside circle */}
           <line
             x1="480"
@@ -608,7 +516,7 @@ export default function SwitchAndTransistor() {
             cx="380"
             cy="110"
             r="6"
-            className={`transition-all duration-300 group-hover:scale-125 ${
+            className={`transition-[fill,stroke,opacity,filter,transform,x2,y2] duration-300 group-hover:scale-125 ${
               state.transistorOn
                 ? "fill-amber-400 dark:fill-yellow-400"
                 : "fill-neutral-300 dark:fill-neutral-700"
@@ -699,13 +607,13 @@ export default function SwitchAndTransistor() {
               cy="135"
               rx="16"
               ry="18"
-              className={`transition-all duration-500 ${
+              className={`transition-[fill,stroke,opacity,filter,transform,x2,y2] duration-500 ${
                 state.transistorOn
                   ? "fill-amber-200 dark:fill-yellow-200"
                   : "fill-neutral-100 dark:fill-neutral-800"
               }`}
               style={{
-                filter: state.transistorOn ? "url(#outputGlow)" : "none",
+                filter: state.transistorOn ? `url(#${id}-outputGlow)` : "none",
               }}
             />
             {/* Inner glow when on */}
@@ -726,7 +634,7 @@ export default function SwitchAndTransistor() {
               rx="16"
               ry="18"
               fill="none"
-              className={`transition-all duration-300 ${
+              className={`transition-[fill,stroke,opacity,filter,transform,x2,y2] duration-300 ${
                 state.transistorOn
                   ? "stroke-amber-400 dark:stroke-yellow-400"
                   : "stroke-neutral-400 dark:stroke-neutral-600"
@@ -746,8 +654,22 @@ export default function SwitchAndTransistor() {
               }`}
             />
             {/* Screw threads */}
-            <line x1="550" y1="155" x2="570" y2="155" className="stroke-neutral-500 dark:stroke-neutral-700" strokeWidth="1" />
-            <line x1="550" y1="158" x2="570" y2="158" className="stroke-neutral-500 dark:stroke-neutral-700" strokeWidth="1" />
+            <line
+              x1="550"
+              y1="155"
+              x2="570"
+              y2="155"
+              className="stroke-neutral-500 dark:stroke-neutral-700"
+              strokeWidth="1"
+            />
+            <line
+              x1="550"
+              y1="158"
+              x2="570"
+              y2="158"
+              className="stroke-neutral-500 dark:stroke-neutral-700"
+              strokeWidth="1"
+            />
             {/* Bottom contact (wire turns up into here) */}
             <rect
               x="555"
@@ -805,8 +727,8 @@ export default function SwitchAndTransistor() {
       </svg>
 
       {/* Subtle interaction hint */}
-      <p className="text-center text-neutral-400 dark:text-neutral-300 text-xs mt-2 opacity-60 dark:opacity-80">
-        click to toggle
+      <p className="text-center text-neutral-500 dark:text-neutral-400 text-sm mt-2">
+        Toggle the switch or transistor
       </p>
     </div>
   );

@@ -1,4 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useId } from "react";
+import FlowParticles from "./FlowParticles";
+import { toggleKeys } from "./toggleKeys";
 import useClickSound from "./useClickSound";
 
 interface SwitchState {
@@ -6,75 +8,17 @@ interface SwitchState {
   b: boolean;
 }
 
-interface Particle {
-  id: number;
-  x: number;
-  progress: number;
-}
-
 export default function SwitchAndGate() {
   const [switches, setSwitches] = useState<SwitchState>({ a: false, b: false });
-  const [particles, setParticles] = useState<Particle[]>([]);
-  const particleIdRef = useRef(0);
-  const animationRef = useRef<number | null>(null);
+
   const playClickSound = useClickSound();
+  const id = useId();
 
   const isCircuitComplete = switches.a && switches.b;
-
-  // Particle animation system
-  useEffect(() => {
-    if (!isCircuitComplete) {
-      setParticles([]);
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-      return;
-    }
-
-    let lastSpawn = 0;
-    const spawnInterval = 400; // ms between particles
-
-    const animate = (time: number) => {
-      // Spawn new particles
-      if (time - lastSpawn > spawnInterval) {
-        lastSpawn = time;
-        particleIdRef.current += 1;
-        setParticles((prev) => [
-          ...prev.filter((p) => p.progress < 1.1),
-          { id: particleIdRef.current, x: 0, progress: 0 },
-        ]);
-      }
-
-      // Update particle positions
-      setParticles((prev) =>
-        prev
-          .map((p) => ({ ...p, progress: p.progress + 0.008 }))
-          .filter((p) => p.progress < 1.1)
-      );
-
-      animationRef.current = requestAnimationFrame(animate);
-    };
-
-    animationRef.current = requestAnimationFrame(animate);
-
-    return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-    };
-  }, [isCircuitComplete]);
 
   const toggleSwitch = (which: "a" | "b") => {
     playClickSound();
     setSwitches((prev) => ({ ...prev, [which]: !prev[which] }));
-  };
-
-  // Path coordinates for particle animation
-  const getParticlePosition = (progress: number) => {
-    // Total path: power(30) -> switchA(130) -> switchA_end(210) -> switchB(330) -> switchB_end(410) -> out(505)
-    const totalLength = 475;
-    const x = 30 + progress * totalLength;
-    return { x, y: 60 };
   };
 
   // How far electricity flows based on switch states
@@ -94,8 +38,13 @@ export default function SwitchAndGate() {
         style={{ minHeight: "100px" }}
       >
         <defs>
-          {/* Glow filter for active elements */}
-          <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+          <filter
+            id={`${id}-glow`}
+            x="-50%"
+            y="-50%"
+            width="200%"
+            height="200%"
+          >
             <feGaussianBlur stdDeviation="4" result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
@@ -103,36 +52,6 @@ export default function SwitchAndGate() {
               <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
-
-          {/* Softer glow for particles */}
-          <filter
-            id="particleGlow"
-            x="-100%"
-            y="-100%"
-            width="300%"
-            height="300%"
-          >
-            <feGaussianBlur stdDeviation="6" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="blur" />
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-
-          {/* Gradient for electricity flow */}
-          <linearGradient
-            id="electricGradient"
-            x1="0%"
-            y1="0%"
-            x2="100%"
-            y2="0%"
-          >
-            <stop offset="0%" stopColor="#3b82f6" stopOpacity="0" />
-            <stop offset="50%" stopColor="#60a5fa" stopOpacity="1" />
-            <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
-          </linearGradient>
         </defs>
 
         {/* ============ BASE WIRE (inactive) ============ */}
@@ -167,7 +86,7 @@ export default function SwitchAndGate() {
           strokeWidth="3"
           strokeLinecap="round"
           style={{
-            transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+            transition: "x2 0.4s ease-out, y2 0.4s ease-out",
           }}
         />
         {/* Vertical up to lightbulb when complete */}
@@ -184,27 +103,9 @@ export default function SwitchAndGate() {
         )}
 
         {/* ============ ELECTRICITY PARTICLES ============ */}
-        {isCircuitComplete &&
-          particles.map((particle) => {
-            const pos = getParticlePosition(particle.progress);
-            const opacity =
-              particle.progress < 0.1
-                ? particle.progress * 10
-                : particle.progress > 0.9
-                ? (1 - particle.progress) * 10
-                : 1;
-            return (
-              <circle
-                key={particle.id}
-                cx={pos.x}
-                cy={pos.y}
-                r="4"
-                className="fill-amber-300 dark:fill-yellow-300"
-                filter="url(#particleGlow)"
-                style={{ opacity }}
-              />
-            );
-          })}
+        {isCircuitComplete && (
+          <FlowParticles path="M30 60 H505" duration={2.1} />
+        )}
 
         {/* ============ POWER SOURCE ============ */}
         <g className="text-amber-400 dark:text-yellow-400">
@@ -251,7 +152,15 @@ export default function SwitchAndGate() {
         </g>
 
         {/* ============ SWITCH A ============ */}
-        <g onClick={() => toggleSwitch("a")} className="cursor-pointer group">
+        <g
+          onClick={() => toggleSwitch("a")}
+          role="button"
+          tabIndex={0}
+          aria-label="Switch A"
+          aria-pressed={switches.a}
+          onKeyDown={(event) => toggleKeys(event, () => toggleSwitch("a"))}
+          className="cursor-pointer group"
+        >
           {/* Label */}
           <text
             x="170"
@@ -298,7 +207,7 @@ export default function SwitchAndGate() {
             y1="60"
             x2={switches.a ? "210" : "200"}
             y2={switches.a ? "60" : "25"}
-            className={`transition-all duration-500 ease-out group-hover:stroke-amber-400 ${
+            className={`transition-[fill,stroke,opacity,filter,transform,x2,y2] duration-500 ease-out group-hover:stroke-amber-400 ${
               switches.a
                 ? "stroke-amber-400 dark:stroke-yellow-400"
                 : "stroke-neutral-500 dark:stroke-neutral-500"
@@ -312,7 +221,15 @@ export default function SwitchAndGate() {
         </g>
 
         {/* ============ SWITCH B ============ */}
-        <g onClick={() => toggleSwitch("b")} className="cursor-pointer group">
+        <g
+          onClick={() => toggleSwitch("b")}
+          role="button"
+          tabIndex={0}
+          aria-label="Switch B"
+          aria-pressed={switches.b}
+          onKeyDown={(event) => toggleKeys(event, () => toggleSwitch("b"))}
+          className="cursor-pointer group"
+        >
           {/* Label */}
           <text
             x="370"
@@ -359,7 +276,7 @@ export default function SwitchAndGate() {
             y1="60"
             x2={switches.b ? "410" : "400"}
             y2={switches.b ? "60" : "25"}
-            className={`transition-all duration-500 ease-out group-hover:stroke-amber-400 ${
+            className={`transition-[fill,stroke,opacity,filter,transform,x2,y2] duration-500 ease-out group-hover:stroke-amber-400 ${
               switches.b
                 ? "stroke-amber-400 dark:stroke-yellow-400"
                 : "stroke-neutral-500 dark:stroke-neutral-500"
@@ -380,13 +297,13 @@ export default function SwitchAndGate() {
             cy="22"
             rx="18"
             ry="20"
-            className={`transition-all duration-500 ${
+            className={`transition-[fill,stroke,opacity,filter,transform,x2,y2] duration-500 ${
               isCircuitComplete
                 ? "fill-amber-200 dark:fill-yellow-200"
                 : "fill-neutral-100 dark:fill-neutral-800"
             }`}
             style={{
-              filter: isCircuitComplete ? "url(#glow)" : "none",
+              filter: isCircuitComplete ? `url(#${id}-glow)` : "none",
             }}
           />
           {/* Inner glow when on */}
@@ -407,7 +324,7 @@ export default function SwitchAndGate() {
             rx="18"
             ry="20"
             fill="none"
-            className={`transition-all duration-300 ${
+            className={`transition-[fill,stroke,opacity,filter,transform,x2,y2] duration-300 ${
               isCircuitComplete
                 ? "stroke-amber-400 dark:stroke-yellow-400"
                 : "stroke-neutral-400 dark:stroke-neutral-600"
@@ -504,8 +421,8 @@ export default function SwitchAndGate() {
       </svg>
 
       {/* Subtle interaction hint */}
-      <p className="text-center text-neutral-400 dark:text-neutral-300 text-xs mt-2 opacity-60 dark:opacity-80">
-        click the switches
+      <p className="text-center text-neutral-500 dark:text-neutral-400 text-sm mt-2">
+        Toggle the switches
       </p>
     </div>
   );

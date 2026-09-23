@@ -1,104 +1,67 @@
 import type { APIRoute } from "astro";
-import {
-  addNewsletterContact,
-  emailPattern,
-  sendNewsletterEvent,
-} from "../../lib/resendNewsletter";
+import { Resend } from "resend";
+import { jsonResponse, readEmail } from "../../lib/http";
+import { subscribeToNewsletter } from "../../lib/resendNewsletter";
 
 export const prerender = false;
 
-const defaultNewsletterSignupEvent = "newsletter.signup";
-const alreadySubscribedMessage =
-  "You're already signed up. If you don't see the welcome email, check your spam folder.";
-
 export const POST: APIRoute = async ({ request, url }) => {
-  const apiKey = import.meta.env.RESEND_API_KEY;
-  const newsletterSignupEvent =
-    import.meta.env.RESEND_NEWSLETTER_EVENT_NAME || defaultNewsletterSignupEvent;
-
-  if (!apiKey) {
-    return jsonResponse(
-      { message: "Newsletter signup is not configured yet." },
-      500,
-    );
-  }
-
-  const body = await readRequestBody(request);
-  const email = body.email?.trim().toLowerCase();
-
-  if (!email || !emailPattern.test(email)) {
-    return jsonResponse({ message: "Please enter a valid email address." }, 400);
-  }
-
-  const resendResponse = await addNewsletterContact(apiKey, email);
-
-  if (resendResponse.alreadySubscribed) {
-    return jsonResponse({
-      ok: true,
-      alreadySubscribed: true,
-      message: alreadySubscribedMessage,
-    });
-  }
-
-  if (resendResponse.created) {
-    const eventResponse = await sendNewsletterEvent(
-      apiKey,
-      newsletterSignupEvent,
-      email,
-      {
-        source: "website",
-        path: url.pathname,
+  const wantsJson = request.headers
+    .get("content-type")
+    ?.includes("application/json");
+  const respond = (body: { ok?: boolean; message: string }, status = 200) => {
+    if (wantsJson) return jsonResponse(body, status);
+    const state = body.ok
+      ? "success"
+      : status === 400
+        ? "invalid"
+        : "unavailable";
+    return new Response(null, {
+      status: 303,
+      headers: {
+        Location: `/newsletter?status=${state}`,
+        "Cache-Control": "no-store",
       },
-    );
+    });
+  };
 
-    if (eventResponse.ok) {
-      return jsonResponse({ ok: true, message: "You're on the list. Thank you." });
-    }
-
+  const origin = request.headers.get("origin");
+  if (origin && origin !== url.origin) {
     return jsonResponse(
+      { message: "Please subscribe from this website." },
+      403,
+    );
+  }
+
+  const email = await readEmail(request);
+  if (!email)
+    return respond({ message: "Please enter a valid email address." }, 400);
+
+  const apiKey = import.meta.env.RESEND_API_KEY;
+  if (!apiKey) {
+    return respond(
       {
         message:
-          eventResponse.body?.message ||
-          "Newsletter signup was saved, but the welcome email could not start. Please try again.",
+          "Newsletter signup is temporarily unavailable. Please try again later.",
       },
-      eventResponse.status,
+      503,
     );
   }
 
-  if (resendResponse.ok) {
-    return jsonResponse({ ok: true, message: "You're on the list. Thank you." });
+  try {
+    const result = await subscribeToNewsletter(
+      new Resend(apiKey),
+      email,
+      import.meta.env.RESEND_NEWSLETTER_EVENT_NAME,
+    );
+    return respond(result, result.ok ? 200 : 503);
+  } catch {
+    return respond(
+      {
+        message:
+          "Newsletter signup is temporarily unavailable. Please try again.",
+      },
+      503,
+    );
   }
-
-  return jsonResponse(
-    {
-      message:
-        resendResponse.body?.message ||
-        "Newsletter signup is temporarily unavailable. Please try again.",
-    },
-    resendResponse.status,
-  );
 };
-
-async function readRequestBody(request: Request): Promise<{ email?: string }> {
-  const contentType = request.headers.get("content-type") || "";
-
-  if (contentType.includes("application/json")) {
-    return request.json().catch(() => ({}));
-  }
-
-  const formData = await request.formData().catch(() => null);
-  const email = formData?.get("email");
-
-  return {
-    email: typeof email === "string" ? email : undefined,
-  };
-}
-
-function jsonResponse(body: unknown, status = 200) {
-  return new Response(JSON.stringify(body), {
-    status,
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-}

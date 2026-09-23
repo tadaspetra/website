@@ -12,33 +12,19 @@ const OUTPUT_SCALE = 2;
 
 const assetsDir = join(process.cwd(), "src", "assets");
 const fontMedium = readFileSync(join(assetsDir, "InterDisplay-Medium.woff"));
-const fontSemiBold = readFileSync(join(assetsDir, "InterDisplay-SemiBold.woff"));
+const fontSemiBold = readFileSync(
+  join(assetsDir, "InterDisplay-SemiBold.woff"),
+);
 
-let _options: SatoriOptions | null = null;
-
-async function getOptions(): Promise<SatoriOptions> {
-  if (_options) return _options;
-  _options = {
-    width: OG_WIDTH,
-    height: OG_HEIGHT,
-    embedFont: true,
-    fonts: [
-      {
-        name: OG_FONT_FAMILY,
-        data: fontMedium,
-        weight: 500,
-        style: "normal",
-      },
-      {
-        name: OG_FONT_FAMILY,
-        data: fontSemiBold,
-        weight: 600,
-        style: "normal",
-      },
-    ],
-  };
-  return _options;
-}
+const options: SatoriOptions = {
+  width: OG_WIDTH,
+  height: OG_HEIGHT,
+  embedFont: true,
+  fonts: [
+    { name: OG_FONT_FAMILY, data: fontMedium, weight: 500, style: "normal" },
+    { name: OG_FONT_FAMILY, data: fontSemiBold, weight: 600, style: "normal" },
+  ],
+};
 
 async function svgBufferToPngBuffer(svg: string) {
   const { Resvg } = await import("@resvg/resvg-js");
@@ -51,17 +37,15 @@ async function svgBufferToPngBuffer(svg: string) {
     font: { loadSystemFonts: false },
   });
   const pngData = resvg.render();
-  return pngData.asPng();
+  return new Uint8Array(pngData.asPng());
 }
 
 export async function generateOgImageForPost(post: CollectionEntry<"essays">) {
-  const options = await getOptions();
   const svg = await satori(postOgImage(post), options);
   return svgBufferToPngBuffer(svg);
 }
 
 export async function generateOgImageForSite() {
-  const options = await getOptions();
   const svg = await satori(siteOgImage(), options);
   return svgBufferToPngBuffer(svg);
 }

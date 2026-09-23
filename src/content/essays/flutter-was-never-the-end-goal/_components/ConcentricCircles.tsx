@@ -49,12 +49,14 @@ export default function ConcentricCircles() {
         viewBox={`0 0 ${VIEW_W} ${VIEW_H}`}
         className="block w-full font-sans text-neutral-600 dark:text-neutral-300"
         role="img"
-        aria-labelledby="half-moons-title"
-        aria-describedby="half-moons-desc"
+        aria-labelledby={`${gradientId}-title`}
+        aria-describedby={`${gradientId}-desc`}
         style={{ shapeRendering: "geometricPrecision" }}
       >
-        <title id="half-moons-title">Nested half moons narrowing into Flutter</title>
-        <desc id="half-moons-desc">
+        <title id={`${gradientId}-title`}>
+          Nested half moons narrowing into Flutter
+        </title>
+        <desc id={`${gradientId}-desc`}>
           Nested half moons labeled Life, Things, Software, and Apps, with the
           Flutter logo in the smallest moon, illustrating that Flutter apps are
           one small part of a wider life.

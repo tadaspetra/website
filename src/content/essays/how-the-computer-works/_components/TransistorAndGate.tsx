@@ -1,4 +1,6 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useId } from "react";
+import FlowParticles from "./FlowParticles";
+import { toggleKeys } from "./toggleKeys";
 import useClickSound from "./useClickSound";
 
 interface TransistorState {
@@ -6,116 +8,36 @@ interface TransistorState {
   b: boolean;
 }
 
-interface Particle {
-  id: number;
-  progress: number;
-}
-
 export default function TransistorAndGate() {
   const [inputs, setInputs] = useState<TransistorState>({ a: false, b: false });
-  const [particles, setParticles] = useState<Particle[]>([]);
-  const particleIdRef = useRef(0);
-  const animationRef = useRef<number | null>(null);
+
   const playClickSound = useClickSound();
+  const id = useId();
 
   const isCircuitComplete = inputs.a && inputs.b;
-
-  // Particle animation system
-  useEffect(() => {
-    if (!isCircuitComplete) {
-      setParticles([]);
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-      return;
-    }
-
-    let lastSpawn = 0;
-    const spawnInterval = 500;
-
-    const animate = (time: number) => {
-      if (time - lastSpawn > spawnInterval) {
-        lastSpawn = time;
-        particleIdRef.current += 1;
-        setParticles((prev) => [
-          ...prev.filter((p) => p.progress < 1.1),
-          { id: particleIdRef.current, progress: 0 },
-        ]);
-      }
-
-      setParticles((prev) =>
-        prev
-          .map((p) => ({ ...p, progress: p.progress + 0.006 }))
-          .filter((p) => p.progress < 1.1)
-      );
-
-      animationRef.current = requestAnimationFrame(animate);
-    };
-
-    animationRef.current = requestAnimationFrame(animate);
-
-    return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-    };
-  }, [isCircuitComplete]);
 
   const toggleInput = (which: "a" | "b") => {
     playClickSound();
     setInputs((prev) => ({ ...prev, [which]: !prev[which] }));
   };
 
-  // Path for particle animation (vertical flow from V to junction, then to output)
-  const getParticlePosition = (progress: number) => {
-    // Vertical path from top (V) to junction point, then horizontal to output
-    const startY = 35;
-    const junctionY = 310;
-    const outputX = 280;
-
-    // 0 to 0.85: vertical movement from V to junction
-    // 0.85 to 1: horizontal movement from junction to output
-    if (progress < 0.85) {
-      const verticalProgress = progress / 0.85;
-      const y = startY + verticalProgress * (junctionY - startY);
-      return { x: 200, y };
-    } else {
-      const horizontalProgress = (progress - 0.85) / 0.15;
-      const x = 200 + horizontalProgress * (outputX - 200);
-      return { x, y: junctionY };
-    }
-  };
-
-
   return (
     <div className="my-12 -mx-4 sm:mx-0">
       <svg
-        viewBox="0 0 310 390"
+        viewBox="0 0 310 430"
         className="w-full h-auto max-w-md mx-auto"
         style={{ minHeight: "300px" }}
       >
         <defs>
-          {/* Glow filter for active elements */}
-          <filter id="transistorGlow" x="-50%" y="-50%" width="200%" height="200%">
+          <filter
+            id={`${id}-transistorGlow`}
+            x="-50%"
+            y="-50%"
+            width="200%"
+            height="200%"
+          >
             <feGaussianBlur stdDeviation="4" result="blur" />
             <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-
-          {/* Particle glow */}
-          <filter
-            id="transistorParticleGlow"
-            x="-100%"
-            y="-100%"
-            width="300%"
-            height="300%"
-          >
-            <feGaussianBlur stdDeviation="6" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
               <feMergeNode in="blur" />
               <feMergeNode in="blur" />
               <feMergeNode in="SourceGraphic" />
@@ -153,7 +75,9 @@ export default function TransistorAndGate() {
           className="fill-neutral-400 dark:fill-neutral-600 select-none"
         >
           R
-          <tspan fontSize="8" dy="2">Out</tspan>
+          <tspan fontSize="8" dy="2">
+            Out
+          </tspan>
         </text>
 
         {/* Ground symbol */}
@@ -222,7 +146,7 @@ export default function TransistorAndGate() {
           strokeWidth={inputs.a ? 3 : 2}
           strokeLinecap="round"
           style={{
-            transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+            transition: "x2 0.4s ease-out, y2 0.4s ease-out",
           }}
         />
 
@@ -240,32 +164,14 @@ export default function TransistorAndGate() {
           strokeWidth={isCircuitComplete ? 3 : 2}
           strokeLinecap="round"
           style={{
-            transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+            transition: "x2 0.4s ease-out, y2 0.4s ease-out",
           }}
         />
 
         {/* ============ ELECTRICITY PARTICLES ============ */}
-        {isCircuitComplete &&
-          particles.map((particle) => {
-            const pos = getParticlePosition(particle.progress);
-            const opacity =
-              particle.progress < 0.1
-                ? particle.progress * 10
-                : particle.progress > 0.9
-                ? (1 - particle.progress) * 10
-                : 1;
-            return (
-              <circle
-                key={particle.id}
-                cx={pos.x}
-                cy={pos.y}
-                r="4"
-                className="fill-amber-300 dark:fill-yellow-300"
-                filter="url(#transistorParticleGlow)"
-                style={{ opacity }}
-              />
-            );
-          })}
+        {isCircuitComplete && (
+          <FlowParticles path="M200 35 V310 H280" duration={2.8} />
+        )}
 
         {/* ============ VOLTAGE SOURCE (Battery) ============ */}
         <g className="text-amber-400 dark:text-yellow-400">
@@ -312,7 +218,15 @@ export default function TransistorAndGate() {
         </g>
 
         {/* ============ TRANSISTOR A ============ */}
-        <g onClick={() => toggleInput("a")} className="cursor-pointer group">
+        <g
+          onClick={() => toggleInput("a")}
+          role="button"
+          tabIndex={0}
+          aria-label="Transistor input A"
+          aria-pressed={inputs.a}
+          onKeyDown={(event) => toggleKeys(event, () => toggleInput("a"))}
+          className="cursor-pointer group"
+        >
           {/* Transistor body circle - fill only (renders first, behind everything) */}
           <circle
             cx="200"
@@ -499,7 +413,10 @@ export default function TransistorAndGate() {
                 ? "fill-amber-400 dark:fill-yellow-400"
                 : "fill-neutral-300 dark:fill-neutral-700"
             }`}
-            style={{ transformOrigin: "60px 120px", transition: "all 0.3s" }}
+            style={{
+              transformOrigin: "60px 120px",
+              transition: "transform 0.3s",
+            }}
           />
 
           {/* R label */}
@@ -515,7 +432,15 @@ export default function TransistorAndGate() {
         </g>
 
         {/* ============ TRANSISTOR B ============ */}
-        <g onClick={() => toggleInput("b")} className="cursor-pointer group">
+        <g
+          onClick={() => toggleInput("b")}
+          role="button"
+          tabIndex={0}
+          aria-label="Transistor input B"
+          aria-pressed={inputs.b}
+          onKeyDown={(event) => toggleKeys(event, () => toggleInput("b"))}
+          className="cursor-pointer group"
+        >
           {/* Transistor body circle - fill only (renders first, behind everything) */}
           <circle
             cx="200"
@@ -702,7 +627,10 @@ export default function TransistorAndGate() {
                 ? "fill-amber-400 dark:fill-yellow-400"
                 : "fill-neutral-300 dark:fill-neutral-700"
             }`}
-            style={{ transformOrigin: "60px 240px", transition: "all 0.3s" }}
+            style={{
+              transformOrigin: "60px 240px",
+              transition: "transform 0.3s",
+            }}
           />
 
           {/* R label */}
@@ -773,13 +701,13 @@ export default function TransistorAndGate() {
             cy="272"
             rx="18"
             ry="20"
-            className={`transition-all duration-500 ${
+            className={`transition-[fill,stroke,opacity,filter,transform,x2,y2] duration-500 ${
               isCircuitComplete
                 ? "fill-amber-200 dark:fill-yellow-200"
                 : "fill-neutral-100 dark:fill-neutral-800"
             }`}
             style={{
-              filter: isCircuitComplete ? "url(#transistorGlow)" : "none",
+              filter: isCircuitComplete ? `url(#${id}-transistorGlow)` : "none",
             }}
           />
           {/* Inner glow when on */}
@@ -800,7 +728,7 @@ export default function TransistorAndGate() {
             rx="18"
             ry="20"
             fill="none"
-            className={`transition-all duration-300 ${
+            className={`transition-[fill,stroke,opacity,filter,transform,x2,y2] duration-300 ${
               isCircuitComplete
                 ? "stroke-amber-400 dark:stroke-yellow-400"
                 : "stroke-neutral-400 dark:stroke-neutral-600"
@@ -820,8 +748,22 @@ export default function TransistorAndGate() {
             }`}
           />
           {/* Screw threads */}
-          <line x1="258" y1="294" x2="278" y2="294" className="stroke-neutral-500 dark:stroke-neutral-700" strokeWidth="1" />
-          <line x1="258" y1="298" x2="278" y2="298" className="stroke-neutral-500 dark:stroke-neutral-700" strokeWidth="1" />
+          <line
+            x1="258"
+            y1="294"
+            x2="278"
+            y2="294"
+            className="stroke-neutral-500 dark:stroke-neutral-700"
+            strokeWidth="1"
+          />
+          <line
+            x1="258"
+            y1="298"
+            x2="278"
+            y2="298"
+            className="stroke-neutral-500 dark:stroke-neutral-700"
+            strokeWidth="1"
+          />
           {/* Bottom contact (wire turns up into here) */}
           <rect
             x="263"
@@ -883,8 +825,8 @@ export default function TransistorAndGate() {
       </svg>
 
       {/* Subtle interaction hint */}
-      <p className="text-center text-neutral-400 dark:text-neutral-300 text-xs mt-2 opacity-60 dark:opacity-80">
-        click A or B to apply voltage
+      <p className="text-center text-neutral-500 dark:text-neutral-400 text-sm mt-2">
+        Toggle A or B to apply voltage
       </p>
     </div>
   );

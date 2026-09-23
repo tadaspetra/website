@@ -66,3 +66,20 @@ Use this guide when creating or changing pages and components. The site should f
 - Ask: would this look at home beside the homepage, footer, and newsletter confirmation page?
 - Remove visual decoration that is only there to make the component feel more "designed."
 - Run `pnpm build` for substantive changes.
+
+## Interaction and reliability
+
+- Preserve native links and browser navigation. Do not force every article link
+  into a new tab; declare that behavior only where it is intentional.
+- Use native `details`/`summary` for simple disclosures. Hidden content must not
+  remain keyboard-focusable.
+- All interactive drawings need named keyboard controls and a visible state.
+- Keep animation decorative, respect reduced motion, and avoid React updates on
+  every animation frame. Never use `transition: all`.
+- Use the shared focus-visible style and prefer 44px touch targets. Do not clip
+  outlines or create overlapping invisible hit areas.
+- Browser storage is an enhancement: denial must not break navigation or forms.
+- Keep each table's actual headings on narrow screens; do not invent labels with
+  positional CSS selectors.
+- Run `pnpm verify` for substantive changes. Tests should cover distinct failure
+  modes and user behavior, not duplicate static class names or SVG geometry.

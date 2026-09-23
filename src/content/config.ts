@@ -13,8 +13,14 @@ const essays = defineCollection({
         .array(
           z.object({
             title: z.string(),
-            url: z.string(),
-          })
+            url: z
+              .string()
+              .url()
+              .refine(
+                (value) => /^https?:\/\//.test(value),
+                "Sources must use HTTP or HTTPS",
+              ),
+          }),
         )
         .optional(),
     }),

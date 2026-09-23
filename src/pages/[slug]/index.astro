@@ -34,7 +34,7 @@ const ogImage = `/${slug}/index.png`;
   description={post.data.description}
   ogImage={ogImage}
 >
-  <main class="pt-16 sm:pt-20 md:pt-28 pb-0">
+  <main id="main-content" tabindex="-1" class="pt-16 sm:pt-20 md:pt-28 pb-0">
     <article class="prose dark:prose-invert prose-neutral max-w-none">
       <header class="mb-10">
         <h1 class="page-title mb-0">{smartenPunctuation(post.data.title)}</h1>

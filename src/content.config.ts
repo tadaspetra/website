@@ -1,7 +1,13 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
+import { glob } from "astro/loaders";
+import { z } from "astro/zod";
 
 const essays = defineCollection({
-  type: "content",
+  loader: glob({
+    pattern: "**/index.{md,mdx}",
+    base: "./src/content/essays",
+    generateId: ({ entry }) => entry.split("/")[0],
+  }),
   schema: () =>
     z.object({
       pubDatetime: z.date(),
@@ -14,7 +20,6 @@ const essays = defineCollection({
           z.object({
             title: z.string(),
             url: z
-              .string()
               .url()
               .refine(
                 (value) => /^https?:\/\//.test(value),

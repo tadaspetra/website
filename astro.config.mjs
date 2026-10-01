@@ -5,6 +5,7 @@ import react from "@astrojs/react";
 import expressiveCode from "astro-expressive-code";
 import mermaid from "astro-mermaid";
 import mdx from "@astrojs/mdx";
+import { unified } from "@astrojs/markdown-remark";
 
 import tailwindcss from "@tailwindcss/vite";
 
@@ -16,6 +17,8 @@ export default defineConfig({
       destination: "/how-the-computer-works",
     },
   },
+  // Keep the existing Remark/Rehype pipeline for Mermaid and Expressive Code.
+  markdown: { processor: unified() },
   integrations: [
     react(),
     expressiveCode(),

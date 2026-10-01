@@ -23,7 +23,8 @@ and running the regression tests do not require live credentials.
 pnpm check       # Astro and TypeScript diagnostics
 pnpm test        # Regression tests; provider requests are mocked
 pnpm build       # Static pages, social images, and Vercel server bundle
-pnpm verify      # All three checks
+pnpm test:production # Built pages and packaged Vercel handler; run after build
+pnpm verify      # Diagnostics, regression tests, build, production checks
 pnpm audit --prod
 ```
 

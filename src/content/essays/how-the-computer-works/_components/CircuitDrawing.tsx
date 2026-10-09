@@ -95,7 +95,7 @@ export default function CircuitDrawing({ kind, single = false }: Props) {
       <TechnicalDrawing
         title={title}
         description={`Toggle ${single ? "the input" : "inputs A and B"} directly on the drawing. ${single ? "The input controls the light." : "Both inputs must be on for the light to turn on."} Dotted edges show the underside of the circuit board.`}
-        viewBox="0 0 600 340"
+        viewBox="0 0 600 370"
         interactive
       >
         <g transform="translate(165 46)">
@@ -304,7 +304,8 @@ export default function CircuitDrawing({ kind, single = false }: Props) {
           />
           {complete && <FlowParticles path={flowPath} duration={3} />}
         </g>
-        <Label x={300} y={326}>
+        {/* Center the caption on the projected board, with space below its front edge. */}
+        <Label x={165 + project([385 / 2, 150 / 2, 0])[0]} y={350}>
           {single
             ? title
             : `${Number(inputs[0])} AND ${Number(inputs[1])} = ${Number(complete)}`}

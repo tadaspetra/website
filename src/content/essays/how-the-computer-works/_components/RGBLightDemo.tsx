@@ -38,7 +38,7 @@ export default function RGBLightDemo() {
       <TechnicalDrawing
         title="The three channels of a pixel"
         description="Toggle the red, green, and blue emitters. Active emitters light up in their channel color. The pixel above shows the mixed color, also named by its label."
-        viewBox="0 0 600 380"
+        viewBox="0 0 600 400"
         interactive
       >
         <g transform="translate(190 105)">
@@ -121,7 +121,8 @@ export default function RGBLightDemo() {
         <Label x={300} y={30}>
           {colorName === "Off" ? "PIXEL" : colorName.toUpperCase()}
         </Label>
-        <Label x={300} y={356}>
+        {/* Keep the readout centered beneath the board and clear of its front edge. */}
+        <Label x={190 + project([320 / 2, 150 / 2, 0])[0]} y={376}>
           R {Number(lights[0])} + G {Number(lights[1])} + B {Number(lights[2])}
         </Label>
       </TechnicalDrawing>

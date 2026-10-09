@@ -12,7 +12,7 @@ interface QuoteProps {
 const childTypography = [
   "[&_p]:italic",
   "[&_p]:text-base sm:[&_p]:text-lg",
-  "[&_p]:leading-snug [&_p]:tracking-[-0.005em]",
+  "[&_p]:leading-relaxed [&_p]:tracking-[-0.005em]",
   "[&_p]:text-neutral-700 dark:[&_p]:text-neutral-200",
   "[&_p]:m-0 [&_p]:p-0",
 ].join(" ");
@@ -30,7 +30,7 @@ export default function Quote({
 
   return (
     <figure
-      className={`quote-figure my-8 sm:my-10 mx-auto max-w-xl flex items-start gap-5 sm:gap-6 ${
+      className={`quote-figure my-8 sm:my-10 mx-auto max-w-xl flex items-start gap-4 sm:gap-5 ${
         isImageRight ? "flex-row-reverse" : ""
       }`}
     >
@@ -39,7 +39,7 @@ export default function Quote({
           src={image}
           alt={imageAlt ?? author ?? ""}
           loading="lazy"
-          className="h-20 w-20 sm:h-24 sm:w-24 rounded-2xl object-cover object-top shrink-0 grayscale-[0.15]"
+          className="h-16 w-16 sm:h-20 sm:w-20 rounded-sm object-cover object-top shrink-0 outline outline-black/10 dark:outline-white/10"
         />
       )}
       <div className={`flex-1 min-w-0 ${isImageRight ? "text-right" : ""}`}>
@@ -47,14 +47,14 @@ export default function Quote({
           {children}
         </blockquote>
         {hasAttribution && (
-          <figcaption className="mt-3 text-[#6b5a45] dark:text-[#d4c4b0] leading-none">
+          <figcaption className="mt-3 font-mono text-xs leading-relaxed text-neutral-500 dark:text-neutral-400">
             {author && (
-              <span className="block font-['Reenie_Beanie',cursive] text-2xl sm:text-3xl tracking-wide">
-                - {author}
+              <span className="block">
+                — {author}
               </span>
             )}
             {source && (
-              <span className="mt-1.5 block text-xs italic opacity-70">
+              <span className="mt-1 block">
                 {source}
               </span>
             )}

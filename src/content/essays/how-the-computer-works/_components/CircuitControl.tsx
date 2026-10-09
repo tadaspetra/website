@@ -38,6 +38,9 @@ export default function CircuitControl({
 
   function show() {
     clearTimeout(closeTimer.current);
+    window.dispatchEvent(
+      new CustomEvent("circuit-tooltip-open", { detail: id }),
+    );
     setOpen(true);
   }
 
@@ -49,13 +52,24 @@ export default function CircuitControl({
     }, 120);
   }
 
-  useEffect(() => () => clearTimeout(closeTimer.current), []);
+  useEffect(() => {
+    function dismissOtherHint(event: Event) {
+      if ((event as CustomEvent<string>).detail !== id) setOpen(false);
+    }
+    window.addEventListener("circuit-tooltip-open", dismissOtherHint);
+    return () => {
+      clearTimeout(closeTimer.current);
+      window.removeEventListener("circuit-tooltip-open", dismissOtherHint);
+    };
+  }, [id]);
 
   useLayoutEffect(() => {
     if (!open) return;
 
     function place() {
-      const anchor = control.current?.querySelector("[data-circuit-hit]");
+      const anchor =
+        control.current?.querySelector("[data-circuit-anchor]") ??
+        control.current?.querySelector("[data-circuit-hit]");
       if (!anchor || !tooltip.current) return;
       const rect = anchor.getBoundingClientRect();
       const { width, height } = tooltip.current.getBoundingClientRect();
@@ -95,11 +109,20 @@ export default function CircuitControl({
         aria-label={label}
         aria-pressed={pressed}
         aria-describedby={open ? id : undefined}
-        onClick={onToggle}
+        onClick={() => {
+          onToggle();
+          if (hovered.current) show();
+        }}
         onKeyDown={(event) => toggleKeys(event, onToggle)}
         onPointerEnter={(event) => {
           if (event.pointerType !== "mouse") return;
           hovered.current = true;
+          const active = document.activeElement;
+          if (
+            active !== event.currentTarget &&
+            active?.matches(".circuit-control:focus-visible")
+          )
+            return;
           show();
         }}
         onPointerLeave={() => {
@@ -114,7 +137,7 @@ export default function CircuitControl({
           focused.current = false;
           hide();
         }}
-        className="group cursor-pointer touch-manipulation outline-none"
+        className="group circuit-control cursor-pointer touch-manipulation outline-none"
       >
         {children}
       </g>

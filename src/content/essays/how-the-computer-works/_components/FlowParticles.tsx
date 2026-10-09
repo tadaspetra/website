@@ -9,7 +9,7 @@ interface Props {
 export default function FlowParticles({ path, duration }: Props) {
   return (
     <g
-      className="electricity-particles pointer-events-none fill-amber-50 stroke-amber-600 dark:fill-neutral-900 dark:stroke-amber-200"
+      className="electricity-particles pointer-events-none fill-amber-400 stroke-amber-700 dark:fill-amber-300 dark:stroke-amber-200"
       aria-hidden="true"
     >
       {Array.from({ length: 6 }, (_, index) => (

@@ -77,9 +77,16 @@ Use this guide when creating or changing pages and components. The site should f
 - In explanatory diagrams, interact with the illustrated object itself: click the
   switch, transistor input, or light. Preserve visual cause and effect; avoid
   adding separate control panels, repeated explanations, or surrounding UI chrome.
-- Keep circuit artwork flat and two-dimensional, with consistent rounded strokes
-  and simple color changes. Avoid simulated glass, metallic shading, reflections,
-  bevels, and glow; polish the existing shapes without changing their layouts.
+- Use mostly monochrome axonometric wireframe illustrations within essays. Keep parallel
+  axes, thin solid visible edges, dotted concealed edges, and restrained monospace
+  labels. Share the geometry in `src/components/illustrations/TechnicalDrawing.tsx`.
+  Reserve color for meaning: amber for current and lit bulbs, and RGB colors for
+  active emitters and their mixed pixel output. Keep structure neutral. Also show
+  interactive state through geometry, line weight, and explicit labels.
+  Preserve existing raster images, including PNGs, photographs, and screenshots.
+  Preserve Mermaid flowcharts and their original layouts. Apply this drawing
+  style to custom illustrations only. Avoid simulated glass,
+  shading, reflections, bevels, and glow.
 - Keep animation decorative, respect reduced motion, and avoid React updates on
   every animation frame. Never use `transition: all`.
 - Use the shared focus-visible style and prefer 44px touch targets. Do not clip

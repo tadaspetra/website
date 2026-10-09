@@ -1,178 +1,136 @@
 import { useState } from "react";
-import { LEDArtwork } from "./CircuitArtwork";
+import TechnicalDrawing, {
+  Box,
+  Cylinder,
+  Label,
+  Line,
+  project,
+  path3,
+} from "../../../../components/illustrations/TechnicalDrawing";
 import CircuitControl from "./CircuitControl";
 import useClickSound from "./useClickSound";
 
-interface RGBState {
-  r: boolean;
-  g: boolean;
-  b: boolean;
-}
-
-interface LEDProps {
-  x: number;
-  color: string;
-  isOn: boolean;
-  onClick: () => void;
-  label: string;
-}
-
-// LED component - classic through-hole LED shape
-function LED({ x, color, isOn, onClick, label }: LEDProps) {
-  return (
-    <CircuitControl
-      label={`${label} LED`}
-      pressed={isOn}
-      hint={`${isOn ? "Turn off" : "Turn on"} ${label.toLowerCase()}`}
-      onToggle={onClick}
-    >
-      <LEDArtwork x={x} color={color} on={isOn} />
-
-      {/* Hit area */}
-      <rect
-        x={x - 25}
-        y={105}
-        width={50}
-        height={100}
-        rx={10}
-        data-circuit-hit
-        className="fill-transparent stroke-transparent transition-colors duration-150 group-hover:fill-neutral-500/8 group-focus-visible:fill-neutral-500/8 group-focus-visible:stroke-neutral-500 dark:group-hover:fill-white/8 dark:group-focus-visible:fill-white/8 dark:group-focus-visible:stroke-neutral-400"
-      />
-      <text
-        x={x}
-        y={205}
-        textAnchor="middle"
-        fontSize="10"
-        className="fill-neutral-500 dark:fill-neutral-400 select-none"
-      >
-        {label[0]}
-      </text>
-    </CircuitControl>
-  );
-}
+const channels = ["Red", "Green", "Blue"];
+const channelColors = [
+  "text-red-600 dark:text-red-400",
+  "text-green-600 dark:text-green-400",
+  "text-blue-600 dark:text-blue-400",
+];
+const colors = [
+  "Off",
+  "Blue",
+  "Green",
+  "Cyan",
+  "Red",
+  "Magenta",
+  "Yellow",
+  "White",
+];
 
 export default function RGBLightDemo() {
-  const [lights, setLights] = useState<RGBState>({
-    r: false,
-    g: false,
-    b: false,
-  });
-  const playClickSound = useClickSound();
-
-  const toggleLight = (color: "r" | "g" | "b") => {
-    playClickSound();
-    setLights((prev) => ({ ...prev, [color]: !prev[color] }));
-  };
-
-  const colors = [
-    ["Pixel Off", "#262626"],
-    ["Blue", "#3b82f6"],
-    ["Green", "#22c55e"],
-    ["Cyan", "#22d3ee"],
-    ["Red", "#ef4444"],
-    ["Magenta", "#e879f9"],
-    ["Yellow", "#facc15"],
-    ["White", "#fafafa"],
-  ];
-  const [colorName, pixelColor] =
-    colors[Number(lights.r) * 4 + Number(lights.g) * 2 + Number(lights.b)];
-
-  // Keep the screen and light paths in their original positions.
-  const pixelPath = "M50 49V24Q50 16 58 16H262Q270 16 270 24V49Z";
-  const framePath = "M50 160V24Q50 16 58 16H262Q270 16 270 24V160";
-
+  const [lights, setLights] = useState([false, false, false]);
+  const playClick = useClickSound();
+  const pixelColor = `rgb(${lights.map((on) => (on ? 255 : 0)).join(", ")})`;
+  const colorName =
+    colors[Number(lights[0]) * 4 + Number(lights[1]) * 2 + Number(lights[2])];
   return (
-    <div className="my-12 -mx-4 sm:mx-0">
-      <svg viewBox="0 0 320 220" className="w-full h-auto max-w-md mx-auto">
-        <path
-          d={pixelPath}
-          fill={pixelColor}
-          className="transition-[fill] duration-200"
-        />
-
-        {/* Housing frame - open at bottom, using defined radius */}
-        <path
-          d={framePath}
-          fill="none"
-          className="stroke-neutral-400 dark:stroke-neutral-500"
-          strokeWidth="1.8"
-        />
-
-        {/* Divider line below pixel - same stroke as frame */}
-        <line
-          x1="50"
-          y1="49"
-          x2="270"
-          y2="49"
-          className="stroke-neutral-400 dark:stroke-neutral-500"
-          strokeWidth="1.8"
-        />
-
-        {/* Color label in pixel */}
-        <text
-          x="160"
-          y="38"
-          fontSize="12"
-          fontWeight="500"
-          textAnchor="middle"
-          fill={
-            ["Green", "Cyan", "Yellow", "White"].includes(colorName)
-              ? "#262626"
-              : "#ffffff"
-          }
-          className="select-none transition-[fill] duration-200"
-        >
-          {colorName}
-        </text>
-
-        {/* Light cones - starting from bottom of LED dome */}
-        <polygon
-          points="90,150 110,150 135,49 65,49"
-          fill="#ef4444"
-          opacity={lights.r ? 0.16 : 0}
-          className="transition-opacity duration-200"
-        />
-        <polygon
-          points="150,150 170,150 195,49 125,49"
-          fill="#22c55e"
-          opacity={lights.g ? 0.16 : 0}
-          className="transition-opacity duration-200"
-        />
-        <polygon
-          points="210,150 230,150 255,49 185,49"
-          fill="#3b82f6"
-          opacity={lights.b ? 0.16 : 0}
-          className="transition-opacity duration-200"
-        />
-
-        {/* LEDs */}
-        <LED
-          x={100}
-          color="#ef4444"
-          isOn={lights.r}
-          onClick={() => toggleLight("r")}
-          label="Red"
-        />
-        <LED
-          x={160}
-          color="#22c55e"
-          isOn={lights.g}
-          onClick={() => toggleLight("g")}
-          label="Green"
-        />
-        <LED
-          x={220}
-          color="#3b82f6"
-          isOn={lights.b}
-          onClick={() => toggleLight("b")}
-          label="Blue"
-        />
-      </svg>
-
+    <>
+      <TechnicalDrawing
+        title="The three channels of a pixel"
+        description="Toggle the red, green, and blue emitters. Active emitters light up in their channel color. The pixel above shows the mixed color, also named by its label."
+        viewBox="0 0 600 380"
+        interactive
+      >
+        <g transform="translate(190 105)">
+          <Box size={[320, 150, 8]} />
+          {channels.map((name, i) => {
+            const x = 60 + i * 95,
+              on = lights[i];
+            const [cx, cy] = project([x, 75, 8]);
+            return (
+              <CircuitControl
+                key={name}
+                label={`${name} LED`}
+                pressed={on}
+                hint={`Turn ${on ? "off" : "on"} ${name.toLowerCase()}`}
+                onToggle={() => {
+                  playClick();
+                  setLights((prev) => prev.map((v, n) => (n === i ? !v : v)));
+                }}
+              >
+                <g
+                  data-circuit-art
+                  className={on ? channelColors[i] : undefined}
+                  stroke="currentColor"
+                >
+                  <Cylinder
+                    at={[x, 75, 8]}
+                    radius={17}
+                    height={42}
+                    lightOn={on}
+                  />
+                  <Line
+                    points={[
+                      [x - 5, 75, 8],
+                      [x - 5, 75, 33],
+                      [x + 5, 75, 33],
+                      [x + 5, 75, 8],
+                    ]}
+                    strong={on}
+                  />
+                  {on && (
+                    <path
+                      d={`M${cx} ${cy - 65} v-10 M${cx - 28} ${cy - 53} l-8-5 M${cx + 28} ${cy - 53} l8-5`}
+                    />
+                  )}
+                </g>
+                <g className={channelColors[i]}>
+                  <Label x={cx} y={cy + 39}>
+                    {name[0]}
+                  </Label>
+                </g>
+                <rect
+                  x={cx - 39}
+                  y={cy - 67}
+                  width="78"
+                  height="116"
+                  rx="3"
+                  data-circuit-hit
+                  className="fill-transparent stroke-transparent group-focus-visible:stroke-current"
+                />
+              </CircuitControl>
+            );
+          })}
+        </g>
+        <g transform="translate(300 55)">
+          <path
+            d={path3(
+              [
+                [0, 0, 5],
+                [30, 0, 5],
+                [30, 30, 5],
+                [0, 30, 5],
+              ],
+              true,
+            )}
+            fill={pixelColor}
+            stroke="none"
+          />
+          <Box size={[30, 30, 5]} />
+        </g>
+        <Label x={300} y={30}>
+          {colorName === "Off" ? "PIXEL" : colorName.toUpperCase()}
+        </Label>
+        <Label x={300} y={356}>
+          R {Number(lights[0])} + G {Number(lights[1])} + B {Number(lights[2])}
+        </Label>
+      </TechnicalDrawing>
       <span role="status" className="sr-only">
-        Red {lights.r ? "on" : "off"}, green {lights.g ? "on" : "off"}, blue{" "}
-        {lights.b ? "on" : "off"}. {colorName}.
+        {channels
+          .map((name, i) => `${name} ${lights[i] ? "on" : "off"}`)
+          .join(", ")}
+        . {colorName}.
       </span>
-    </div>
+    </>
   );
 }

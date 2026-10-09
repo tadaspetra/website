@@ -13,7 +13,9 @@ const functionConfig = JSON.parse(await readFile(`${functionDir}/.vc-config.json
 const { default: handler } = await import(pathToFileURL(path.resolve(functionDir, functionConfig.handler)));
 const request = (route, init) => handler.fetch(new Request(`http://localhost${route}`, init));
 
-for (const slug of await readdir('src/content/essays')) {
+for (const entry of await readdir('src/content/essays', { withFileTypes: true })) {
+  if (!entry.isDirectory()) continue;
+  const slug = entry.name;
   const file = (await readdir(`src/content/essays/${slug}`)).find(name => /^index\.mdx?$/.test(name));
   if (!file) continue;
   const source = await readFile(`src/content/essays/${slug}/${file}`, 'utf8');

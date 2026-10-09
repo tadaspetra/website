@@ -747,3 +747,13 @@ article {
     opacity: 0;
   }
 }
+
+/* Keep technical labels legible as the drawings scale down with the essay. */
+@media (max-width: 639px) {
+  .technical-drawing text { font-size: 18px; }
+}
+
+/* Hover follows the illustrated component; padded touch targets stay invisible. */
+.circuit-control:is(:hover, :focus-visible) [data-circuit-art] :is(path, circle, ellipse) {
+  stroke-width: 2;
+}

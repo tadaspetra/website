@@ -15,6 +15,7 @@ export default () => {
     >
       <span
         style={{
+          display: "flex",
           fontFamily: OG_FONT_FAMILY,
           fontWeight: 600,
           fontSize: 104,
@@ -23,7 +24,13 @@ export default () => {
           color: OG_COLORS.ink,
         }}
       >
-        Tadas Petra
+        <span>T</span>
+        {/* Restore Inter Display's pair kerning, which Satori's font parser
+            misses: Ta = -223, Pe = -56, ra = -20 (2048 units per em).
+            Tighten Ta by another 0.015em for the small social preview. */}
+        <span style={{ marginLeft: `${-223 / 2048 - 0.015}em` }}>adas P</span>
+        <span style={{ marginLeft: `${-56 / 2048}em` }}>etr</span>
+        <span style={{ marginLeft: `${-20 / 2048}em` }}>a</span>
       </span>
     </div>
   );
